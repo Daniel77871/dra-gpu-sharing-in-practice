@@ -20,8 +20,8 @@ flowchart TB
         Operator["GPU Operator"]
         Master["NFD master"]
         ControlWorker["NFD worker"]
-        Slices["ResourceSlices"]
-        Slices --> API --> Scheduler
+        Slice["ResourceSlice"]
+        Slice --> API --> Scheduler
     end
     subgraph gpu["dra-a40 與 dra-4090 各自的 GPU 元件"]
         PCI["PCI passthrough GPU"]
@@ -39,7 +39,7 @@ flowchart TB
         Validator -.-> Plugin
         Toolkit --> GFD
         Toolkit --> Exporter
-        Plugin --> Slices
+        Plugin --> Slice
         GPUWorker --> Master
     end
     subgraph cpu["dra-non CPU worker"]

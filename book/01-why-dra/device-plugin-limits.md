@@ -48,7 +48,7 @@ resources:
 |---|---|---|
 | `resources.limits.nvidia.com/gpu: 1` | 請求一個外掛公布的資源單位。 | 經典路徑以整數計數；資源單位的實際意義由外掛設定決定。 |
 
-Extended resources 不能使用小數，也不能在 Kubernetes 的資源記帳中超額承諾。沒有額外的共用設定時，NVIDIA 外掛的單位通常是 GPU；啟用 time-slicing 後，單位可以變成同一張 GPU 的共用名額。因此，`1` 本身沒有說明型號、VRAM 配額或實體裝置身分。[Kubernetes 的請求規則](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#device-plugin-registration)、[NVIDIA 共用設定](https://github.com/NVIDIA/k8s-device-plugin/blob/v0.17.1/README.md#shared-access-to-gpus)
+Extended resources 不能使用小數，也不能在 Kubernetes 的資源記帳中超額承諾。沒有額外的共用設定時，NVIDIA 外掛的單位通常是 GPU；啟用時間切片後，單位可以變成同一張 GPU 的共用名額。因此，`1` 本身沒有說明型號、VRAM 配額或實體裝置身分。[Kubernetes 的請求規則](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#device-plugin-registration)、[NVIDIA 共用設定](https://github.com/NVIDIA/k8s-device-plugin/blob/v0.17.1/README.md#shared-access-to-gpus)
 
 ### 屬性如何間接進入排程
 
@@ -58,7 +58,7 @@ NFD（Node Feature Discovery）提供節點特徵探索框架，GFD（GPU Featur
 
 ## 部署與設定
 
-傳統外掛的共用策略由維運者設定。NVIDIA time-slicing 的 `replicas` 把一張實體 GPU 公布成多個可獨立請求的名額；它擴大的是帳面資源數量，沒有增加實體 GPU。各名額共用 VRAM 與故障範圍，請求更多名額也不保證取得等比例的運算時間。[NVIDIA GPU Operator 的 time-slicing 說明](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html)
+傳統外掛的共用策略由維運者設定。NVIDIA 時間切片的 `replicas` 把一張實體 GPU 公布成多個可獨立請求的名額；它擴大的是帳面資源數量，沒有增加實體 GPU。各名額共用 VRAM 與故障範圍，請求更多名額也不保證取得等比例的運算時間。[NVIDIA GPU Operator 的時間切片說明](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html)
 
 例如，假設維運者把一張 A40 設成 `replicas: 4`，Node 會公布四個可排程名額。這是數量模型的示意，並非本書實驗的部署值；四個名額不會自動變成四份固定大小的 GPU 記憶體。
 
@@ -73,7 +73,7 @@ Device Plugin 適合表達「這個容器要幾個可用裝置單位」，並把
 | 缺少裝置屬性條件與有順序的候選清單。 | 無法在 GPU 請求中直接寫「VRAM 至少 30 GiB」或「先 A40，不可用再選 RTX 4090」；節點標籤可篩型號，卻沒有這種裝置需求與候選順序。 |
 | 沒有讓多個 Pod 引用同一筆裝置配置的物件。 | `survivor` 與 `pressure` 若各自要一個名額，無法用共同的申請物件指定它們取得同一張 A40。 |
 | 沒有標準的每次請求驅動設定。 | GPU 數量請求不能附上「這次使用 MPS，並設定 CUDA 行程的 VRAM 上限」。 |
-| time-slicing 名額沒有 VRAM 隔離。 | `pressure` 用完共用 A40 的 VRAM 時，另一個名額上的 `survivor` 仍可能無法配置新記憶體。 |
+| 時間切片名額沒有 VRAM 隔離。 | `pressure` 用完共用 A40 的 VRAM 時，另一個名額上的 `survivor` 仍可能無法配置新記憶體。 |
 | 無法表達可消耗容量。 | 不能讓互不相識的工作各申請一份 A40 VRAM，再由基本數量模型檢查所有申請的容量總和。 |
 
 本書的 OOM 基線使用 DRA 共用 Claim，沒有設定 VRAM 配額；它重現的是共用實體 GPU 的記憶體競爭，並非 NVIDIA Device Plugin `replicas` 的部署。兩條路徑都可能讓工作共用 GPU，但引用與記帳方式不同，[第 3 章](../03-oom/README.md)會保留這個區別。
@@ -83,7 +83,7 @@ Device Plugin 適合表達「這個容器要幾個可用裝置單位」，並把
 - `Registration` 與 `ListAndWatch` 讓 kubelet 知道有哪些裝置；Node 對經典 scheduler 公布的是數量。
 - scheduler 選節點，kubelet 的 Device Manager 選實際裝置；選用的外掛建議不會改變這個分工。
 - NFD 與 GFD 的標籤能輔助篩選節點，無法取代裝置層級的需求。
-- time-slicing `replicas` 增加可排程名額，VRAM 與故障隔離需要另外確認。
+- 時間切片 `replicas` 增加可排程名額，VRAM 與故障隔離需要另外確認。
 - [下一節](dra-model.md)將用 ResourceClaim 描述共同持有與可消耗容量。
 
 <!-- nav:start -->

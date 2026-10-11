@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Extract named experiments and record the read-only source files used."""
 
+import os
 import argparse
 import json
 from pathlib import Path
@@ -11,7 +12,7 @@ if not __package__:
 from tools.extractors import REGISTRY, SourceReader, discover, register
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LAB = Path("/Users/daniel/dra-gpu-oom-lab")
+DEFAULT_LAB = Path(os.environ.get("DRA_LAB_DIR", "../dra-gpu-oom-lab"))
 
 
 @register("e1", help="A40 shared-GPU CUDA OOM, six original rounds")

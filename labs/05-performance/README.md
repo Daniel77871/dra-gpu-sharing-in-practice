@@ -13,7 +13,7 @@
 - GPU Operator driver Pod 的 `nvidia-driver-ctr` 必須 Ready，主機必須有 `/usr/bin/python3` 及 GPU Operator 的 `/run/nvidia/driver`。取樣器由 `kubectl -n gpu-operator exec` 進入該 Pod，再用主機 chroot 的原生 NVML，每 500 ms 取樣；不需登入 worker 節點。
 - 操作者需要本 Namespace 的 Job、Pod、ConfigMap、ResourceClaim、ResourceClaimTemplate、events、logs、exec 與刪除權限，以及唯讀的全叢集 ResourceClaim、ResourceSlice、DeviceClass 和 GPU Operator Pod 清單。最後清理 Namespace 還需要 API 資源探索、列出該 Namespace 所有資源及刪除 Namespace 的權限。MPS client 與 server 使用相同 root UID，`multiUser` 為 false。
 
-**完整 HAMi 比較需要切換目標節點的 DRA provider，會改變節點上的 GPU 供應方式。** benchmark runner 只檢查當下 provider，HAMi provider 的安裝與還原由 `labs/04-isolation/hami-dra/` 的 `scripts/install-provider.sh` 與 `scripts/uninstall-provider.sh` 完成；還原必須核對原 DaemonSet UID 與 spec。這個相依套件尚待提供，未安裝時先執行四種 NVIDIA 模式。
+**完整 HAMi 比較需要切換目標節點的 DRA provider，會改變節點上的 GPU 供應方式。** benchmark runner 只檢查當下 provider；相依的 [HAMi-DRA provider 套件](../04-isolation/hami-dra/README.md)已提供 [install-provider.sh](../04-isolation/hami-dra/scripts/install-provider.sh) 與 [uninstall-provider.sh](../04-isolation/hami-dra/scripts/uninstall-provider.sh)，建立 `hami-core-gpu.project-hami.io` DeviceClass，並在還原時核對原 DaemonSet UID 與 spec。未安裝時先執行四種 NVIDIA 模式。**原生分享設定與 HAMi 切換不能疊用：** `install-native-settings.sh` 執行期間原生 DaemonSet 維持 `OnDelete`，HAMi 安裝腳本會把它視為已被其他流程暫停而拒絕安裝；請先 `restore-native-settings.sh`，再安裝 HAMi provider，HAMi 批次完成並解除安裝後，若還有 NVIDIA 批次，再重新安裝原生分享設定續跑。
 
 HAMi 使用每個 Task 的獨立 Claim，要求 `8Gi` 與 cores `100/N`；預設 DeviceClass 名稱為 `hami-core-gpu.project-hami.io`，可用 `HAMI_DEVICE_CLASS` 指定相依套件建立的名稱。runner 核對每個 client 的 `CUDA_DEVICE_MEMORY_LIMIT_0=8192m`、`CUDA_DEVICE_SM_LIMIT_0`、獨立 cache inode、已載入的函式庫及原始 `libvgpu.so` SHA256 `56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f`。供應套件若採用其他函式庫版本，會停止，不會把它混入原版本的比較。
 
@@ -171,4 +171,4 @@ $ bash scripts/cleanup.sh smoke-a40
 
 ## 實機驗證紀錄
 
-2026-10-12 已在原叢集完成原生分享設定的安裝、驗證與還原，並獨立核對還原後的 DaemonSet UID、更新策略、功能開關、affinity 與 spec 摘要均與基準一致。修正範本模式的 Kustomize patch 後，縮短版的 sequential、exclusive 與 TimeSlicing 批次已完成；MPS 在行程身分檢查停止，當時清單同時列出 server 與 Python client。檢查已修正，完整縮短版與 Namespace 清理仍待實機重跑；[實機驗證紀錄](VERIFIED.md)將保存實際命令、耗時、控制握手與清理結果。
+2026-10-12 已在原叢集完成縮短版：exclusive、sequential、TimeSlicing、MPS 與 HAMi 五種模式都完成，趨勢與原報告一致（同步間歇 N=2 時 MPS 1.951、TimeSlicing 1.425、HAMi 1.508）；原生分享設定與 HAMi provider 的切換都經獨立快照核對還原。實際命令與結果見[實機驗證紀錄](VERIFIED.md)。

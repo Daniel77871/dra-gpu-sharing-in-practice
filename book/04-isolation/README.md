@@ -48,7 +48,7 @@ Kubernetes 的 [DRA consumable capacity](https://kubernetes.io/docs/concepts/res
 
 原始量測固定在 `dra-a40`，GPU UUID 為 `GPU-29ffee3e-bee4-e341-917a-fe7e43e977af`。Kubernetes v1.37.0、CRI-O 1.37.1、NVIDIA DRA v0.5.0、GPU Operator v26.7.0、driver 595.91.07、PyTorch 2.5.1+cu124 與 CUDA runtime 12.4 的版本證據保存於 [data/e2](../../data/e2/README.md)；MPS 在 2026-10-06 完成，ConsumableShares 在 2026-10-07 完成。復現映像檔固定原實際 digest，完整輸入列在各方案頁面。
 
-MPS 的 A、B 引用同一份 Claim，使它們進入同一個 MPS 服務；容量方案的 A、B 各用一份獨立 Claim，讓 scheduler 為每個 allocation 記帳。記帳測試則是三個獨立 Claim，各以一個 sleeper Pod 觸發配置。套件以 Jobs 承載觀察工作，保留原本的 Claim 分享關係、CUDA 程式、參數與環境變數。
+MPS 的 A、B 引用同一份 Claim，使它們進入同一個 MPS 服務；容量方案的 A、B 各用一份獨立 Claim，讓 scheduler 為每個 allocation 記帳。記帳測試則是三個獨立 Claim，各以一個 sleeper Pod 觸發配置。套件以 Job 承載觀察工作，保留原本的 Claim 分享關係、CUDA 程式、參數與環境變數。
 
 | 原物件角色 | 復現套件名稱 | 保留的語意 |
 |---|---|---|

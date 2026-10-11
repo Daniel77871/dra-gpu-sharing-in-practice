@@ -75,7 +75,7 @@ flowchart LR
     L --> D["真正 CUDA driver"]
 ```
 
-本章的工作負載是記憶體邊界測試，沒有量測 `50` 的吞吐量、SM 公平性或節流精度。cores 的 scheduler 記帳已驗證，SM-limit 的效能效果仍是另一個問題；相關固定工作量比較見[第 5 章](../05-performance/README.md)。
+本頁的工作負載是記憶體邊界測試，沒有量測 `50` 的吞吐量、SM 公平性或節流精度。cores 的 scheduler 記帳已驗證，SM-limit 的效能效果仍是另一個問題；相關固定工作量比較見[第 5 章](../05-performance/README.md)。
 
 ### DRA 如何取代 classic 控制元件
 
@@ -129,7 +129,7 @@ CDI 掛入 Claim 目錄、`libvgpu.so`、`/etc/ld.so.preload` 與 `/tmp/vgpulock
 <!-- hami-deployment:start -->
 ### 原始環境與名稱
 
-原始節點為 `dra-a40`，GPU UUID 是 `GPU-29ffee3e-bee4-e341-917a-fe7e43e977af`；Kubernetes v1.37.0、NVIDIA driver 595.91.07 與 PyTorch 2.5.1／CUDA 12.4 的條件沿用本章前半。HAMi provider 用固定 digest，工作負載用 `docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755`，不更換原始執行的 CUDA 配置路徑。[E2 HAMi 環境與來源](../../data/e2/hami/SOURCES.md)
+原始節點為 `dra-a40`，GPU UUID 是 `GPU-29ffee3e-bee4-e341-917a-fe7e43e977af`；Kubernetes v1.37.0、NVIDIA driver 595.91.07 與 PyTorch 2.5.1／CUDA 12.4 的條件沿用第四章前半。HAMi provider 用固定 digest，工作負載用 `docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755`，不更換原始執行的 CUDA 配置路徑。[E2 HAMi 環境與來源](../../data/e2/hami/SOURCES.md)
 
 下表把原始物件名稱對到角色名稱。Pod 改為 `backoffLimit: 0`、`restartPolicy: Never` 的 Job，控制器產生的 Pod 名稱會另記錄到輸出；Claim 拓撲、容器數與 CUDA child 的數量維持原始設計。
 
@@ -143,14 +143,14 @@ CDI 掛入 Claim 目錄、`libvgpu.so`、`/etc/ld.so.preload` 與 `/tmp/vgpulock
 | `survivor-gpu`／`survivor` | `steady-gpu`／`steady-service` | 獨立 4 GiB、50 cores Claim。 |
 | `pressure-gpu`／`pressure` | `pressure-gpu`／`quota-pressure` | 獨立 8 GiB、50 cores Claim；單行程或同容器雙行程。 |
 | case3 `quota-0`／`both` | `container-scope-gpu`／`container-scope-pressure` | 一個 Claim，一個 Pod，兩個容器。 |
-| case4a `quota-0`／`pod-0`、`pod-1` | `pod-shared-gpu`／`scope-primary`、`scope-secondary` | 一個 Claim，兩個 Pods。 |
+| case4a `quota-0`／`pod-0`、`pod-1` | `pod-shared-gpu`／`scope-primary`、`scope-secondary` | 一個 Claim，兩個 Pod。 |
 | case4b `quota-0`、`quota-1`／`pod-0`、`pod-1` | `worker-primary-gpu`、`worker-secondary-gpu`／`scope-primary`、`scope-secondary` | 每個 Pod 各有一個 Claim。 |
 
 ### 先切換 A40 provider
 
-> **警告：安裝與解除安裝會修改原始 NVIDIA DaemonSet、替換 A40 plugin，並建立或移除節點上的 HAMi 路徑。只在專用實驗叢集、GPU 閒置且所有相關 Claims 已清理時執行。**
+> **警告：安裝與解除安裝會修改原始 NVIDIA DaemonSet、替換 A40 plugin，並建立或移除節點上的 HAMi 路徑。只在專用實驗叢集、GPU 閒置且所有相關 Claim 已清理時執行。**
 
-沿用[本章的切換流程](README.md#只讓一個-provider-公布目標-gpu)與 [provider 共用腳本](../../labs/04-isolation/provider/README.md)。安裝先保存原 DaemonSet UID／spec、A40 與受保護的 4090 plugin 身分，將每個 affinity term 排除 A40，再安裝替代 provider；解除安裝必須使用同一個 provider run-id。
+沿用[第四章的切換流程](README.md#只讓一個-provider-公布目標-gpu)與 [provider 共用腳本](../../labs/04-isolation/provider/README.md)。安裝先保存原 DaemonSet UID／spec、A40 與受保護的 4090 plugin 身分，將每個 affinity term 排除 A40，再安裝替代 provider；解除安裝必須使用同一個 provider run-id。
 
 ```bash
 $ export I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1
@@ -292,7 +292,7 @@ spec:
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
 | `image` 與 `IMAGE_NAME` | image 固定 digest；env 保留 E2 的 tag。 | 固定 binary，保留原 provider 的 env。 |
-| `FEATURE_GATES` | 啟用 `HAMiCoreSupport`，關閉其他 sharing 路徑。 | 避免混入 MPS 或 time-slicing。 |
+| `FEATURE_GATES` | 啟用 `HAMiCoreSupport`，關閉其他 sharing 路徑。 | 避免混入 MPS 或時間切片。 |
 | `affinity`、`OnDelete` | 只在 A40 接管，明確控制 Pod 替換。 | 保護其他節點的原 plugin。 |
 | `volumeMounts`、`postStart` | 掛入 kubelet／CDI／driver／vgpu／tmp，初始化 hooks。 | 配合 Prepare 與容器注入。 |
 | `rules`、`subjects`、CEL | 沿用所需權限與 ServiceAccount，選 HAMi GPU。 | 不接管原 RBAC，讓 Claim 選中替代 provider。 |
@@ -339,7 +339,7 @@ generatorOptions:
 
 `ScopeState.step` 保留成功配置的張量，OOM 後同步並記錄狀態；`snapshot` 檢查 round 再同步。host controller 收齊兩個 client 的快照後取得未注入 HAMi 的 NVML，因此只把完整屏障上的張量與實體用量配成一組。
 
-### 記帳的三份 Claim 與 Jobs
+### 記帳的三份 Claim 與 Job
 
 這組 sleeper 不建立 CUDA context，只用 allocation 與 scheduler 事件驗證帳本。三份 Claim 依序申請 16、24、8 GiB，各 10 cores；第三份保持 Pending，釋放 24 GiB 的工作與 Claim 後才取得配置。
 
@@ -445,7 +445,7 @@ spec:
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
 | `memory`、`cores` | 三份不同 memory 請求，各 10 cores。 | 分開核對兩種容量。 |
-| UUID selector、`resourceClaims` | 所有 Jobs 綁到 A40 的指定 Claim。 | 確認第三份等候的是同張 GPU 的餘額。 |
+| UUID selector、`resourceClaims` | 所有 Job 綁到 A40 的指定 Claim。 | 確認第三份等候的是同張 GPU 的餘額。 |
 | `sleep 3600`、`backoffLimit: 0` | 保持配置、不重試。 | 觀察 Pending 與釋放，避免重跑掩蓋狀態。 |
 
 腳本逐一送出與等待，下面合併列出這組建立回應，省略等待與中間觀察：
@@ -464,7 +464,7 @@ resourceclaim.resource.k8s.io/capacity-waiter-gpu created
 job.batch/capacity-waiter created
 ```
 
-### Runtime 的獨立 Claims 與 Jobs
+### Runtime 的獨立 Claim 與 Job
 
 A 申請 4 GiB／50 cores，B 申請 8 GiB／50 cores。以下同一區塊列齊輸入檔；最後兩份 `quota-pressure` 是**互斥版本**，`single/` 與 `dual-process/` kustomization 各選一份，不能把此閱讀用合併區塊整份 apply。每輪都先讓 A 開始，再啟動 B，結束並清理後才切換版本。
 
@@ -589,10 +589,10 @@ spec:
 |---|---|---|
 | 兩份 Claim | memory 各 4／8 GiB，cores 各 50。 | 保留 A／B 獨立配額與 100 cores 記帳。 |
 | `isolation_workload.py` | A 的 survivor 與單行程 B 的 pressure。 | A 持續探測，B 逐步碰配額。 |
-| `capacity_workload.py --role scope` | parent 啟動兩個 CUDA children。 | 檢查同容器多行程的合計範圍。 |
+| `capacity_workload.py --role scope` | parent 啟動兩個 CUDA child。 | 檢查同容器多行程的合計範圍。 |
 | cache／thread env、CPU／RAM | 停用 PyTorch CUDA caching，固定執行緒與容器資源。 | 沿用原始配置路徑；容器 memory 是 CPU RAM。 |
 
-單行程組合的建立回應如下；雙行程輪次使用 `runtime/dual-process`，Claims 與 Job 名稱相同。overlay 讀取上層與共用目錄的 YAML，因此先用 `LoadRestrictionsNone` render 再送出。省略取樣啟動行：
+單行程組合的建立回應如下；雙行程輪次使用 `runtime/dual-process`，Claim 與 Job 名稱相同。overlay 讀取上層與共用目錄的 YAML，因此先用 `LoadRestrictionsNone` render 再送出。省略取樣啟動行：
 
 ```console
 $ kubectl kustomize labs/04-isolation/hami-dra/manifests/runtime/single --load-restrictor=LoadRestrictionsNone | kubectl apply -f -
@@ -607,13 +607,13 @@ job.batch/quota-pressure created
 
 ### Scope 的容器與 Pod 拓撲
 
-三個 case 的差異只在下表；其他 env、工作負載與每步 256 MiB 的屏障流程相同。以下各 case 都列完整 Claim／Job，`__RUN_ID__`、`__REPEAT__` 由 runner 替換，控制目錄先建立，再按 case4a 的 Prepare 順序送出 Jobs。
+三個 case 的差異只在下表；其他 env、工作負載與每步 256 MiB 的屏障流程相同。以下各 case 都列完整 Claim／Job，`__RUN_ID__`、`__REPEAT__` 由 runner 替換，控制目錄先建立，再按 case4a 的 Prepare 順序送出 Job。
 
 | case | 拓撲 | Claim memory 與 cores | client 目標 |
 |---|---|---|---|
 | case3 | 一個 Pod、兩個容器，共用 Claim | 一份 8 GiB／50 cores | 每個 6 GiB |
-| case4a | 兩個 Pods、各一容器，共用 Claim | 一份 8 GiB／50 cores | 每個 6 GiB |
-| case4b | 兩個 Pods、各一容器，各有 Claim | 每份 8 GiB／50 cores | 每個 6 GiB |
+| case4a | 兩個 Pod、各一容器，共用 Claim | 一份 8 GiB／50 cores | 每個 6 GiB |
+| case4b | 兩個 Pod、各一容器，各有 Claim | 每份 8 GiB／50 cores | 每個 6 GiB |
 
 共用參數的意義如下；三輪量測與圖表見[配額範圍結果](#跨容器與跨-pod-的配額範圍)。
 
@@ -777,7 +777,7 @@ spec:
       volumes: [{name: code, configMap: {name: hami-scope-code}}, {name: control-1, hostPath: {path: /var/tmp/dra-hami-__RUN_ID__-case4a-r__REPEAT__/1, type: Directory}}]
 ```
 
-#### Case4b 跨 Pod 獨立 Claims
+#### Case4b 跨 Pod 獨立 Claim
 
 ```bash
 $ vi labs/04-isolation/hami-dra/manifests/scope/case4b/[0-9]*.yaml
@@ -875,7 +875,7 @@ spec:
 
 #### 執行 Scope
 
-三組 YAML 都交給 runner 送出：它以 `LoadRestrictionsNone` render，代換控制路徑與 run labels，再依 Prepare 順序 apply Claims 與 Jobs。case4a 必須等第一個 Pod 就緒才建立第二個 Pod，因此不能把整組範本一次 apply。完整 scope 模式會執行三個 case：
+三組 YAML 都交給 runner 送出：它以 `LoadRestrictionsNone` render，代換控制路徑與 run labels，再依 Prepare 順序 apply Claim 與 Job。case4a 必須等第一個 Pod 就緒才建立第二個 Pod，因此不能把整組範本一次 apply。完整 scope 模式會執行三個 case：
 
 ```bash
 $ MODE=scope bash labs/04-isolation/hami-dra/scripts/run.sh hami-scope-full
@@ -918,14 +918,14 @@ $ kubectl -n nvidia-dra-driver-gpu debug node/dra-a40 --profile=sysadmin --image
 | `--image-pull-policy=IfNotPresent`、`--env=NVIDIA_VISIBLE_DEVICES=void` | 重用節點已有的固定 image，不掛入 GPU。 | helper 只操作 host 檔案。 |
 | `bash -c 'sleep 3600'` | 在背景保留 helper，供後續 exec 使用。 | 腳本完成後會提早清除，不把存活時間當成量測結果。 |
 
-解除安裝先拒絕剩餘 Claims、核對 GPU 閒置與物件 UID／spec；移除 HAMi provider 與 slices 後，**立即重用 `../provider/restore.sh` 還原並驗證原 DaemonSet UID／spec、native slices 與受保護 plugin UID**，再清理 DeviceClass、附加 RBAC 與 host 路徑。已知 runtime 檔案仍須通過型別、擁有者及 checkpoint 無 prepared Claims 等檢查；未知檔案會保留並報錯，host 清理失敗不會阻擋已完成的 provider 還原。[解除安裝](../../labs/04-isolation/hami-dra/scripts/uninstall-provider.sh)、[host 清理](../../labs/04-isolation/hami-dra/scripts/host.py)
+解除安裝先拒絕剩餘 Claim、核對 GPU 閒置與物件 UID／spec；移除 HAMi provider 與 ResourceSlice 後，**立即重用 `../provider/restore.sh` 還原並驗證原 DaemonSet UID／spec、原生 ResourceSlice 與受保護 plugin UID**，再清理 DeviceClass、附加 RBAC 與 host 路徑。已知 runtime 檔案仍須通過型別、擁有者及 checkpoint 無 prepared Claim 等檢查；未知檔案會保留並報錯，host 清理失敗不會阻擋已完成的 provider 還原。[解除安裝](../../labs/04-isolation/hami-dra/scripts/uninstall-provider.sh)、[host 清理](../../labs/04-isolation/hami-dra/scripts/host.py)
 
 ```bash
 $ bash labs/04-isolation/hami-dra/scripts/cleanup.sh hami-smoke-20261012-r2
 $ bash labs/04-isolation/hami-dra/scripts/uninstall-provider.sh hami-provider-20261012-r2
 ```
 
-原叢集此次解除安裝曾因未識別的 `pu.lock` 停止，當時原 provider 尚未還原；同一備份的手動還原與後續 host 清理完成，紀錄見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md#hami-draprovider-切換窗-2)。目前腳本已調整上述順序與白名單；這項修正經本地回歸測試，尚未重新執行實機解除安裝。host 的 `/etc/ld.so.preload` 不曾改動，其他 provider 的 `/var/run/cdi` 保留。[原始清理證據](../../data/e2b/provider-evidence/host-restored-clean.json)
+原叢集此次解除安裝曾因未識別的 `pu.lock` 停止，當時原 provider 尚未還原；同一備份的手動還原與後續 host 清理完成，紀錄見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md#hami-draprovider-切換窗-2)。目前腳本已調整上述順序與白名單；後續第五章縮短版已用同一組腳本完成解除安裝，並核對原生 DaemonSet 與 host 路徑恢復，見[效能實機驗證紀錄](../../labs/05-performance/VERIFIED.md#hami-模式)。host 的 `/etc/ld.so.preload` 不曾改動，其他 provider 的 `/var/run/cdi` 保留。[原始清理證據](../../data/e2b/provider-evidence/host-restored-clean.json)
 
 <!-- hami-deployment:end -->
 
@@ -933,7 +933,7 @@ $ bash labs/04-isolation/hami-dra/scripts/uninstall-provider.sh hami-provider-20
 
 E2 先用沒有 CUDA context 的 sleeper 做記帳測試：依序請求 16 GiB／10 cores、24 GiB／10 cores，再送出 8 GiB／10 cores；第三份應等候，刪除 24 GiB 的工作與 Claim 後才配置。runtime 則固定 A 為 4 GiB／50 cores、B 為 8 GiB／50 cores，A 長駐 2 GiB 並持續配置／運算，B 每次增長 256 MiB。單行程遇到 CUDA OOM 後保留張量；同容器雙行程由未使用 CUDA 的 parent 啟動兩個 child，各自目標 5 GiB，兩者都 OOM 或達到工具停止條件後共同保留 30 秒。[E2 參數與來源](../../data/e2/hami/SOURCES.md)、[A 與單行程工作負載](../../labs/04-isolation/common/workload/isolation_workload.py)、[同容器雙行程工作負載](../../labs/04-isolation/common/workload/capacity_workload.py)
 
-E2B 沒有 A，每個 client 的目標改為 6 GiB，仍逐次增長 256 MiB。兩個 clients 在 host 控制的屏障中各做一步配置，再一起提供 CUDA 配額視圖、cache 身分、host PID 與實體 NVML 快照；它取消 E2 的「合計超過 8 GiB 即安全停止」條件，才能觀察跨 Pod 的超額。case3 是一個 Pod 的兩個容器引用同一 Claim；case4a 是兩個 Pods 引用同一 Claim；case4b 則是兩個 Pods 各有一份 Claim。[E2B 設計與原始資料](../../data/e2b/SOURCES.md)、[屏障工作負載](../../labs/04-isolation/hami-dra/workload/hami_scope_workload.py)
+E2B 沒有 A，每個 client 的目標改為 6 GiB，仍逐次增長 256 MiB。兩個 client 在 host 控制的屏障中各做一步配置，再一起提供 CUDA 配額視圖、cache 身分、host PID 與實體 NVML 快照；它取消 E2 的「合計超過 8 GiB 即安全停止」條件，才能觀察跨 Pod 的超額。case3 是一個 Pod 的兩個容器引用同一 Claim；case4a 是兩個 Pod 引用同一 Claim；case4b 則是兩個 Pod 各有一份 Claim。[E2B 設計與原始資料](../../data/e2b/SOURCES.md)、[屏障工作負載](../../labs/04-isolation/hami-dra/workload/hami_scope_workload.py)
 
 case4a 先讓第一個 Pod 完成 Prepare，再建立第二個 Pod；這是原始測試的接入順序。case4a 第三輪在下一個配置屏障停滯，STOP／正常終止未成功，後續 recovery 有退出碼 137 的 `Error` 容器；它不是 `OOMKilled`，也不是配額上限測值。分析器保留停滯狀態與最後完整屏障，缺少的最終張量量、OOM 總數與最終 NVML 值維持空值。[停滯與 recovery 證據](../../data/e2b/raw/case4a-r3/recovery/terminated-pods.json)
 
@@ -998,7 +998,7 @@ A 在六輪共同保留窗口合計 179 次成功探測，沒有配置 OOM 或 c
 
 ### 跨容器與跨 Pod 的配額範圍
 
-E2B 的兩個 clients 都以 6 GiB 為目標。case3 的三輪在張量合計 7.25 GiB 後各自 OOM；case4a 的兩個完整輪次卻到 9.75 GiB，只有另一個 client 配置 OOM。case4b 各自到達 6 GiB 目標，合計 12 GiB，沒有 OOM；它證明這個目標內的獨立路徑，不是已找到各 Claim 的 8 GiB 上界。[E2B 逐輪摘要](../../data/e2b/summary.csv)
+E2B 的兩個 client 都以 6 GiB 為目標。case3 的三輪在張量合計 7.25 GiB 後各自 OOM；case4a 的兩個完整輪次卻到 9.75 GiB，只有另一個 client 配置 OOM。case4b 各自到達 6 GiB 目標，合計 12 GiB，沒有 OOM；它證明這個目標內的獨立路徑，不是已找到各 Claim 的 8 GiB 上界。[E2B 逐輪摘要](../../data/e2b/summary.csv)
 
 ![HAMi E2B 容器與 Pod 範圍](../images/04-isolation/hami-scope.svg)
 
@@ -1007,18 +1007,18 @@ E2B 的兩個 clients 都以 6 GiB 為目標。case3 的三輪在張量合計 7.
 | case3 同 Pod 雙容器 r1 | 3.5 | 3.75 | 7.25 | 2 | 8,036 | 完整 |
 | case3 同 Pod 雙容器 r2 | 3.75 | 3.5 | 7.25 | 2 | 8,036 | 完整 |
 | case3 同 Pod 雙容器 r3 | 3.5 | 3.75 | 7.25 | 2 | 8,036 | 完整 |
-| case4a 兩 Pods 共用 Claim r1 | 6 | 3.75 | 9.75 | 1 | 10,596 | 完整 |
-| case4a 兩 Pods 共用 Claim r2 | 3.75 | 6 | 9.75 | 1 | 10,596 | 完整 |
-| case4a 兩 Pods 共用 Claim r3 | 3.75＊ | 3.75＊ | 7.5＊ | 未取得最終值 | 8,292＊ | 停滯 |
-| case4b 兩 Pods 獨立 Claims r1 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
-| case4b 兩 Pods 獨立 Claims r2 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
-| case4b 兩 Pods 獨立 Claims r3 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
+| case4a 兩 Pod 共用 Claim r1 | 6 | 3.75 | 9.75 | 1 | 10,596 | 完整 |
+| case4a 兩 Pod 共用 Claim r2 | 3.75 | 6 | 9.75 | 1 | 10,596 | 完整 |
+| case4a 兩 Pod 共用 Claim r3 | 3.75＊ | 3.75＊ | 7.5＊ | 未取得最終值 | 8,292＊ | 停滯 |
+| case4b 兩 Pod 獨立 Claim r1 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
+| case4b 兩 Pod 獨立 Claim r2 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
+| case4b 兩 Pod 獨立 Claim r3 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
 
 ＊停滯輪次只列最後完整屏障，**不是最終配額結果**，也不納入已完成輪次的邊界統計。後續 worker 0 有更晚的日誌，但缺少另一個 client 與完整 NVML 屏障，不能拼成同步測值；圖以不同記號標示最後完整屏障。
 
-case3 與 case4a 都核對到兩個 clients 的 cache 路徑、device／inode 相同，且 maps 載入同一 hash 的 `libvgpu.so`。case4b 的 Claim UID、cache 路徑與 inode 則不同。因此「相同 cache 檔案必然形成可靠的跨 Pod 總額上限」已不符合 case4a 的量測；**造成超額的內部機制尚未證明，第三輪停滯也未解釋**。[cache 身分與 library 檢查](../../data/e2b/summary.json)
+case3 與 case4a 都核對到兩個 client 的 cache 路徑、device／inode 相同，且 maps 載入同一 hash 的 `libvgpu.so`。case4b 的 Claim UID、cache 路徑與 inode 則不同。因此「相同 cache 檔案必然形成可靠的跨 Pod 總額上限」已不符合 case4a 的量測；**造成超額的內部機制尚未證明，第三輪停滯也未解釋**。[cache 身分與 library 檢查](../../data/e2b/summary.json)
 
-一個待驗的**推測**是 PID namespace 內的行程識別可能影響共享 slot：參考快照的 `init_proc_slot_withlock` 用 `getpid()` 配對，雖另有 `hostpid`，不能因此假設所有更新都以 host PID 唯一識別。要確認此推測，須先取得本次 binary 的來源，再追蹤兩個 clients 的 slot、namespace PID／host PID 與每次配置的帳本更新；目前沒有這份追蹤，不能把它寫成 case4a 的原因，更不能用來解釋停滯。[固定 slot 初始化函式][core-shared]
+一個待驗的**推測**是 PID namespace 內的行程識別可能影響共享 slot：參考快照的 `init_proc_slot_withlock` 用 `getpid()` 配對，雖另有 `hostpid`，不能因此假設所有更新都以 host PID 唯一識別。要確認此推測，須先取得本次 binary 的來源，再追蹤兩個 client 的 slot、namespace PID／host PID 與每次配置的帳本更新；目前沒有這份追蹤，不能把它寫成 case4a 的原因，更不能用來解釋停滯。[固定 slot 初始化函式][core-shared]
 
 ## 解讀
 
@@ -1036,7 +1036,7 @@ GPU 取樣仍是離散快照。新套件使用 driver Pod 的 500 ms 取樣，sc
 
 ## 動手復現
 
-完整命令、收集方式與安全還原見 [HAMi-DRA 套件](../../labs/04-isolation/hami-dra/README.md)。先以有 guard 的 provider 腳本備份並切換 A40，再分別執行 accounting、runtime、scope；結束後先清工作與 Claims，再移除 HAMi provider、還原原始 provider，最後清理 host 路徑。縮短版只跑 runtime 單行程、雙行程及 scope case4a，各一輪；它是接線與控制流程檢查，不會取代完整範圍矩陣。
+完整命令、收集方式與安全還原見 [HAMi-DRA 套件](../../labs/04-isolation/hami-dra/README.md)。先以有 guard 的 provider 腳本備份並切換 A40，再分別執行 accounting、runtime、scope；結束後先清工作與 Claim，再移除 HAMi provider、還原原始 provider，最後清理 host 路徑。縮短版只跑 runtime 單行程、雙行程及 scope case4a，各一輪；它是接線與控制流程檢查，不會取代完整範圍矩陣。
 
 原叢集縮短版的[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)已包含 HAMi：記帳、單行程、雙行程與 case4a 均重現原始數值。完整三輪結果仍取自 E2／E2B；此次縮短版沒有重跑 case3、case4b 或停滯輪次。
 

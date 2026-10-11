@@ -16,9 +16,9 @@ flowchart BT
   D --- U["CUDA runtime 與使用者空間"]
   U --- K["Kubernetes 排程"]
   MIG["MIG 硬體分區"] --> H
-  TS["time-slicing 輪流執行"] --> D
+  TS["時間切片輪流執行"] --> D
   VG["vGPU Manager 與虛擬化"] --> D
-  MP["MPS server 與 clients"] --> U
+  MP["MPS server 與 client"] --> U
   HA["HAMi-core 呼叫攔截"] --> U
   CC["DRA ConsumableShares 記帳"] --> K
 ```
@@ -33,8 +33,8 @@ vGPU（virtual GPU）把 GPU 資源提供給虛擬機，其 vGPU Manager 與虛�
 
 | 方法 | 作用層級 | 運算隔離 | VRAM 隔離 | 故障隔離 | 粒度 |
 | --- | --- | --- | --- | --- | --- |
-| [time-slicing](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html) | driver | 輪流執行，沒有專用運算分區。 | 沒有共用名額的容量隔離。 | 名額共用同卡故障範圍。 | 同 GPU 上的 CUDA 工作；Device Plugin 可另外公布 replicas。 |
-| [MPS](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html) | driver 與使用者空間服務 | 可限制 active thread 比例，未替每個 client 保留專用 SM；工作可並行。 | 可限制每個 CUDA 行程的裝置記憶體，Volta 之後有分開的 GPU 位址空間。 | 有限的錯誤侷限；共享故障 GPU 的 clients 仍可能一起受影響。 | CUDA client 行程。 |
+| [時間切片](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html) | driver | 輪流執行，沒有專用運算分區。 | 沒有共用名額的容量隔離。 | 名額共用同卡故障範圍。 | 同 GPU 上的 CUDA 工作；Device Plugin 可另外公布 replicas。 |
+| [MPS](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html) | driver 與使用者空間服務 | 可限制 active thread 比例，未替每個 client 保留專用 SM；工作可並行。 | 可限制每個 CUDA 行程的裝置記憶體，Volta 之後有分開的 GPU 位址空間。 | 有限的錯誤侷限；共享故障 GPU 的 client 仍可能一起受影響。 | CUDA client 行程。 |
 | [MIG](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/introduction.html) | hardware | 分開的運算資源。 | GPU Instance 有獨立的記憶體分區與路徑。 | 提供 instance 間的硬體故障隔離；仍有整張卡的共同故障邊界。 | GPU Instance 與 Compute Instance profile。 |
 | [vGPU](https://docs.nvidia.com/vgpu/sizing/virtual-workstation/latest/overview.html) | driver、hypervisor；MIG-backed 路徑另含 hardware | 依 time-sliced 或 MIG-backed 後端。 | vGPU profile 提供固定 frame buffer，由 vGPU Manager 保留。 | 依後端與虛擬化部署；不能僅憑 vGPU 名稱推定硬體故障邊界。 | VM 的 vGPU profile。 |
 | [HAMi-core](https://project-hami.io/docs/v2.8.0/core-concepts/gpu-virtualization) | user-space library；HAMi-DRA 另接 scheduler 容量記帳 | 攔截與節流形成軟體使用量限制，沒有專用硬體分區。 | 在被攔截的配置路徑檢查配額；合計範圍取決於共享 cache。 | 未提供 MIG 式硬體分區；本書未測 GPU 故障隔離。 | 裝置 memory、cores 份額及 cache 帳本。 |
@@ -44,7 +44,7 @@ vGPU（virtual GPU）把 GPU 資源提供給虛擬機，其 vGPU Manager 與虛�
 
 | 方法 | 硬體或授權需求 | 在 NVIDIA DRA／HAMi-DRA 中的用法 | 本書是否實測 |
 | --- | --- | --- | --- |
-| [time-slicing](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html) | 支援 CUDA 的 GPU 與驅動。 | 原生 DRA 可由多個 Pod 引用同一 Claim；`GpuConfig` 策略為 `TimeSlicing`。 | 是，[第 3 章](../03-oom/README.md)的無配額基線、[第 5 章](../05-performance/README.md)的效能比較。 |
+| [時間切片](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-sharing.html) | 支援 CUDA 的 GPU 與驅動。 | 原生 DRA 可由多個 Pod 引用同一 Claim；顯式分享策略可指定 `TimeSlicing`。 | [第 3 章](../03-oom/README.md#一個-claim-如何讓兩個-pod-共用裝置)是未指定分享策略的無配額基線；[第 5 章](../05-performance/README.md)則明確設定 TimeSlicing。 |
 | [MPS](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html) | 支援 MPS 的 CUDA GPU 與 MPS daemon；本書測 A40。 | `MPSSupport` 加上 Claim 或 Class 的 `GpuConfig`，建立該 Claim 的 MPS 服務。 | 是，[第 4 章](../04-isolation/mps.md)、[第 5 章](../05-performance/README.md)。 |
 | [MIG](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/introduction.html) | 必須使用支援 MIG 的 GPU。 | 原生 NVIDIA driver 有 `mig.nvidia.com` Class；`DynamicMIG` 管理動態分區。 | 否；本書硬體不支援 MIG。 |
 | [vGPU](https://docs.nvidia.com/vgpu/sizing/virtual-workstation/latest/overview.html) | 支援的 GPU、hypervisor、vGPU 軟體及適用授權。 | 需先建立 vGPU 與客體環境；本書不測原生 DRA 在該環境的行為。 | 否。 |
@@ -62,7 +62,7 @@ Kubernetes gate 管理 API 與 scheduler 能力，NVIDIA driver gate 管理裝�
 | NVIDIA driver gate | v0.5.0 階段與預設 | 與本頁相關的作用 |
 |---|---|---|
 | `MPSSupport` | Alpha，`false` | 允許指定 MPS 設定與管理 MPS 服務。 |
-| `TimeSlicingSettings` | Alpha，`false` | 允許明確指定 time-slicing 設定；不是「GPU 原本能否輪流執行」的開關。 |
+| `TimeSlicingSettings` | Alpha，`false` | 允許明確指定時間切片設定；不是「GPU 原本能否輪流執行」的開關。 |
 | `ConsumableShares` | Alpha，`false` | 啟用容量與多重配置的公布；還須有有效的 `--consumable-shares` 模式。 |
 | `DynamicMIG` | Alpha，`false` | 管理動態 MIG 裝置；另依賴 GPU 的 MIG 能力。 |
 
@@ -82,7 +82,7 @@ Kubernetes 的容量 gate 正式名稱是 **`DRAConsumableCapacity`**；NVIDIA �
 
 RTX 4090 是 Ada Lovelace 的 GeForce GPU，未列在官方 NVIDIA vGPU 支援清單，不能把它視為受支援的 vGPU 測試平台。A40 則列在 vGPU 支援清單中；本書使用 PCI passthrough 將 GPU 直通至 VM，沒有建置 vGPU Manager 與相應授權的 vGPU 環境，所以 A40 的 vGPU 也沒有納入實測。硬體支援和本次是否部署，是不同的範圍限制。[RTX 4090 規格](https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/)、[vGPU 支援清單](https://docs.nvidia.com/vgpu/gpus-supported-by-vgpu.html)、[vGPU 架構與環境](https://docs.nvidia.com/vgpu/sizing/virtual-workstation/latest/overview.html)
 
-因此，本書先用共用 Claim 觀察沒有 VRAM 配額時的 TimeSlicing 基線，再比較 MPS、HAMi-DRA 的執行期限制，以及 ConsumableShares 的排程容量記帳。HAMi-core 設計說明在此用來解釋攔截位置；原始實驗沒有確認所載入 `libvgpu.so` 的原始碼 commit，不能把網站版本當成該二進位的確切版本。
+因此，本書先用共用 Claim 觀察沒有 VRAM 配額的基線，沿用驅動的一般多行程排程，沒有顯式設定 `sharing.strategy: TimeSlicing`；明確的 TimeSlicing 設定與效能比較在第五章。接著比較 MPS、HAMi-DRA 的執行期限制，以及 ConsumableShares 的排程容量記帳。[基線設定](../03-oom/README.md#一個-claim-如何讓兩個-pod-共用裝置)保留原始部署語意，不能由 compute mode 推論分享策略。HAMi-core 設計說明在此用來解釋攔截位置；原始實驗沒有確認所載入 `libvgpu.so` 的原始碼 commit，不能把網站版本當成該二進位的確切版本。
 
 ### 接下來怎麼讀
 
@@ -103,7 +103,7 @@ RTX 4090 是 Ada Lovelace 的 GeForce GPU，未列在官方 NVIDIA vGPU 支援�
 
 ## 重點整理
 
-- MIG、MPS、time-slicing 與 HAMi-core 介入不同層級，隔離保證需要逐項比較。
+- MIG、MPS、時間切片與 HAMi-core 介入不同層級，隔離保證需要逐項比較。
 - MPS 的記憶體上限以 CUDA 行程為單位；HAMi-core 的合計範圍要確認 cache 與實際呼叫路徑。
 - ConsumableShares 讓獨立 Claim 分攤記帳容量，沒有因此提供 CUDA 的實體 VRAM 上限。
 - Kubernetes gate、driver gate、硬體支援與實際部署都要分開核對。

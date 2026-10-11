@@ -1,8 +1,6 @@
 # Kubernetes DRA GPU 共用實戰
 
-本書從 Kubernetes DRA 的資源模型與部署開始，整理 GPU 共用時的 OOM、隔離、效能與異質 GPU 選卡實驗。各章將連結部署設定、量測結果與原始證據，保留實驗的限制。
-
-本書面向熟悉 Kubernetes、尚未接觸這組實驗的工程師。部署與實驗章節對應 `labs/` 下的復現套件；執行方式與共同前提見[復現實驗指南](../labs/README.md)。目前除本頁外皆為章節骨架。
+本書從 Kubernetes DRA 的需求與配置模型出發，說明 GPU 共用的部署、OOM、隔離、效能與異質選卡。實驗顯示，排程容量記帳、CUDA 執行期配額與 Pod 的實體 GPU 記憶體上限是不同的保證，不能互相替代。共用能否增加吞吐量取決於工作留下的空檔，仍須衡量單個工作的延遲。Task 可以描述屬性或容量需求並取得可行 GPU 配置，但本書的異質實驗沒有驗證效能最佳選卡。[隔離結果](04-isolation/results.md)、[效能解讀](05-performance/README.md#解讀)、[選卡限制](06-heterogeneous/README.md#限制)
 
 ## 目錄
 
@@ -39,10 +37,17 @@
 
 ## 如何閱讀
 
-- 先閱讀 DRA 的資源模型，再依部署章節準備實驗環境。
-- 依問題選擇 OOM、隔離、效能或異質 GPU 章節，搭配對應的 `labs/` 套件。
-- 執行前確認該實驗的前提與清理步驟，並參考記錄實機驗證結果的 `VERIFIED.md`。
-- 以附錄查找名詞、版本及復現對照。
+本書面向熟悉 Kubernetes、尚未看過這組實驗的工程師。[前言](00-preface.md)整理研究問題、環境與結論速覽；每頁底部的上一頁與下一頁可帶你順序通讀，章節內的連結則可深入機制與完整設定。
+
+| 閱讀目的 | 起點 |
+| --- | --- |
+| 建立可用的 GPU 叢集 | [DRA 模型](01-why-dra/README.md) → [部署](02-deploy/README.md) → [需求與異質選卡](06-heterogeneous/README.md) |
+| 選擇共用與隔離方式 | [OOM](03-oom/README.md) → [三層隔離](04-isolation/README.md) → [效能](05-performance/README.md) → [決策指南](07-conclusion.md) |
+| 核對或復現實驗 | [版本與映像檔](appendix/versions.md) → [復現對照表](appendix/reproduction-map.md) → 對應 lab 與結果表 |
+
+## 復現套件與實機驗證
+
+共同前提見[復現實驗指南](../labs/README.md)，各套件 README 包含完整模式、縮短版、收集與清理步驟。每個 lab 都在原叢集執行過縮短版，實際通過項目與補測狀態由實機驗證紀錄明列：[部署](../labs/02-setup/VERIFIED.md)、[OOM](../labs/03-oom/VERIFIED.md)、[隔離](../labs/04-isolation/VERIFIED.md)、[效能](../labs/05-performance/VERIFIED.md)及[異質 GPU](../labs/06-heterogeneous/VERIFIED.md)。正式結果與縮短版的證據用途不同，請先核對[復現對照表](appendix/reproduction-map.md)再比較數字。
 
 <!-- nav:start -->
 [目錄](README.md) ｜ [下一頁：前言：為什麼要研究 GPU 共用 →](00-preface.md)

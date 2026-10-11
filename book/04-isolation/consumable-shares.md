@@ -17,7 +17,7 @@ flowchart LR
     B["Claim release 24 GiB"] --> S
     C["Claim waiter 8 GiB"] --> S
     S --> R["剩餘 5108 MiB 第三份等待"]
-    S --> P["已配置的 Pods"]
+    S --> P["已配置的 Pod"]
     P --> U["CUDA 配置呼叫"]
     U --> G["同一張 A40"]
     R -.-> N["沒有建立 CUDA 執行期配額"]
@@ -102,9 +102,9 @@ v0.5.0 在 MPS 裝置準備路徑另有明確拒絕：當 Claim 選擇 MPS、`MP
 
 ### 先切換 provider
 
-> **僅限專用實驗叢集。先停止 A40 的工作並清理 Claims，保存原始 DaemonSet、UID 與更新策略；勿在正式服務節點執行。**
+> **僅限專用實驗叢集。先停止 A40 的工作並清理 Claim，保存原始 DaemonSet、UID 與更新策略；勿在正式服務節點執行。**
 
-先以 [provider 工具](../../labs/04-isolation/provider/README.md)備份，將原始 DaemonSet 改為 `OnDelete` 並從每個 affinity term 排除 A40，刪除 A40 plugin 後確認原 Slices 已消失。4090 plugin 的 UID 必須保持相同，才可部署下方替代 provider；`install-provider.sh` 把這些步驟連在一起，並要求 `I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1`。
+先以 [provider 工具](../../labs/04-isolation/provider/README.md)備份，將原始 DaemonSet 改為 `OnDelete` 並從每個 affinity term 排除 A40，刪除 A40 plugin 後確認原 Slice 已消失。4090 plugin 的 UID 必須保持相同，才可部署下方替代 provider；`install-provider.sh` 把這些步驟連在一起，並要求 `I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1`。
 
 #### A40 專用 provider
 
@@ -689,9 +689,9 @@ runner 先確認兩份 allocation 與 A、B 日誌的 CUDA UUID 相符，完成 
 
 ## 重點整理
 
-ConsumableShares 的 `capacity.requests` 限制了排程器可以同時配置的總請求量，但本次 8 GiB Claim 沒有強制 CUDA 的 8 GiB 上限。A 在這次有限壓力中仍能配置與運算，只代表本次觀察通過，不能推成已避免整卡耗盡時的干擾；更多適用限制見[本章限制](README.md#限制)。
+ConsumableShares 的 `capacity.requests` 限制了排程器可以同時配置的總請求量，但本次 8 GiB Claim 沒有強制 CUDA 的 8 GiB 上限。A 在這次有限壓力中仍能配置與運算，只代表本次觀察通過，不能推成已避免整卡耗盡時的干擾；更多適用限制見[第四章限制](README.md#限制)。
 
-完成後先收集與清理工作負載，再執行 [uninstall-provider.sh](../../labs/04-isolation/consumable-shares/scripts/uninstall-provider.sh)，移除替代 provider 與暫留 Slices，在 `OnDelete` 下恢復原範本，等 A40 Ready 後才恢復原始更新策略，最後核對原 UID／spec／Slices 與 4090 plugin UID。完整復現、縮短模式和中斷處理見[實驗 README](../../labs/04-isolation/consumable-shares/README.md)；尚待建立的實機驗證紀錄位於 `labs/04-isolation/VERIFIED.md`。
+完成後先收集與清理工作負載，再執行 [uninstall-provider.sh](../../labs/04-isolation/consumable-shares/scripts/uninstall-provider.sh)，移除替代 provider 與暫留 ResourceSlice，在 `OnDelete` 下恢復原範本，等 A40 Ready 後才恢復原始更新策略，最後核對原 UID／spec／ResourceSlice 與 4090 plugin UID。完整復現、縮短模式和中斷處理見[實驗 README](../../labs/04-isolation/consumable-shares/README.md)；[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)保存 2026-10-12 在原叢集重現 Pending、釋放後配置與 runtime 超過宣告量的結果，也記錄 provider 還原核對。
 
 <!-- nav:start -->
 [← 上一頁：第 4 章　防止 OOM：三層隔離模型](README.md) ｜ [目錄](../README.md) ｜ [下一頁：4.2 MPS：每個行程的 VRAM 上限 →](mps.md)

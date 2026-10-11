@@ -14,7 +14,7 @@ CUDA context 保存某個 GPU 執行環境的狀態，包括記憶體配置、ke
 
 ```mermaid
 flowchart LR
-  subgraph T["一般 time-slicing"]
+  subgraph T["一般時間切片"]
     T1["時間片一<br/>A 的小 kernel"] --> T2["時間片二<br/>B 的小 kernel"]
     T2 --> T3["時間片三<br/>C 的小 kernel"]
     T1 --- I1["其餘 SM 閒置"]
@@ -275,7 +275,7 @@ generatorOptions:
 | 參數 | 意義 | 為什麼這樣設 |
 | --- | --- | --- |
 | `configMapGenerator.files`、兩個 labels | 由來源程式產生有角色標記的 ConfigMap。 | 保存可檢查的程式並納入清理範圍。 |
-| `disableNameSuffixHash: true` | 固定名稱為 `isolation-code`。 | 分階段建立 Jobs 時，掛載引用保持一致。 |
+| `disableNameSuffixHash: true` | 固定名稱為 `isolation-code`。 | 分階段建立 Job 時，掛載引用保持一致。 |
 
 ```console
 $ kubectl kustomize common/workload > /tmp/gpu-isolation-code.yaml
@@ -522,7 +522,7 @@ patches:
 | Claim 的 memory limit patch | 將 MPS 上限改為 `4Gi`。 | 檢驗另一個單行程邊界。 |
 | A、B 的 `args/3` patch | 將工作負載配額參數改為 `4`。 | 讓記錄與安全停止條件符合 Claim。 |
 
-overlay 由 `mps/scripts/run.sh` 渲染後分階段套用，先建立 A 與 B 並確認 READY，再觀察 A 的 baseline，最後讓 B 開始配置壓力。查看渲染內容可使用 `kubectl kustomize mps/manifests/single-4g --load-restrictor=LoadRestrictionsNone`；不要一次套用全部 Jobs 來取代實驗的時間控制。
+overlay 由 `mps/scripts/run.sh` 渲染後分階段套用，先建立 A 與 B 並確認 READY，再觀察 A 的 baseline，最後讓 B 開始配置壓力。查看渲染內容可使用 `kubectl kustomize mps/manifests/single-4g --load-restrictor=LoadRestrictionsNone`；不要一次套用全部 Job 來取代實驗的時間控制。
 
 ## 驗證與結果
 

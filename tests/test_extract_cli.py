@@ -11,7 +11,7 @@ def test_registry_cli_rejects_unknown_experiment():
     command = [sys.executable, str(ROOT / "tools/extract_data.py")]
     result = subprocess.run(command + ["--help"], text=True, capture_output=True, env={**os.environ, "COLUMNS": "400"})
     assert result.returncode == 0
-    assert "--lab" in result.stdout and "/Users/daniel/dra-gpu-oom-lab" in result.stdout
+    assert "--lab" in result.stdout and "dra-gpu-oom-lab" in result.stdout
     result = subprocess.run(command + ["e99"], text=True, capture_output=True)
     assert result.returncode != 0 and "invalid choice" in result.stderr
 

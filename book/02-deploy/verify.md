@@ -63,7 +63,7 @@ NAME                                  NODE       DRIVER           DEVICES
 | --- | --- | --- |
 | `get deviceclass` | 列出可引用的裝置類別 | 確認 chart 已註冊三種選取規則 |
 | `get resourceslices` | 列出 driver 公布的實際裝置清單 | 確認每個 GPU 節點都已發布 |
-| `custom-columns` | 顯示名稱、節點、driver 與 devices 名稱 | 看到兩台各一張 `gpu-0`，而不是只看物件數量 |
+| `custom-columns` | 顯示名稱、節點、driver 與 `devices` 名稱 | 看到兩台各一張 `gpu-0`，而不是只看物件數量 |
 
 這份安裝初期清單與前頁後續 ResourceSlice 快照的名稱尾碼不同，是物件重建後的盤點；節點、driver、型號與容量仍相同。名稱尾碼是生成資訊，不能用它當作跨次執行的固定 GPU 身分。
 
@@ -80,7 +80,7 @@ $ OUT_DIR=labs/02-setup/out/manual-idle-a40 bash labs/common/gpu-idle-check.sh d
 $ OUT_DIR=labs/02-setup/out/manual-idle-rtx4090 bash labs/common/gpu-idle-check.sh dra-4090
 ```
 
-GPU 空閒檢查透過 `gpu-operator` driver Pod 讀 nvidia-smi，不假定能 SSH 到節點。它也檢查已分配的 GPU claims，有其他使用者的工作時要等工作完成。
+GPU 空閒檢查透過 `gpu-operator` driver Pod 讀 nvidia-smi，不假定能 SSH 到節點。它也檢查已分配的 GPU Claim，有其他使用者的工作時要等工作完成。
 
 ### 建立 Namespace
 
@@ -551,7 +551,7 @@ status:
 | `status.allocation.allocationTimestamp` | 2026-10-11T11:49:36Z | 這次分配結果記錄的時間 |
 | `status.allocation.devices.results` | request: gpu、driver: gpu.nvidia.com、pool: dra-a40、device: gpu-0 | gpu 這項需求分配到 dra-a40 pool 內的 gpu-0；driver、pool、device 合起來識別裝置 |
 | `status.allocation.nodeSelector` | metadata.name In [dra-a40] | 此 allocation 只能在 dra-a40 使用；這是分配結果的節點約束，不是 Job 預先指定 nodeName |
-| `status.reservedFor` | resource: pods、Pod 名稱與 UID | 允許使用此 allocation 的 consumer 是該 Pod，並不是只要同 Namespace 就能共用 |
+| `status.reservedFor` | `resource: pods`、Pod 名稱與 UID | 允許使用此 allocation 的 consumer 是該 Pod，並不是只要同 Namespace 就能共用 |
 
 `allocation` 描述裝置，`reservedFor` 描述誰能使用它；兩者不能互相替代。Pod 的 `status.resourceClaimStatuses` 則記錄引用名與實際 claim 名的對應，腳本將它保存在 `*-pod-allocated.json`。[v1.37.0 ResourceClaim API 定義](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/staging/src/k8s.io/api/resource/v1/types.go)、[生成 claim 的 annotation 與 owner 設定](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/controller/resourceclaim/controller.go)、[物件 metadata 定義](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/staging/src/k8s.io/apimachinery/pkg/apis/meta/v1/types.go)
 

@@ -1,6 +1,6 @@
 # 復現實驗指南
 
-這裡將提供各實驗章節的最小復現套件。先閱讀[書籍目錄](../book/README.md)及該實驗的 README，再確認環境與 GPU 閒置狀態；每個 lab 的 `VERIFIED.md` 記錄在原叢集上實際執行縮短版（smoke run）的結果。
+這裡是各實驗章節的最小復現套件。先閱讀[書籍目錄](../book/README.md)及該實驗的 README，再確認環境與 GPU 閒置狀態；每個 lab 的 `VERIFIED.md` 記錄在原叢集上實際執行縮短版（smoke run）的結果。
 
 ## 前提
 

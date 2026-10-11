@@ -80,7 +80,7 @@ flowchart LR
     B <-->|"CDI 同一裝置"| G
 ```
 
-Claim 與 DeviceClass 都沒有附加分享設定時，v0.5.0 的[預設 GpuConfig](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)只設定型別，`sharing` 為空；[`IsTimeSlicing` 與 `IsMps`](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/api/nvidia.com/resource/v1beta1/sharing.go#L94-L108)對空設定均回傳 false。這表示沿用 GPU 驅動的一般多行程排程，不會自動啟用 MPS 或設定 VRAM 配額，也沒有顯式調整 time-slicing interval。原始 GPU 取樣記錄的 `compute_mode` 是 `Default`；它是 GPU 的 compute mode，不能當成已設定 `sharing.strategy: TimeSlicing` 的證據。
+Claim 與 DeviceClass 都沒有附加分享設定時，v0.5.0 的[預設 GpuConfig](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)只設定型別，`sharing` 為空；[`IsTimeSlicing` 與 `IsMps`](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/api/nvidia.com/resource/v1beta1/sharing.go#L94-L108)對空設定均回傳 false。這表示沿用 GPU 驅動的一般多行程排程，不會自動啟用 MPS 或設定 VRAM 配額，也沒有顯式調整時間切片 interval。原始 GPU 取樣記錄的 `compute_mode` 是 `Default`；它是 GPU 的 compute mode，不能當成已設定 `sharing.strategy: TimeSlicing` 的證據。
 
 ## 部署與設定
 

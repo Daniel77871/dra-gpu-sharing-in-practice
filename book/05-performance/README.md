@@ -2,7 +2,7 @@
 
 ## 本章要回答的問題
 
-把同一顆 GPU 分給多個 Task，完成工作的速度一定會變快嗎？若整批吞吐量提高，每個 Task 要付出多少延遲，哪些工作形狀值得共用？本章在同一顆 A40 上，以相同矩陣乘法比較獨占、逐個執行、TimeSlicing、MPS 與 HAMi，將「多個 Pod 能同時取得 GPU」和「GPU 能更有效率地完成工作」分別量測。
+把同一顆 GPU 分給多個 Task，完成工作的速度一定會變快嗎？若整批吞吐量提高，每個 Task 要付出多少延遲，哪些工作形狀值得共用？本章在同一顆 A40 上，以相同矩陣乘法比較獨占、逐個執行、TimeSlicing、MPS 與 HAMi-DRA，將「多個 Pod 能同時取得 GPU」和「GPU 能更有效率地完成工作」分別量測。
 
 第四章已說明 [MPS 的 context 與記憶體配額](../04-isolation/mps.md)，以及 [HAMi-DRA 的容量與執行期限制](../04-isolation/hami-dra.md)。本章只補上與效能有關的排程行為，再用固定工作量觀察吞吐量和延遲的交換關係。
 
@@ -10,7 +10,7 @@
 
 ### 排程發生在不同層次
 
-ResourceClaim 決定 Pod 使用哪個裝置與哪組分享設定；它不負責決定下一個 GPU kernel 的執行順序。本章的「GPU 排程」指 CUDA driver 與 GPU 在工作已提交後如何服務佇列，以及 MPS 或 HAMi 如何改變這條路徑。五種模式固定同一個 UUID，排除 Kubernetes 選到不同 GPU 的影響。
+ResourceClaim 決定 Pod 使用哪個裝置與哪組分享設定；它不負責決定下一個 GPU kernel 的執行順序。本章的「GPU 排程」指 CUDA driver 與 GPU 在工作已提交後如何服務佇列，以及 MPS 或 HAMi-DRA 如何改變這條路徑。五種模式固定同一個 UUID，排除 Kubernetes 選到不同 GPU 的影響。
 
 ```mermaid
 flowchart LR
@@ -81,13 +81,13 @@ flowchart LR
 
 圖中的重疊是機制允許的情境，不是本次 kernel trace。後面的 NVML 取樣與完成時間能比較效果，不能證明每一次 GEMM 的所有 kernel 都重疊。
 
-### HAMi 在普通 context 路徑前限制提交速度
+### HAMi-DRA 在普通 context 路徑前限制提交速度
 
-HAMi-core 的限制原理見[第四章的 HAMi-DRA](../04-isolation/hami-dra.md)。與本章效能直接相關的是 SM-utilization limiter：普通行程仍使用分開的 CUDA context，GPU 按時間片服務；HAMi 在 kernel 提交路徑加入軟體限流，沒有把它們變成 MPS client。
+HAMi-core 的限制原理見[第四章的 HAMi-DRA](../04-isolation/hami-dra.md)。與本章效能直接相關的是 SM-utilization limiter：普通行程仍使用分開的 CUDA context，GPU 按時間片服務；HAMi-DRA 在 kernel 提交路徑加入軟體限流，沒有把它們變成 MPS client。
 
 固定 commit `8c32de630b24f5f7d6355fbeb0034845d3bdafb7` 的 `utilization_watcher()` 讀取 NVML 行程使用率，依目標上限調整 token；`rate_limiter()` 在 token 為負時用 `nanosleep()` 等待，再以 kernel grid 數量扣除 token。當行程的使用率超過其 `CUDA_DEVICE_SM_LIMIT` 目標，回饋控制會減少提交額度，使後續 kernel 啟動延後；limit 為 100 時則走不限流的分支。這是使用率回饋，不是固定分割 SM，也不保證瞬間使用率永遠精確貼合額度。[HAMi-core 固定 commit 的 limiter 與 watcher](https://raw.githubusercontent.com/Project-HAMi/HAMi-core/8c32de630b24f5f7d6355fbeb0034845d3bdafb7/src/multiprocess/multiprocess_utilization_watcher.c)
 
-本章每個 Task 都有自己的 Claim 與 cache，N=1/2/4 分別要求 cores 100/50/25，總 cores 保持 100。這個政策與 MPS 的每 client 100% 不同，因此比較結果同時包含分享機制與 cores 政策的影響；不能把 HAMi 與 TimeSlicing 的差值全當成函式庫開銷。
+本章每個 Task 都有自己的 Claim 與 cache，N=1/2/4 分別要求 cores 100/50/25，總 cores 保持 100。這個政策與 MPS 的每 client 100% 不同，因此比較結果同時包含分享機制與 cores 政策的影響；不能把 HAMi-DRA 與 TimeSlicing 的差值全當成函式庫開銷。
 
 ```mermaid
 flowchart LR
@@ -97,7 +97,7 @@ flowchart LR
   subgraph HB["Task B"]
     B0["burst 經 limiter"] --> B1["有額度才提交"] --> B2["完成後 sleep"] --> B3["下一個 burst"]
   end
-  subgraph HG["HAMi GPU 時間向右"]
+  subgraph HG["HAMi-DRA GPU 時間向右"]
     G1["A 的普通 context"] --> G2["B 的普通 context"] --> G3["可能空閒"] --> G4["下一輪仍限流與輪流服務"]
   end
   A1 --> G1
@@ -127,16 +127,18 @@ Aligned 的初始相位相同，burst 容易碰在一起；普通時間切片把
 | `<原 run-id>-<路徑摘要>` | `gpu-performance-lab` | 專用 Namespace，以 run nonce 區分執行 |
 | `task-0`、`task-1` 等 Pod | `benchmark-lead`、`benchmark-partner-*` Job 的 Pod | 同批 Task 的主角色與並行夥伴 |
 | `gpu-0` 共用 Claim | `performance-gpu` | exclusive、TimeSlicing、MPS 的 allocation |
-| sequential／HAMi 的 `gpu-<task-id>` Claim | `benchmark-task-gpu` ResourceClaimTemplate 產生的 Claim | 逐 Task 獨立 allocation |
+| sequential／HAMi-DRA 的 `gpu-<task-id>` Claim | `benchmark-task-gpu` ResourceClaimTemplate 產生的 Claim | 逐 Task 獨立 allocation |
 | `e3-code` ConfigMap | `performance-code` | 相同 CUDA worker 與控制輔助程式 |
 | 原 provider session 的 `<原 run-id>-gpu` DeviceClass | `gpu.nvidia.com` | 使用既有且沒有附加 config 的 NVIDIA DeviceClass |
-| 原 HAMi session 的 `<原 run-id>-gpu` DeviceClass | `HAMI_DEVICE_CLASS` 指定的既有 class | 由獨立 HAMi provider 套件提供 |
+| 原 HAMi-DRA session 的 `<原 run-id>-gpu` DeviceClass | `HAMI_DEVICE_CLASS` 指定的既有 class | 由獨立 HAMi-DRA provider 套件提供 |
 
 ### Namespace 與共同 Job
 
-以下命令從 `labs/05-performance/` 執行。先列出輸入，再由 runner 按批次套用；單獨 apply Job 只會讓它 warmup 後等待 START，不能代替同步控制流程。原生分享設定已在原叢集完成安裝與還原核對，效能批次仍待完整驗證；以下 Job 建立訊息均標為預期輸出。
+以下命令從 `labs/05-performance/` 執行。先列出輸入，再由 runner 按批次套用；單獨 apply Job 只會讓它 warmup 後等待 START，不能代替同步控制流程。原叢集縮短版已完成 NVIDIA 模式與 HAMi-DRA 的效能批次，以及 provider 設定、切換與還原核對，見[實機驗證紀錄](../../labs/05-performance/VERIFIED.md)。下面逐份 YAML 的手動建立命令未另外執行，其建立訊息標為預期輸出。
 
-第二章的原始安裝只明確啟用 MPS，效能實驗還需要 TimeSlicingSettings。先用套件的獨立腳本備份原 DaemonSet，準備三個分享功能開關，再驗證；結束時清理全部 Task 與 Claim，解除 HAMi 後還原。這些操作會修改既有 DaemonSet 並重新建立目標 plugin，備份、原 UID／spec 核對與其他節點保護的完整說明見[復現套件](../../labs/05-performance/README.md)。
+第二章的原始安裝只明確啟用 MPS，效能實驗還需要 TimeSlicingSettings。先用套件的獨立腳本備份原 DaemonSet，準備三個分享功能開關，再驗證。需要 HAMi-DRA 時，先在空閒邊界還原這份原生設定，再用第四章的 provider 套件切換；兩種切換流程不能疊用。
+
+結束時清理全部 Task 與 Claim，再解除 HAMi-DRA，核對原生 provider 還原。這些操作會修改既有 DaemonSet 並重新建立目標 plugin，備份、原 UID／spec 核對與其他節點保護見[復現套件](../../labs/05-performance/README.md)及[實機切換紀錄](../../labs/05-performance/VERIFIED.md#hami-模式)。
 
 ```sh
 $ export I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1
@@ -300,7 +302,7 @@ spec:
 | `OMP_NUM_THREADS`、`MKL_NUM_THREADS` | CPU 函式庫執行緒數 | 保留每個 Task 的 1 CPU 條件 |
 | `requests`、`limits` | CPU 與 RAM | 保留原始 1 CPU、2 GiB 條件 |
 | `runAsUser`、`runAsGroup` | client 的使用者 | 與 MPS server 的 root UID 一致 |
-| `resourceClaims` | Pod 使用的 allocation | 原生並行模式引用同一 Claim；sequential 與 HAMi 由 overlay 換成範本 |
+| `resourceClaims` | Pod 使用的 allocation | 原生並行模式引用同一 Claim；sequential 與 HAMi-DRA 由 overlay 換成範本 |
 | `nodeSelector`、`GPU_UUID` | 執行節點與裝置核對 | UUID selector 與實際取樣必須指向同一顆 GPU |
 | `control-owner`、`emptyDir` | 每個 Pod 的控制目錄 | init container 不建立 CUDA context，只建立原 worker 要求的 owner 身分 |
 
@@ -441,7 +443,7 @@ spec:
 |---|---|---|
 | `ResourceClaimTemplate` | 每個 Pod 取得自己的 Claim | 保留原 sequential 逐 Task 建立、刪除 Claim 的生命週期 |
 
-其餘 Claim 欄位同獨占模式。逐個執行與 HAMi 的 Job patch 內容也相同，都是把 base 的共用 Claim 引用換成逐 Pod 產生的 Claim；啟動順序與容量設定則由各模式決定。
+其餘 Claim 欄位同獨占模式。逐個執行與 HAMi-DRA 的 Job patch 內容也相同，都是把 base 的共用 Claim 引用換成逐 Pod 產生的 Claim；啟動順序與容量設定則由各模式決定。
 
 ```sh
 $ vi manifests/overlays/sequential/job-patch.yaml
@@ -486,7 +488,7 @@ patches:
 
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
-| `patches.path` | 將 Job 改為使用 Claim 範本 | 逐個執行與 HAMi 都需逐 Task allocation，runner 決定啟動順序 |
+| `patches.path` | 將 Job 改為使用 Claim 範本 | 逐個執行與 HAMi-DRA 都需逐 Task allocation，runner 決定啟動順序 |
 
 ### 時間切片模式
 
@@ -605,9 +607,9 @@ resourceclaim.resource.k8s.io/performance-gpu created
 job.batch/benchmark-lead created
 ```
 
-### HAMi 模式
+### HAMi-DRA 模式
 
-HAMi 需要 `labs/04-isolation/hami-dra/` 的 provider 與 DeviceClass，使用其中規劃的 `scripts/install-provider.sh`／`scripts/uninstall-provider.sh` 做明確切換與還原，本章不重複部署 provider。同一顆 GPU 只能由當下使用的 provider 公布；runner 在 provider 不符時保存空閒邊界進度並停止，不會自行修改 DaemonSet。
+HAMi-DRA 使用[第四章的 provider 套件](../../labs/04-isolation/hami-dra/README.md)與 `hami-core-gpu.project-hami.io` DeviceClass，由 [install-provider.sh](../../labs/04-isolation/hami-dra/scripts/install-provider.sh)／[uninstall-provider.sh](../../labs/04-isolation/hami-dra/scripts/uninstall-provider.sh)做明確切換與還原，本章不重複部署 provider。同一顆 GPU 只能由當下使用的 provider 公布；runner 在 provider 不符時保存空閒邊界進度並停止，不會自行修改 DaemonSet。
 
 ```sh
 $ vi manifests/overlays/hami/claim.yaml
@@ -646,10 +648,10 @@ spec:
 
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
-| `deviceClassName` | 既有 HAMi DeviceClass | 由獨立 provider 套件提供，可由 `HAMI_DEVICE_CLASS` 指定 |
-| `memory: 8Gi` | 每個 Task 的 VRAM 額度 | 與正式 HAMi Claim 相同 |
+| `deviceClassName` | 既有 HAMi-DRA DeviceClass | 由獨立 provider 套件提供，可由 `HAMI_DEVICE_CLASS` 指定 |
+| `memory: 8Gi` | 每個 Task 的 VRAM 額度 | 與正式 HAMi-DRA Claim 相同 |
 | `cores: 100` | 此 base 是 N=1 | runner 按 N=1/2/4 寫成 100/50/25，總 cores 100 |
-| HAMi 的 UUID attribute | 固定同一 A40 | 與原生模式對照相同實體 GPU |
+| HAMi-DRA 的 UUID attribute | 固定同一 A40 | 與原生模式對照相同實體 GPU |
 
 未列出的 Claim 範本欄位同逐個執行模式。[Job patch](../../labs/05-performance/manifests/overlays/hami/job-patch.yaml) 與 [Kustomization](../../labs/05-performance/manifests/overlays/hami/kustomization.yaml) 也使用前面逐個執行模式已列出的完整內容；Job 的其餘欄位同共同 base。差別在 runner 同時啟動這批 Task，讓每個 Task 使用自己的容量 Claim 與 cache。
 
@@ -698,7 +700,7 @@ sequenceDiagram
   R->>R: 核對退出 清理與閒置
 ```
 
-取樣在 GPU Operator driver Pod 內執行原生 `nvidia-smi --query-gpu=... --format=csv -lms 500`，時間戳來自同一個 host monotonic clock；它不使用受 HAMi 注入的 workload NVML。保留使用率、VRAM、功率、時脈、溫度、compute mode 與限制原因，平均使用率按量測窗口做時間加權。
+取樣在 GPU Operator driver Pod 內執行原生 `nvidia-smi --query-gpu=... --format=csv -lms 500`，時間戳來自同一個 host monotonic clock；它不使用受 HAMi-DRA 注入的 workload NVML。保留使用率、VRAM、功率、時脈、溫度、compute mode 與限制原因，平均使用率按量測窗口做時間加權。
 
 ### 指標的計時邊界
 
@@ -723,6 +725,8 @@ Pod 建立、映像檔下載、容器啟動、warmup、數值驗證與清理都�
 ![三種工作下的吞吐量與平均 Task 延遲](../images/05-performance/tradeoff.svg)
 
 Speedup 的三個面板共用縱軸，方便比較不同工作形狀；同一個 N 的模式稍微水平錯開，以免點互相遮住。吞吐量與延遲圖也共用縱軸，橫軸範圍依工作調整，線只連接同一模式。兩圖都附上五種模式的名稱圖例，以及較小的 N 形狀圖例。
+
+結果表保留分析輸出的模式代號：`timeslicing` 對應 TimeSlicing、`mps` 對應 MPS、`hami` 對應 HAMi-DRA。圖例的 Time-Slicing 與 HAMi 也分別指本章的 TimeSlicing 與 HAMi-DRA 路徑，沒有另外測試 classic HAMi 部署。
 
 <!-- results:start -->
 ### 持續工作
@@ -797,7 +801,7 @@ Speedup 的三個面板共用縱軸，方便比較不同工作形狀；同一個
 
 ### 持續工作增加的是競爭
 
-Continuous 的 exclusive 使用率為 99.02%，並行分享後也接近滿載，但 N=2/4 的吞吐量比 sequential 少約 4–7%。MPS 的 Speedup 為 0.958／0.962，損失最小；TimeSlicing 與 HAMi 約為 0.93。GPU 已經很忙時，再增加 Task 主要拉長個別完成時間：例如 MPS N=4 平均延遲是 188.061 秒，逐個執行每 Task 則是 45.389 秒。
+Continuous 的 exclusive 使用率為 99.02%，並行分享後也接近滿載，但 N=2/4 的吞吐量比 sequential 少約 4–7%。MPS 的 Speedup 為 0.958／0.962，損失最小；TimeSlicing 與 HAMi-DRA 約為 0.93。GPU 已經很忙時，再增加 Task 主要拉長個別完成時間：例如 MPS N=4 平均延遲是 188.061 秒，逐個執行每 Task 則是 45.389 秒。
 
 這不表示 MPS 必然比獨占快，也不表示使用率越高就越有效率。Continuous 的最高平均 Task/s 出現在 TimeSlicing N=1；這仍只有一個 client，不能視為多 Task 共用收益，五個 block 的最高平均值也不等於統計顯著。
 
@@ -811,13 +815,13 @@ MPS N=4 把 aligned 吞吐量提高到 0.05279 Task/s，Speedup 2.329；staggere
 
 Bursty-staggered N=2，TimeSlicing 與 MPS 的 Speedup 分別為 1.969、1.982，平均延遲也接近；MPS／TimeSlicing 的配對比值只有 1.007，N=4 也只有 1.032。Task 的 burst 較少在同一時刻爭用 GPU，時間切片也能交替利用空檔，因此這種工作不一定需要 MPS 才能獲得大部分吞吐量收益。
 
-HAMi 在多數條件接近 TimeSlicing；aligned N=4 的平均吞吐量稍高，staggered 則很接近。這份資料保留 cores 100/50/25 的限制政策，MPS 卻固定每 client 100%，因此沒有隔離出「僅載入 HAMi 函式庫」的成本。實務上應把配額策略一起視為被測系統，不能用這個差值宣稱 limiter 零成本或固定增加某個百分比。
+HAMi-DRA 在多數條件接近 TimeSlicing；aligned N=4 的平均吞吐量稍高，staggered 則很接近。這份資料保留 cores 100/50/25 的限制政策，MPS 卻固定每 client 100%，因此沒有隔離出「僅載入 HAMi-core 函式庫」的成本。實務上應把配額策略一起視為被測系統，不能用這個差值宣稱 limiter 零成本或固定增加某個百分比。
 
 ### 用延遲預算選擇同時工作的數量
 
 吞吐量提高不保證每個 Task 更快。Aligned 的 MPS 從 N=2 增加到 N=4，平均延遲由 44.509 秒升到 75.691 秒，P95 由 44.600 秒升到 76.063 秒；如果工作必須接近單 Task 延遲完成，N=2 是本次資料較合理的起點。若優先處理長佇列且可接受較長完成時間，N=4 才更符合目標。
 
-先量測獨占的工作形狀：已持續飽和就維持獨占或逐個執行；有空檔再從較小 N 測起。同時到達的 burst 可優先評估 MPS，初始錯開或自然分散的工作則可比較較簡單的 TimeSlicing；需要容量限制時，再連同 HAMi 的 cores 與記憶體政策測量。每次增加 N 都應重新核對 Task 延遲、P95、VRAM 需求與隔離邊界，不能只看整批 Task/s。
+先量測獨占的工作形狀：已持續飽和就維持獨占或逐個執行；有空檔再從較小 N 測起。同時到達的 burst 可優先評估 MPS，初始錯開或自然分散的工作則可比較較簡單的 TimeSlicing；需要容量限制時，再連同 HAMi-DRA 的 cores 與記憶體政策測量。每次增加 N 都應重新核對 Task 延遲、P95、VRAM 需求與隔離邊界，不能只看整批 Task/s。
 
 [第四章 MPS 分享中的歷史案例](../04-isolation/mps.md)也展示了小工作與多 client 的吞吐量機會。本章把這個方向換成同一顆 A40、相同固定 GEMM 的比較；那些案例的 GPU、應用程式與測量方式不同，其倍數不能套用到此處。
 
@@ -827,7 +831,7 @@ HAMi 在多數條件接近 TimeSlicing；aligned N=4 的平均吞吐量稍高，
 - Bursty 用固定 sleep 模擬空閒，沒有真正 CPU 前處理、資料讀取或傳輸；初始 stagger 不保證後續相位固定。
 - NVML GPU 使用率不等於 SM occupancy，500 ms 取樣也不足以觀察 kernel 層級的重疊。本次沒有另部署 DCGM。
 - GPU 時脈與溫度可能改變，原始取樣保留相關欄位；五個 block 不能保證尾端延遲穩定，也沒有據最高平均值做統計顯著性宣告。
-- HAMi 的 cores 政策與 MPS 不同，無法把差值全部解讀成函式庫開銷。固定 commit 用於說明 limiter 機制；原二進位函式庫另有 SHA256 證據，兩者的建置對應尚未證實。
+- HAMi-DRA 的 cores 政策與 MPS 不同，無法把差值全部解讀成函式庫開銷。固定 commit 用於說明 limiter 機制；原二進位函式庫另有 SHA256 證據，兩者的建置對應尚未證實。
 
 第一個 block 的 continuous sequential N=4 曾在前三個 Task 完成後暫停，第四個於續跑後執行；它加總實際服務時間，排除數小時的停頓，是唯一跨暫停的正式 baseline。同 block 的 continuous MPS N=2 與 aligned MPS N=1 另遇到清理時序競爭：daemon 已自動結束，NVML 暫時仍列出原 server PID。獨立善後證據核對原始 SHA、daemon UID、三個 Task 的退出碼 0 與 GPU 閒置，原 CUDA 工作均未重跑；原失敗檔未覆寫，彙整資料另以 `cleanup_recovered` 與 `continued_after_pause` 標記。量測來源版本與修正拒絕條件後的分析版本分開保存，後者只重算資料；版本差異及恢復來源見[資料說明](../../data/e3/README.md)，不能把這些事件描述成沒有發生。
 
@@ -844,12 +848,12 @@ $ bash scripts/cleanup.sh smoke-a40
 $ bash scripts/restore-native-settings.sh native-performance
 ```
 
-`HAMI=1` 會加入 HAMi，但需要先具備上述獨立 provider 相依套件，並在空閒邊界明確切換。原叢集已完成原生分享設定的安裝、驗證與還原，縮短版的 sequential、exclusive 與 TimeSlicing 批次也已完成；MPS 因同時列出 server 與 client，在行程身分檢查停止。檢查已修正，完整縮短版與 Namespace 清理仍待實機重跑；完成後的[實機驗證紀錄](../../labs/05-performance/VERIFIED.md)會保存實際輸出，本章效能數字仍引用原正式結果。
+`HAMI=1` 會加入 HAMi-DRA，需要先具備上述獨立 provider 相依套件，並在空閒邊界明確切換。最初的 MPS 輪次因行程身分檢查停止，修正後在原叢集重跑，exclusive、sequential、TimeSlicing 與 MPS 都通過，Namespace 清理及原生 provider 還原也完成。NVIDIA 模式與 HAMi-DRA 的縮短版都重現同步間歇工作的主要趨勢，provider 設定、切換、解除安裝與還原已核對，見[實機驗證紀錄](../../labs/05-performance/VERIFIED.md)。本章效能數字仍引用原正式結果，縮短版只有單一短 block，不能用其差距判斷 HAMi-DRA 與 TimeSlicing 的高下。
 
 ## 重點整理
 
 - 分享一顆 GPU 的收益來自填補空檔或增加可行的並行；已飽和的 continuous GEMM 沒有這種餘裕。
-- TimeSlicing 輪流服務普通 context，MPS 提供跨 client 的並行機會，HAMi 在普通 context 路徑前加入使用率限流；三者不是同一種排程策略。
+- TimeSlicing 輪流服務普通 context，MPS 提供跨 client 的並行機會，HAMi-DRA 在普通 context 路徑前加入使用率限流；三者不是同一種排程策略。
 - Aligned burst 最能看出 MPS 的差異，staggered 則讓時間切片也接近 MPS。本次間歇工作最高約 2.33 倍，代價仍須用每 Task 的延遲衡量。
 - 以相同工作量、同 block 基準與明確計時邊界比較，再按延遲預算選 N；GPU 使用率或可建立的 Pod 數都不能單獨代表效能。
 

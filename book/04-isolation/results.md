@@ -6,7 +6,7 @@
 
 ## 背景原理
 
-Claim 的 `consumedCapacity` 是 scheduler 帳本，成功張量量是工作負載自己保留的資料，NVML 則觀察實體裝置或行程。三者的單位可以換算，計量範圍卻不相同；尤其不能拿包含 A 的整卡 NVML 用量，直接判定 B 是否超過配額。定義與共同工作負載見[本章設計](README.md#三層隔離模型)。
+Claim 的 `consumedCapacity` 是 scheduler 帳本，成功張量量是工作負載自己保留的資料，NVML 則觀察實體裝置或行程。三者的單位可以換算，計量範圍卻不相同；尤其不能拿包含 A 的整卡 NVML 用量，直接判定 B 是否超過配額。定義與共同工作負載見[第四章設計](README.md#三層隔離模型)。
 
 ```mermaid
 flowchart LR
@@ -28,7 +28,7 @@ flowchart LR
 | 方案 | 第一層 排程記帳 | 第二層 CUDA 配置配額 | 第三層 Pod 嚴格實體上限 |
 |---|---|---|---|
 | ConsumableShares | 已驗證 memory 記帳，第三份 Claim 等候釋放。 | 本次未強制；B 的成功張量超過請求量後由工具停止。 | 未提供；不能從容量帳本推得實體上限。 |
-| MPS | 本次 A、B 共用 Claim，沒有 memory capacity 請求。 | 單一 CUDA client 受限；同 Pod 的兩個 clients 各有配額。 | 未提供 Pod 合計配額，雙行程張量已超過單一 client 上限。 |
+| MPS | 本次 A、B 共用 Claim，沒有 memory capacity 請求。 | 單一 CUDA client 受限；同 Pod 的兩個 client 各有配額。 | 未提供 Pod 合計配額，雙行程張量已超過單一 client 上限。 |
 | HAMi-DRA | 已驗證 memory 與 cores 記帳。 | 本次單行程、同容器雙行程與同 Pod 雙容器路徑受限；跨 Pod 共用 Claim 的合計限制未成立。 | 同容器雙行程有實體超額；跨 Pod 有張量超額及一輪停滯。 |
 
 各項判定對應 [ConsumableShares](consumable-shares.md#結果)、[MPS](mps.md#驗證與結果)與 [HAMi-DRA](hami-dra.md#結果)。表中的「已驗證」只涵蓋所列條件，沒有將一次配置 OOM 解讀成所有 CUDA API 都受限。
@@ -44,7 +44,7 @@ flowchart LR
 | ConsumableShares 單行程 | 8 | 8.25 | 8.25 | 8.25 | 0 | 成功超額，工具安全停止。 |
 | MPS 單行程 | 每 client 4 | 3.5 | 3.5 | 3.5 | 1 | 下一個區塊配置 OOM。 |
 | MPS 單行程 | 每 client 8 | 7.5 | 7.5 | 7.5 | 1 | 下一個區塊配置 OOM。 |
-| MPS 同 Pod 雙行程 | 每 client 8 | 10 | 10 | 10 | 0 | 兩個 clients 各達 5 GiB。 |
+| MPS 同 Pod 雙行程 | 每 client 8 | 10 | 10 | 10 | 0 | 兩個 client 各達 5 GiB。 |
 | HAMi-DRA 單行程 | Claim 8 | 7.5 | 7.5 | 7.5 | 1 | 下一個區塊配置 OOM。 |
 | HAMi-DRA 同容器雙行程 | Claim 8 | 7.5 | 7.5 | 7.25 | 2 | 兩個 child 都配置 OOM。 |
 
@@ -65,7 +65,7 @@ HAMi 的 host PID 到 Pod／容器身分可核對，因此可以加總 B 的實�
 | HAMi 單行程 | 7,986 | 7,986 | 7,986 | 8,192，B Claim |
 | HAMi 同容器雙行程 | 8,292 | 8,292 | 8,036 | 8,192，B Claim |
 
-MPS 的單行程 8 GiB 第一輪快照也能以 control 清單識別 B 的 7,986 MiB，但本章沒有替所有 MPS 輪次建立完整的 Pod 實體帳本。ConsumableShares 的 `gpu-during.txt` 已在 B 退出後取得，也不能當作 B 的實體快照。這些缺口保留為缺口，不以整卡量減去推測的 A 用量補值。[MPS 身分與原始快照](mps.md#nvml-行程列表要和-mps-身分對照)、[ConsumableShares 取樣窗口](consumable-shares.md#b-活躍期間的整卡-nvml-峰值)
+MPS 的單行程 8 GiB 第一輪快照也能以 control 清單識別 B 的 7,986 MiB，但第四章沒有替所有 MPS 輪次建立完整的 Pod 實體帳本。ConsumableShares 的 `gpu-during.txt` 已在 B 退出後取得，也不能當作 B 的實體快照。這些缺口保留為缺口，不以整卡量減去推測的 A 用量補值。[MPS 身分與原始快照](mps.md#nvml-行程列表要和-mps-身分對照)、[ConsumableShares 取樣窗口](consumable-shares.md#b-活躍期間的整卡-nvml-峰值)
 
 整卡取樣另回答「配額 OOM 時裝置是否已耗盡」。下圖使用從最早 `B_GROW` 到最早 `B_EXIT` 的有效樣本，包含 A、B 與其他負擔；精確逐輪值見兩份 runtime CSV。MPS 8 GiB 單行程的整卡峰值為 10,379 MiB、最小 free 為 35,112 MiB，和 B 自己的 7,986 MiB 是不同範圍。
 
@@ -103,21 +103,21 @@ HAMi 的**記帳測試**每份 Claim 只要求 10 cores，第三份 Pending 是 
 
 ## 解讀
 
-ConsumableShares 解決的是申請總量的記帳問題，這條路徑沒有阻止 CUDA 成功超額。MPS 可用來評估只有一個 CUDA client 的 Task；若一個 Pod 內有多個 CUDA 行程，可再評估 HAMi-DRA 的共享紀錄路徑。HAMi 的適用邊界要保留在**本次同 Pod 的測試條件**，不能延伸成所有共用 Claim 的 Tasks 都共享可靠的總額限制。
+ConsumableShares 解決的是申請總量的記帳問題，這條路徑沒有阻止 CUDA 成功超額。MPS 可用來評估只有一個 CUDA client 的 Task；若一個 Pod 內有多個 CUDA 行程，可再評估 HAMi-DRA 的共享紀錄路徑。HAMi 的適用邊界要保留在**本次同 Pod 的測試條件**，不能延伸成所有共用 Claim 的 Task 都共享可靠的總額限制。
 
 E2B 的跨 Pod 共用 Claim 有兩輪保留 9.75 GiB 張量、實體合計 10,596 MiB，另一輪停滯。即使 cache 的 device／inode 相同，也不能因此判定配額生效；詳細矩陣與尚未證明的內部原因見 [HAMi 配額範圍](hami-dra.md#跨容器與跨-pod-的配額範圍)。
 
 ## 限制
 
-本章沒有找到全面成立的嚴格 per-Task 實體 VRAM 上限。兩種執行期配額都仍需要實體 headroom、API 範圍驗證與實際 CUDA 行程盤點；沒有量出可通用的安全餘量，也沒有測 CUDA Async、Managed memory、VMM、不可信工作或致命 GPU 故障。
+第四章沒有找到全面成立的嚴格 per-Task 實體 VRAM 上限。兩種執行期配額都仍需要實體 headroom、API 範圍驗證與實際 CUDA 行程盤點；沒有量出可通用的安全餘量，也沒有測 CUDA Async、Managed memory、VMM、不可信工作或致命 GPU 故障。
 
-E2 的 GPU 取樣是離散觀察，原始控制端查詢間隔包含查詢時間；復現套件改用 driver Pod 的 500 ms 取樣，仍可能漏掉瞬間峰值。E2B 的實體量是在完整配置屏障上的行程快照，停滯輪次只保留最後完整屏障，不能把它當成最終上限。不同 Claim 拓撲是待測機制的一部分，本章也沒有以這組資料比較吞吐量。
+E2 的 GPU 取樣是離散觀察，原始控制端查詢間隔包含查詢時間；復現套件改用 driver Pod 的 500 ms 取樣，仍可能漏掉瞬間峰值。E2B 的實體量是在完整配置屏障上的行程快照，停滯輪次只保留最後完整屏障，不能把它當成最終上限。不同 Claim 拓撲是待測機制的一部分，第四章也沒有以這組資料比較吞吐量。
 
 ## 動手復現
 
-依 [MPS](../../labs/04-isolation/mps/README.md)、[ConsumableShares](../../labs/04-isolation/consumable-shares/README.md)與 [HAMi-DRA](../../labs/04-isolation/hami-dra/README.md)的命令依序執行、收集並清理；provider 切換須另走有備份與還原核對的腳本。HAMi 的縮短版包含單行程、雙行程與跨 Pod 共用 Claim 各一輪；加上記帳測試，四個案例已在原叢集重現原始數值，見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)。provider 解除安裝曾在 host 清理中止，後續手動還原已驗證；腳本的順序修正尚待再次實機執行。
+依 [MPS](../../labs/04-isolation/mps/README.md)、[ConsumableShares](../../labs/04-isolation/consumable-shares/README.md)與 [HAMi-DRA](../../labs/04-isolation/hami-dra/README.md)的命令依序執行、收集並清理；provider 切換須另走有備份與還原核對的腳本。HAMi 的縮短版包含單行程、雙行程與跨 Pod 共用 Claim 各一輪；加上記帳測試，四個案例已在原叢集重現原始數值，見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)。provider 解除安裝曾在 host 清理中止，後續手動還原已驗證；修正後腳本在第五章縮短版完成解除安裝與還原核對，見[後續實機驗證紀錄](../../labs/05-performance/VERIFIED.md#hami-模式)。
 
-下一章將把「能否配置」與「是否更快」分開，量測固定工作量在不同共用方式下的[吞吐量與延遲](../05-performance/README.md)。再下一章則解釋[依需求選卡](../06-heterogeneous/README.md)；隔離層次、效能與選卡是不同問題，不能以本章的配額結果代替後兩項量測。
+下一章將把「能否配置」與「是否更快」分開，量測固定工作量在不同共用方式下的[吞吐量與延遲](../05-performance/README.md)。再下一章則解釋[依需求選卡](../06-heterogeneous/README.md)；隔離層次、效能與選卡是不同問題，不能以第四章的配額結果代替後兩項量測。
 
 ## 重點整理
 

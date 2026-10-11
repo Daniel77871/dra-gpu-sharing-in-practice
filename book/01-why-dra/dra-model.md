@@ -52,7 +52,7 @@ sequenceDiagram
     RC->>API: 建立 Claim 與 Pod ownerReference
     RC->>API: 寫入 Pod status.resourceClaimStatuses
   end
-  S->>API: 讀取 Pod、Claim、Class、ResourceSlices
+  S->>API: 讀取 Pod、Claim、Class、ResourceSlice
   S->>S: Filter 嘗試裝置配置，Reserve 保留結果
   S->>API: PreBind 寫入 status.allocation 與 reservedFor
   S->>API: 綁定 Pod 到節點
@@ -315,7 +315,7 @@ sharing:
 
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
-| `sharing.strategy: TimeSlicing` | 指定 CUDA time-slicing 共用策略。 | 作為效能比較的 time-slicing 路徑；本身沒有 VRAM 配額。 |
+| `sharing.strategy: TimeSlicing` | 指定 CUDA 時間切片共用策略。 | 作為效能比較的時間切片路徑；本身沒有 VRAM 配額。 |
 
 | 設定所在位置 | 適用範圍 |
 |---|---|

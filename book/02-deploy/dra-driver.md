@@ -106,7 +106,7 @@ v0.5.0 的 `pkg/featuregates/featuregates.go` 定義下列 Driver 專屬功能�
 
 | 功能開關 | 預設 | 狀態 | 作用 |
 | --- | --- | --- | --- |
-| `TimeSlicingSettings` | `false` | Alpha | 允許自訂 time-slicing 設定。 |
+| `TimeSlicingSettings` | `false` | Alpha | 允許自訂時間切片設定。 |
 | `MPSSupport` | `false` | Alpha | 允許指定 MPS 設定。 |
 | `IMEXDaemonsWithDNSNames` | `true` | Beta | IMEX daemon 使用 DNS 名稱。 |
 | `PassthroughSupport` | `false` | Alpha | 允許以 `vfio-pci` 驅動設定 GPU。 |
@@ -227,7 +227,7 @@ spec:
 
 Pod 就緒與 ResourceSlice 出現，分別證明 plugin 已啟動、裝置清單已發布。要確認工作負載真的取得 GPU，還要完成 ResourceClaim 分配與容器內的 CUDA 呼叫；下一頁用兩個整卡 Job 驗證這條路徑。
 
-`capacity.memory` 是裝置能力的盤點值；本頁設定沒有啟用 `ConsumableShares`，也沒有建立 MPS 共用請求。這個容量欄位本身不會替每個容器設定 VRAM 上限，後續共用與隔離章節會分開驗證排程計帳與執行期限制。[v0.5.0 預設 GPU 設定](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)
+`capacity.memory` 是裝置能力的盤點值；本頁設定沒有啟用 `ConsumableShares`，也沒有建立 MPS 共用請求。這個容量欄位本身不會替每個容器設定 VRAM 上限，後續共用與隔離章節會分開驗證排程記帳與執行期限制。[v0.5.0 預設 GPU 設定](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)
 
 ## 限制
 
