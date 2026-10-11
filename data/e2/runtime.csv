@@ -1,0 +1,13 @@
+trial,backend,case,repeat,quota_gib,b_max_tensor_gib,b_tensor_gib_by_client,b_outcome,cuda_oom_count,hold_seconds,hold_probe_ok,hold_probe_oom,a_probe_ok_pressure,a_probe_oom_pressure,a_compute_errors,a_exit_code,b_exit_code,nvml_peak_used_mib,nvml_min_free_mib,nvml_sample_count,pod_limit,published_mib,reserved_mib_before,schedulable_remaining_mib_before,physical_free_mib_before,reserved_mib_after,schedulable_remaining_mib_after,third_claim_pending,third_claim_allocated_after_release,pending_messages,complete,incomplete_reason
+boundary-4g-r1,mps,boundary,1,4.0,3.5,"{""main"": 3.5}",allocation_oom,1,30.000651577021927,30,0,35,0,0,0,0,6283.0,39208.0,30,not_proven,,,,,,,,,,True,
+boundary-4g-r2,mps,boundary,2,4.0,3.5,"{""main"": 3.5}",allocation_oom,1,30.000582341104746,30,0,36,0,0,0,0,6283.0,39208.0,31,not_proven,,,,,,,,,,True,
+boundary-4g-r3,mps,boundary,3,4.0,3.5,"{""main"": 3.5}",allocation_oom,1,30.00055726384744,30,0,34,0,0,0,0,6283.0,39208.0,30,not_proven,,,,,,,,,,True,
+boundary-8g-r1,mps,boundary,1,8.0,7.5,"{""main"": 7.5}",allocation_oom,1,30.000572253018618,30,0,38,0,0,0,0,10379.0,35112.0,33,not_proven,,,,,,,,,,True,
+boundary-8g-r2,mps,boundary,2,8.0,7.5,"{""main"": 7.5}",allocation_oom,1,30.00055112200789,30,0,39,0,0,0,0,10379.0,35112.0,33,not_proven,,,,,,,,,,True,
+boundary-8g-r3,mps,boundary,3,8.0,7.5,"{""main"": 7.5}",allocation_oom,1,30.0005923921708,30,0,38,0,0,0,0,10379.0,35112.0,33,not_proven,,,,,,,,,,True,
+consumable-boundary-8g-r1,consumable-shares,boundary,1,8.0,8.25,"{""main"": 8.25}",limit_not_enforced,0,,,,10,0,0,0,0,10354.0,35137.0,6,not_enforced,,,,,,,,,,True,
+consumable-boundary-8g-r2,consumable-shares,boundary,2,8.0,8.25,"{""main"": 8.25}",limit_not_enforced,0,,,,9,0,0,0,0,10866.0,34625.0,6,not_enforced,,,,,,,,,,True,
+consumable-boundary-8g-r3,consumable-shares,boundary,3,8.0,8.25,"{""main"": 8.25}",limit_not_enforced,0,,,,9,0,0,0,0,9586.0,35905.0,5,not_enforced,,,,,,,,,,True,
+scope-8g-r1,mps,scope,1,8.0,10.0,"{""0"": 5.0, ""1"": 5.0}",target_reached,0,29.999655511928722,30,0,37,0,0,0,0,13246.0,32245.0,31,not_enforced,,,,,,,,,,True,
+scope-8g-r2,mps,scope,2,8.0,10.0,"{""0"": 5.0, ""1"": 5.0}",target_reached,0,29.984597506932914,30,0,38,0,0,0,0,13246.0,32245.0,31,not_enforced,,,,,,,,,,True,
+scope-8g-r3,mps,scope,3,8.0,10.0,"{""0"": 5.0, ""1"": 5.0}",target_reached,0,29.982377683045343,30,0,37,0,0,0,0,13246.0,32245.0,31,not_enforced,,,,,,,,,,True,

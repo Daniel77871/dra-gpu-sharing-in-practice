@@ -1,0 +1,161 @@
+{
+  "kubernetes": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "37",
+      "gitVersion": "v1.37.0",
+      "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+      "gitTreeState": "clean",
+      "buildDate": "2026-08-26T10:48:06Z",
+      "goVersion": "go1.26.6",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    },
+    "kustomizeVersion": "v5.8.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "37",
+      "emulationMajor": "1",
+      "emulationMinor": "37",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "36",
+      "gitVersion": "v1.37.0",
+      "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+      "gitTreeState": "clean",
+      "buildDate": "2026-08-26T10:44:25Z",
+      "goVersion": "go1.26.6",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  },
+  "helm_releases": [
+    {
+      "name": "dra-driver-nvidia-gpu",
+      "namespace": "nvidia-dra-driver-gpu",
+      "revision": "1",
+      "updated": "2026-09-23 16:05:12.18470578 +0800 CST",
+      "status": "deployed",
+      "chart": "dra-driver-nvidia-gpu-0.5.0",
+      "app_version": "0.5.0"
+    },
+    {
+      "name": "gpu-operator",
+      "namespace": "gpu-operator",
+      "revision": "2",
+      "updated": "2026-09-30 22:10:59.241195766 +0800 CST",
+      "status": "deployed",
+      "chart": "gpu-operator-v26.7.0",
+      "app_version": "v26.7.0"
+    }
+  ],
+  "dra_helm_values": {
+    "featureGates": {
+      "MPSSupport": true
+    },
+    "gpuResourcesEnabledOverride": true,
+    "nvidiaDriverRoot": "/run/nvidia/driver",
+    "resources": {
+      "computeDomains": {
+        "enabled": false
+      }
+    }
+  },
+  "nodes": [
+    {
+      "name": "dra-4090",
+      "capacity": {
+        "cpu": "8",
+        "ephemeral-storage": "102888095744",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "memory": "32866096Ki",
+        "pods": "110"
+      },
+      "nodeInfo": {
+        "architecture": "amd64",
+        "bootID": "40b5a312-54ce-4638-aade-2f44d9216195",
+        "containerRuntimeVersion": "cri-o://1.37.1",
+        "kernelVersion": "6.8.0-142-generic",
+        "kubeProxyVersion": "",
+        "kubeletVersion": "v1.37.0",
+        "machineID": "7ecfc0b600e249ea85dac9e5a0d706a6",
+        "operatingSystem": "linux",
+        "osImage": "Ubuntu 24.04.3 LTS",
+        "runningInUserNamespace": false,
+        "systemUUID": "7ecfc0b6-00e2-49ea-85da-c9e5a0d706a6"
+      }
+    },
+    {
+      "name": "dra-a40",
+      "capacity": {
+        "cpu": "8",
+        "ephemeral-storage": "102888095744",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "memory": "32865100Ki",
+        "pods": "110"
+      },
+      "nodeInfo": {
+        "architecture": "amd64",
+        "bootID": "0c8d0ed1-d493-4101-86f8-3e842faba065",
+        "containerRuntimeVersion": "cri-o://1.37.1",
+        "kernelVersion": "6.8.0-142-generic",
+        "kubeProxyVersion": "",
+        "kubeletVersion": "v1.37.0",
+        "machineID": "96335e2e2223434bb760be00cdc651f8",
+        "operatingSystem": "linux",
+        "osImage": "Ubuntu 24.04.3 LTS",
+        "runningInUserNamespace": false,
+        "systemUUID": "96335e2e-2223-434b-b760-be00cdc651f8"
+      }
+    },
+    {
+      "name": "dra-m1",
+      "capacity": {
+        "cpu": "8",
+        "ephemeral-storage": "9283444736",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "memory": "16374628Ki",
+        "pods": "110"
+      },
+      "nodeInfo": {
+        "architecture": "amd64",
+        "bootID": "83a7220b-f67e-4534-8018-725d28cde9e1",
+        "containerRuntimeVersion": "cri-o://1.37.1",
+        "kernelVersion": "6.8.0-90-generic",
+        "kubeProxyVersion": "",
+        "kubeletVersion": "v1.37.0",
+        "machineID": "e8319f71cffb44ac8988c7b9e7402ce1",
+        "operatingSystem": "linux",
+        "osImage": "Ubuntu 24.04.3 LTS",
+        "runningInUserNamespace": false,
+        "systemUUID": "e8319f71-cffb-44ac-8988-c7b9e7402ce1"
+      }
+    },
+    {
+      "name": "dra-non",
+      "capacity": {
+        "cpu": "8",
+        "ephemeral-storage": "102888095744",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "memory": "32865124Ki",
+        "pods": "110"
+      },
+      "nodeInfo": {
+        "architecture": "amd64",
+        "bootID": "27d16f89-9629-4340-bfbb-2c300e2cd89b",
+        "containerRuntimeVersion": "cri-o://1.37.1",
+        "kernelVersion": "6.8.0-90-generic",
+        "kubeProxyVersion": "",
+        "kubeletVersion": "v1.37.0",
+        "machineID": "d54c9289e3fc45389afa958bfa0a896f",
+        "operatingSystem": "linux",
+        "osImage": "Ubuntu 24.04.3 LTS",
+        "runningInUserNamespace": false,
+        "systemUUID": "d54c9289-e3fc-4538-9afa-958bfa0a896f"
+      }
+    }
+  ]
+}

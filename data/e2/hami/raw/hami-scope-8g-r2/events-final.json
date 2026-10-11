@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-scope-8g-r2/pressure to dra-a40",
+      "eventTime": "2026-10-07T02:38:44.110859Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "pressure",
+        "namespace": "e2-cap-20261007-hami-scope-8g-r2",
+        "uid": "8c319f95-d3f8-49d2-aa4b-658513742522"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-scope-8g-r2/survivor to dra-a40",
+      "eventTime": "2026-10-07T02:38:39.905700Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "survivor",
+        "namespace": "e2-cap-20261007-hami-scope-8g-r2",
+        "uid": "571eff3a-d7dd-471e-aba3-4cec7fc62a80"
+      }
+    }
+  ]
+}

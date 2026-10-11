@@ -1,0 +1,599 @@
+[
+  {
+    "trial": "hami-accounting-r1",
+    "backend": "hami",
+    "case": "accounting",
+    "repeat": 1,
+    "quota_gib": null,
+    "b_max_tensor_gib": null,
+    "b_tensor_gib_by_client": {},
+    "b_outcome": null,
+    "cuda_oom_count": null,
+    "hold_seconds": null,
+    "hold_probe_ok": null,
+    "hold_probe_oom": null,
+    "a_probe_ok_pressure": null,
+    "a_probe_oom_pressure": null,
+    "a_compute_errors": null,
+    "a_exit_code": null,
+    "b_exit_code": null,
+    "nvml_peak_used_mib": null,
+    "nvml_min_free_mib": null,
+    "nvml_sample_count": null,
+    "pod_limit": null,
+    "published_mib": 46068.0,
+    "reserved_mib_before": 40960.0,
+    "schedulable_remaining_mib_before": 5108.0,
+    "physical_free_mib_before": 45490.0,
+    "reserved_mib_after": 24576.0,
+    "schedulable_remaining_mib_after": 21492.0,
+    "third_claim_pending": true,
+    "third_claim_allocated_after_release": true,
+    "pending_messages": "0/4 nodes are available: 1 node(s) had untolerated taint(s), 3 cannot allocate all claims. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.",
+    "complete": true,
+    "incomplete_reason": "",
+    "published_cores": 100.0,
+    "reserved_cores_before": 20.0,
+    "schedulable_remaining_cores_before": 80.0,
+    "reserved_cores_after": 20.0,
+    "schedulable_remaining_cores_after": 80.0
+  },
+  {
+    "trial": "hami-accounting-r2",
+    "backend": "hami",
+    "case": "accounting",
+    "repeat": 2,
+    "quota_gib": null,
+    "b_max_tensor_gib": null,
+    "b_tensor_gib_by_client": {},
+    "b_outcome": null,
+    "cuda_oom_count": null,
+    "hold_seconds": null,
+    "hold_probe_ok": null,
+    "hold_probe_oom": null,
+    "a_probe_ok_pressure": null,
+    "a_probe_oom_pressure": null,
+    "a_compute_errors": null,
+    "a_exit_code": null,
+    "b_exit_code": null,
+    "nvml_peak_used_mib": null,
+    "nvml_min_free_mib": null,
+    "nvml_sample_count": null,
+    "pod_limit": null,
+    "published_mib": 46068.0,
+    "reserved_mib_before": 40960.0,
+    "schedulable_remaining_mib_before": 5108.0,
+    "physical_free_mib_before": 45490.0,
+    "reserved_mib_after": 24576.0,
+    "schedulable_remaining_mib_after": 21492.0,
+    "third_claim_pending": true,
+    "third_claim_allocated_after_release": true,
+    "pending_messages": "0/4 nodes are available: 1 node(s) had untolerated taint(s), 3 cannot allocate all claims. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.",
+    "complete": true,
+    "incomplete_reason": "",
+    "published_cores": 100.0,
+    "reserved_cores_before": 20.0,
+    "schedulable_remaining_cores_before": 80.0,
+    "reserved_cores_after": 20.0,
+    "schedulable_remaining_cores_after": 80.0
+  },
+  {
+    "trial": "hami-accounting-r3",
+    "backend": "hami",
+    "case": "accounting",
+    "repeat": 3,
+    "quota_gib": null,
+    "b_max_tensor_gib": null,
+    "b_tensor_gib_by_client": {},
+    "b_outcome": null,
+    "cuda_oom_count": null,
+    "hold_seconds": null,
+    "hold_probe_ok": null,
+    "hold_probe_oom": null,
+    "a_probe_ok_pressure": null,
+    "a_probe_oom_pressure": null,
+    "a_compute_errors": null,
+    "a_exit_code": null,
+    "b_exit_code": null,
+    "nvml_peak_used_mib": null,
+    "nvml_min_free_mib": null,
+    "nvml_sample_count": null,
+    "pod_limit": null,
+    "published_mib": 46068.0,
+    "reserved_mib_before": 40960.0,
+    "schedulable_remaining_mib_before": 5108.0,
+    "physical_free_mib_before": 45490.0,
+    "reserved_mib_after": 24576.0,
+    "schedulable_remaining_mib_after": 21492.0,
+    "third_claim_pending": true,
+    "third_claim_allocated_after_release": true,
+    "pending_messages": "0/4 nodes are available: 1 node(s) had untolerated taint(s), 3 cannot allocate all claims. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.",
+    "complete": true,
+    "incomplete_reason": "",
+    "published_cores": 100.0,
+    "reserved_cores_before": 20.0,
+    "schedulable_remaining_cores_before": 80.0,
+    "reserved_cores_after": 20.0,
+    "schedulable_remaining_cores_after": 80.0
+  },
+  {
+    "trial": "hami-boundary-8g-r1",
+    "backend": "hami",
+    "case": "boundary",
+    "repeat": 1,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.5,
+    "b_tensor_gib_by_client": {
+      "main": 7.5
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 1,
+    "hold_seconds": 30.000773200998083,
+    "hold_probe_ok": 30,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 39,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10354.0,
+    "nvml_min_free_mib": 35137.0,
+    "nvml_sample_count": 33,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/79413f1b-527e-4a28-b33f-3c6e0b33df3b/5ed2e838-0a28-4aa3-aa7d-350e146459b9.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2414055
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "main": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/79413f1b-527e-4a28-b33f-3c6e0b33df3b/5ed2e838-0a28-4aa3-aa7d-350e146459b9.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "main": 7986.0
+    },
+    "b_nvml_used_mib": 7986.0
+  },
+  {
+    "trial": "hami-boundary-8g-r2",
+    "backend": "hami",
+    "case": "boundary",
+    "repeat": 2,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.5,
+    "b_tensor_gib_by_client": {
+      "main": 7.5
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 1,
+    "hold_seconds": 30.000553203979507,
+    "hold_probe_ok": 30,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 38,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10354.0,
+    "nvml_min_free_mib": 35137.0,
+    "nvml_sample_count": 33,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/70ef9641-b478-4cc9-8d4a-308898550f79/fe2953ba-285f-4369-8743-12c63b95ee58.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2414417
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "main": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/70ef9641-b478-4cc9-8d4a-308898550f79/fe2953ba-285f-4369-8743-12c63b95ee58.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "main": 7986.0
+    },
+    "b_nvml_used_mib": 7986.0
+  },
+  {
+    "trial": "hami-boundary-8g-r3",
+    "backend": "hami",
+    "case": "boundary",
+    "repeat": 3,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.5,
+    "b_tensor_gib_by_client": {
+      "main": 7.5
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 1,
+    "hold_seconds": 30.000631571980193,
+    "hold_probe_ok": 30,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 38,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10354.0,
+    "nvml_min_free_mib": 35137.0,
+    "nvml_sample_count": 33,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/def86a0f-316a-449e-8b27-18d791b83d44/a5ca7025-52c7-44f0-b6a1-9725b93f3a6d.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2414255
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "main": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/def86a0f-316a-449e-8b27-18d791b83d44/a5ca7025-52c7-44f0-b6a1-9725b93f3a6d.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "main": 7986.0
+    },
+    "b_nvml_used_mib": 7986.0
+  },
+  {
+    "trial": "hami-scope-8g-r1",
+    "backend": "hami",
+    "case": "scope",
+    "repeat": 1,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.5,
+    "b_tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 3.75
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 2,
+    "hold_seconds": 29.966430522035807,
+    "hold_probe_ok": 30,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 40,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10665.0,
+    "nvml_min_free_mib": 34826.0,
+    "nvml_sample_count": 30,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache",
+      "/usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2414058
+      ],
+      [
+        18446744073659219969,
+        2414058
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 4146.0
+    },
+    "b_nvml_used_mib": 8292.0
+  },
+  {
+    "trial": "hami-scope-8g-r2",
+    "backend": "hami",
+    "case": "scope",
+    "repeat": 2,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.5,
+    "b_tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 3.75
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 2,
+    "hold_seconds": 29.84459675499238,
+    "hold_probe_ok": 30,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 40,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10665.0,
+    "nvml_min_free_mib": 34826.0,
+    "nvml_sample_count": 30,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/4a6cadf4-bc59-4aa1-ae8c-f1b48dbba2e6/789b8af4-cc58-42db-b36c-5c854ea32c61.cache",
+      "/usr/local/vgpu/claims/4a6cadf4-bc59-4aa1-ae8c-f1b48dbba2e6/789b8af4-cc58-42db-b36c-5c854ea32c61.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2413677
+      ],
+      [
+        18446744073659219969,
+        2413677
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/4a6cadf4-bc59-4aa1-ae8c-f1b48dbba2e6/789b8af4-cc58-42db-b36c-5c854ea32c61.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/4a6cadf4-bc59-4aa1-ae8c-f1b48dbba2e6/789b8af4-cc58-42db-b36c-5c854ea32c61.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 4146.0
+    },
+    "b_nvml_used_mib": 8292.0
+  },
+  {
+    "trial": "hami-scope-8g-r3",
+    "backend": "hami",
+    "case": "scope",
+    "repeat": 3,
+    "quota_gib": 8.0,
+    "b_max_tensor_gib": 7.25,
+    "b_tensor_gib_by_client": {
+      "0": 3.5,
+      "1": 3.75
+    },
+    "b_outcome": "allocation_oom",
+    "cuda_oom_count": 2,
+    "hold_seconds": 29.8260495220311,
+    "hold_probe_ok": 29,
+    "hold_probe_oom": 0,
+    "a_probe_ok_pressure": 40,
+    "a_probe_oom_pressure": 0,
+    "a_compute_errors": 0,
+    "a_exit_code": 0,
+    "b_exit_code": 0,
+    "nvml_peak_used_mib": 10409.0,
+    "nvml_min_free_mib": 35082.0,
+    "nvml_sample_count": 30,
+    "pod_limit": "not_proven",
+    "published_mib": 46068.0,
+    "reserved_mib_before": null,
+    "schedulable_remaining_mib_before": null,
+    "physical_free_mib_before": null,
+    "reserved_mib_after": null,
+    "schedulable_remaining_mib_after": null,
+    "third_claim_pending": null,
+    "third_claim_allocated_after_release": null,
+    "pending_messages": "",
+    "complete": true,
+    "incomplete_reason": "",
+    "reserved_mib": 12288.0,
+    "reserved_cores": 100.0,
+    "published_cores": 100.0,
+    "schedulable_remaining_mib": 33780.0,
+    "schedulable_remaining_cores": 0.0,
+    "cache_paths": [
+      "/usr/local/vgpu/claims/ed6a8470-5ac0-4ff1-85da-ba3920f27d25/33971738-bcae-444a-804e-672b4a2ca38b.cache",
+      "/usr/local/vgpu/claims/ed6a8470-5ac0-4ff1-85da-ba3920f27d25/33971738-bcae-444a-804e-672b4a2ca38b.cache"
+    ],
+    "cache_identities": [
+      [
+        18446744073659219969,
+        2413676
+      ],
+      [
+        18446744073659219969,
+        2413676
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ed6a8470-5ac0-4ff1-85da-ba3920f27d25/33971738-bcae-444a-804e-672b4a2ca38b.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      },
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ed6a8470-5ac0-4ff1-85da-ba3920f27d25/33971738-bcae-444a-804e-672b4a2ca38b.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+      }
+    },
+    "b_nvml_mib_by_client": {
+      "1": 4146.0,
+      "0": 3890.0
+    },
+    "b_nvml_used_mib": 8036.0
+  }
+]

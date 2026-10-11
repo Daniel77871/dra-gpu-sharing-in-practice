@@ -1,0 +1,66 @@
+[
+  {
+    "metadata": {
+      "name": "task-0",
+      "uid": "9c9afb27-c147-46eb-969b-430012e9917d"
+    },
+    "spec": {
+      "nodeName": "dra-a40",
+      "containers": [
+        {
+          "name": "workload",
+          "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+        }
+      ]
+    },
+    "status": {
+      "phase": "Running",
+      "containerStatuses": [
+        {
+          "name": "workload",
+          "restartCount": 0,
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "finishedAt": "2026-10-07T16:29:13Z",
+              "reason": "Completed",
+              "startedAt": "2026-10-07T16:27:25Z"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "name": "task-1",
+      "uid": "eb0e92f6-f314-466d-90c4-9688a2c5a5bc"
+    },
+    "spec": {
+      "nodeName": "dra-a40",
+      "containers": [
+        {
+          "name": "workload",
+          "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+        }
+      ]
+    },
+    "status": {
+      "phase": "Running",
+      "containerStatuses": [
+        {
+          "name": "workload",
+          "restartCount": 0,
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "finishedAt": "2026-10-07T16:29:13Z",
+              "reason": "Completed",
+              "startedAt": "2026-10-07T16:27:25Z"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

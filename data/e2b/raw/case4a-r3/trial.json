@@ -1,0 +1,21 @@
+{
+  "case": "case4a",
+  "repeat": 3,
+  "run_id": "e2b-20261007t053126z",
+  "namespace": "e2b-20261007t053126z-case4a-r3",
+  "started_utc": "2026-10-07T05:57:24.886742+00:00",
+  "target_bytes_per_client": 6442450944,
+  "step_bytes": 268435456,
+  "hold_seconds": 30,
+  "published_memory": "46068Mi",
+  "error": "host control timeout waiting for ack-31.json",
+  "setup_platform_limit": false,
+  "stop_error": "timeout: all E2B CUDA containers terminated",
+  "finished_utc": "2026-10-07T06:02:09.100946+00:00",
+  "cleanup": {
+    "verified": false
+  },
+  "terminations": {},
+  "backend": "hami",
+  "quota_gib": 8
+}

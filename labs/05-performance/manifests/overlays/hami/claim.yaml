@@ -1,0 +1,28 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: benchmark-task-gpu
+  namespace: gpu-performance-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: task-gpu-template
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: task-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["hami-core-gpu.project-hami.io"].uuid == "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"'
+          capacity:
+            requests:
+              memory: 8Gi
+              cores: '100'

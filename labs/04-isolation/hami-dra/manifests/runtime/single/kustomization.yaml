@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-isolation-lab
+resources:
+- ../../../../common/manifests
+- ../00-steady-gpu.yaml
+- ../01-pressure-gpu.yaml
+- ../02-steady-service.yaml
+- ../03-quota-pressure.yaml

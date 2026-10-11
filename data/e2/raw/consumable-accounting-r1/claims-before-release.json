@@ -1,0 +1,202 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:01:45Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "a",
+      "namespace": "e2-cap-20261007-consumable-accounting-r1",
+      "uid": "b7d2d67b-0fdd-445b-82f5-e31cf4cd7034"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "memory": "16Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:01:45Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "memory": "16Gi"
+              },
+              "device": "gpu-0",
+              "driver": "gpu.nvidia.com",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "d4c635b8-117c-42e0-b318-b6b8ec30c987"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "a",
+          "resource": "pods",
+          "uid": "8e2e00c0-b595-4dfd-ae49-e5aef0093e71"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:01:46Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "b",
+      "namespace": "e2-cap-20261007-consumable-accounting-r1",
+      "uid": "644a6df8-4a92-4feb-9092-2cb0eaab737f"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "memory": "24Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:01:46Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "memory": "24Gi"
+              },
+              "device": "gpu-0",
+              "driver": "gpu.nvidia.com",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "0b509ec3-3673-465c-82ef-04120e13d5fc"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "b",
+          "resource": "pods",
+          "uid": "c528125d-715c-4935-bf18-bac58734674d"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:01:48Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "c",
+      "namespace": "e2-cap-20261007-consumable-accounting-r1",
+      "uid": "7f852fb4-b694-46ab-950c-d88227382760"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "memory": "8Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {}
+  }
+]

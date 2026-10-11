@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-performance-lab
+resources:
+- namespace.yaml
+- job.yaml
+configMapGenerator:
+- name: performance-code
+  files:
+  - worker.py=../../workload/worker.py
+  - policy.py=../../workload/policy.py
+  - control.py=../../workload/control.py
+  options:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: workload-code
+generatorOptions:
+  disableNameSuffixHash: true

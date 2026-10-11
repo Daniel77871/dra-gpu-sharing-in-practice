@@ -1,0 +1,14 @@
+{
+  "metadata": {
+    "name": "steady-service-jjwpc",
+    "uid": "5f229b35-6485-471d-8a08-b7dc31553989"
+  },
+  "status": {
+    "containerStatuses": [
+      {
+        "name": "workload",
+        "containerID": "cri-o://4f19d371828665861f3b86dae775c031c4547a8b51efb24809412b9b7998e31c"
+      }
+    ]
+  }
+}

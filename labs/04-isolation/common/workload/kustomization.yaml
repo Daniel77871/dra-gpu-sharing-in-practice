@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-isolation-lab
+configMapGenerator:
+  - name: isolation-code
+    files:
+      - base_workload.py
+      - isolation_workload.py
+      - capacity_workload.py
+      - accounting-sleeper.sh
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: workload-code

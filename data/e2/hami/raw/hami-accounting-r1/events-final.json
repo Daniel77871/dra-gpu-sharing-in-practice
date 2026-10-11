@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-accounting-r1/a to dra-a40",
+      "eventTime": "2026-10-07T02:19:28.982206Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "a",
+        "namespace": "e2-cap-20261007-hami-accounting-r1",
+        "uid": "d44e42e3-725b-4b4e-bfb2-910e342d5877"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-accounting-r1/b to dra-a40",
+      "eventTime": "2026-10-07T02:19:30.670973Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "b",
+        "namespace": "e2-cap-20261007-hami-accounting-r1",
+        "uid": "11c60511-53af-498f-bdbb-67a45cdd4e2f"
+      }
+    },
+    {
+      "reason": "FailedScheduling",
+      "type": "Warning",
+      "message": "0/4 nodes are available: 1 node(s) had untolerated taint(s), 3 cannot allocate all claims. preemption: 0/4 nodes are available: 4 Preemption is not helpful for scheduling.",
+      "eventTime": "2026-10-07T02:19:32.322641Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "c",
+        "namespace": "e2-cap-20261007-hami-accounting-r1",
+        "uid": "dd6cae96-24a0-46b4-bf50-866df412ec50"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-accounting-r1/c to dra-a40",
+      "eventTime": "2026-10-07T02:20:08.041512Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "c",
+        "namespace": "e2-cap-20261007-hami-accounting-r1",
+        "uid": "dd6cae96-24a0-46b4-bf50-866df412ec50"
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "backend": "hami",
+  "case": "boundary",
+  "quota_gib": 8,
+  "repeat": 3,
+  "namespace": "e2-cap-20261007-hami-boundary-8g-r3",
+  "run_id": "e2-capacity-20261007T015625Z",
+  "started_utc": "2026-10-07T02:31:49.763770+00:00",
+  "phase": "finished",
+  "baseline_elapsed": 60.0000958009623,
+  "b_actual_exit_utc": "2026-10-07T02:33:36Z",
+  "recovery_start_utc": "2026-10-07T02:33:37.773311+00:00",
+  "recovery_elapsed": 60.00007439102046,
+  "collection_errors": [],
+  "finished_utc": "2026-10-07T02:34:47.310817+00:00",
+  "cleanup": {
+    "verified": true,
+    "namespace_absent": true,
+    "identity_4090_unchanged": true,
+    "utc": "2026-10-07T02:34:47.310708+00:00"
+  },
+  "terminations": {
+    "survivor": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:34:39Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:31:51Z"
+    },
+    "pressure": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:33:36Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:31:55Z"
+    }
+  }
+}

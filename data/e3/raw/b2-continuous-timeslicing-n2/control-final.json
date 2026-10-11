@@ -1,0 +1,376 @@
+{
+  "0": {
+    "armed.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-0",
+      "pod_uid": "33c5cb48-c76d-44d0-9ec6-290c19042252",
+      "config_sha256": "66b63098e5720de44e9840e2e467c3233906858ece3f434b72063bc125c8b7f1",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "command": {
+        "run_id": "e3-20261007-a40f",
+        "seq": 1,
+        "operation": "start",
+        "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+        "release_ns": 1237182212577877
+      },
+      "armed_ns": 1237179215495891
+    },
+    "command.json": {
+      "run_id": "e3-20261007-a40f",
+      "seq": 3,
+      "operation": "stop"
+    },
+    "end.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-0",
+      "pod_uid": "33c5cb48-c76d-44d0-9ec6-290c19042252",
+      "config_sha256": "66b63098e5720de44e9840e2e467c3233906858ece3f434b72063bc125c8b7f1",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "start_ns": 1237182212688136,
+      "end_ns": 1237279590083011,
+      "release_ns": 1237182212577877,
+      "completed_gemms": 913,
+      "expected_gemms": 913,
+      "bursts": []
+    },
+    "exited.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-0",
+      "pod_uid": "33c5cb48-c76d-44d0-9ec6-290c19042252",
+      "config_sha256": "66b63098e5720de44e9840e2e467c3233906858ece3f434b72063bc125c8b7f1",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "released_ns": 1237281397513809,
+      "correct": true
+    },
+    "owner.json": {
+      "dev": 64769,
+      "ino": 2359313,
+      "uid": 0,
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0"
+    },
+    "ready.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-0",
+      "pod_uid": "33c5cb48-c76d-44d0-9ec6-290c19042252",
+      "config_sha256": "66b63098e5720de44e9840e2e467c3233906858ece3f434b72063bc125c8b7f1",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "ready_ns": 1237178098168100,
+      "config": {
+        "concurrency": 2,
+        "dtype": "float32",
+        "final_sleep_ns": 0,
+        "iterations": 913,
+        "prefix_sleep_ns": 0,
+        "seed": 20261007,
+        "shape": 8192,
+        "sleep_ns": 0,
+        "sync_each": false,
+        "task_id": "0",
+        "tf32": false,
+        "workload_id": "continuous"
+      },
+      "env": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "dtype": "float32",
+      "tf32": false,
+      "num_threads": 1,
+      "num_interop_threads": 1,
+      "allocated_bytes": 813826048,
+      "reserved_bytes": 826277888
+    },
+    "verified.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-0",
+      "pod_uid": "33c5cb48-c76d-44d0-9ec6-290c19042252",
+      "config_sha256": "66b63098e5720de44e9840e2e467c3233906858ece3f434b72063bc125c8b7f1",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "start_ns": 1237182212688136,
+      "end_ns": 1237279590083011,
+      "release_ns": 1237182212577877,
+      "completed_gemms": 913,
+      "expected_gemms": 913,
+      "bursts": [],
+      "correct": true,
+      "correctness_samples": [
+        {
+          "row": 0,
+          "column": 0,
+          "expected_float64": 46.22843380558083,
+          "actual": 46.228424072265625,
+          "ok": true
+        },
+        {
+          "row": 0,
+          "column": 8191,
+          "expected_float64": 26.093497781225715,
+          "actual": 26.0935115814209,
+          "ok": true
+        },
+        {
+          "row": 8191,
+          "column": 0,
+          "expected_float64": 76.45173341357912,
+          "actual": 76.45178985595703,
+          "ok": true
+        },
+        {
+          "row": 8191,
+          "column": 8191,
+          "expected_float64": -121.63747664545352,
+          "actual": -121.63748168945312,
+          "ok": true
+        },
+        {
+          "row": 4096,
+          "column": 4096,
+          "expected_float64": -21.41131909965339,
+          "actual": -21.41130256652832,
+          "ok": true
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "expected_float64": 34.70723067497842,
+          "actual": 34.70722198486328,
+          "ok": true
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "expected_float64": 0.06352761163382326,
+          "actual": 0.0635223388671875,
+          "ok": true
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "expected_float64": -64.47093267856222,
+          "actual": -64.47107696533203,
+          "ok": true
+        }
+      ],
+      "validation_started_after_end": true,
+      "validation_end_ns": 1237279929380325,
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "dtype": "float32",
+      "tf32": false,
+      "num_threads": 1,
+      "num_interop_threads": 1,
+      "allocated_bytes": 813826048,
+      "reserved_bytes": 828375040
+    }
+  },
+  "1": {
+    "armed.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-1",
+      "pod_uid": "962536cb-91ae-4120-95a1-0b7204d30344",
+      "config_sha256": "68d275d4b68b0243f75da25e9f73f251955f94613ef7a887c78154f57406b3a9",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "command": {
+        "run_id": "e3-20261007-a40f",
+        "seq": 1,
+        "operation": "start",
+        "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+        "release_ns": 1237182212577877
+      },
+      "armed_ns": 1237179217736871
+    },
+    "command.json": {
+      "run_id": "e3-20261007-a40f",
+      "seq": 3,
+      "operation": "stop"
+    },
+    "end.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-1",
+      "pod_uid": "962536cb-91ae-4120-95a1-0b7204d30344",
+      "config_sha256": "68d275d4b68b0243f75da25e9f73f251955f94613ef7a887c78154f57406b3a9",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "start_ns": 1237182212666933,
+      "end_ns": 1237279598512997,
+      "release_ns": 1237182212577877,
+      "completed_gemms": 913,
+      "expected_gemms": 913,
+      "bursts": []
+    },
+    "exited.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-1",
+      "pod_uid": "962536cb-91ae-4120-95a1-0b7204d30344",
+      "config_sha256": "68d275d4b68b0243f75da25e9f73f251955f94613ef7a887c78154f57406b3a9",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "released_ns": 1237281398538536,
+      "correct": true
+    },
+    "owner.json": {
+      "dev": 64769,
+      "ino": 2359315,
+      "uid": 0,
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1"
+    },
+    "ready.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-1",
+      "pod_uid": "962536cb-91ae-4120-95a1-0b7204d30344",
+      "config_sha256": "68d275d4b68b0243f75da25e9f73f251955f94613ef7a887c78154f57406b3a9",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "ready_ns": 1237178100897055,
+      "config": {
+        "concurrency": 2,
+        "dtype": "float32",
+        "final_sleep_ns": 0,
+        "iterations": 913,
+        "prefix_sleep_ns": 0,
+        "seed": 20261007,
+        "shape": 8192,
+        "sleep_ns": 0,
+        "sync_each": false,
+        "task_id": "1",
+        "tf32": false,
+        "workload_id": "continuous"
+      },
+      "env": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "dtype": "float32",
+      "tf32": false,
+      "num_threads": 1,
+      "num_interop_threads": 1,
+      "allocated_bytes": 813826048,
+      "reserved_bytes": 826277888
+    },
+    "verified.json": {
+      "run_id": "e3-20261007-a40f",
+      "task_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "task-1",
+      "pod_uid": "962536cb-91ae-4120-95a1-0b7204d30344",
+      "config_sha256": "68d275d4b68b0243f75da25e9f73f251955f94613ef7a887c78154f57406b3a9",
+      "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+      "start_ns": 1237182212666933,
+      "end_ns": 1237279598512997,
+      "release_ns": 1237182212577877,
+      "completed_gemms": 913,
+      "expected_gemms": 913,
+      "bursts": [],
+      "correct": true,
+      "correctness_samples": [
+        {
+          "row": 0,
+          "column": 0,
+          "expected_float64": 46.22843380558083,
+          "actual": 46.228424072265625,
+          "ok": true
+        },
+        {
+          "row": 0,
+          "column": 8191,
+          "expected_float64": 26.093497781225715,
+          "actual": 26.0935115814209,
+          "ok": true
+        },
+        {
+          "row": 8191,
+          "column": 0,
+          "expected_float64": 76.45173341357912,
+          "actual": 76.45178985595703,
+          "ok": true
+        },
+        {
+          "row": 8191,
+          "column": 8191,
+          "expected_float64": -121.63747664545352,
+          "actual": -121.63748168945312,
+          "ok": true
+        },
+        {
+          "row": 4096,
+          "column": 4096,
+          "expected_float64": -21.41131909965339,
+          "actual": -21.41130256652832,
+          "ok": true
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "expected_float64": 34.70723067497842,
+          "actual": 34.70722198486328,
+          "ok": true
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "expected_float64": 0.06352761163382326,
+          "actual": 0.0635223388671875,
+          "ok": true
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "expected_float64": -64.47093267856222,
+          "actual": -64.47107696533203,
+          "ok": true
+        }
+      ],
+      "validation_started_after_end": true,
+      "validation_end_ns": 1237279922272001,
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "dtype": "float32",
+      "tf32": false,
+      "num_threads": 1,
+      "num_interop_threads": 1,
+      "allocated_bytes": 813826048,
+      "reserved_bytes": 828375040
+    }
+  }
+}

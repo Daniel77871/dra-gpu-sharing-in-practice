@@ -1,0 +1,121 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-06T09:35:56Z",
+      "labels": {
+        "app.kubernetes.io/part-of": "dra-e2-isolation",
+        "experiment-run": "mps-20261006T092100Z"
+      },
+      "name": "shared-mps",
+      "namespace": "e2-mps-20261006t092100z-boundary-8g-r3",
+      "uid": "5a45f624-e611-4e5e-81ba-3ca3772381a2"
+    },
+    "spec": {
+      "devices": {
+        "config": [
+          {
+            "opaque": {
+              "driver": "gpu.nvidia.com",
+              "parameters": {
+                "apiVersion": "resource.nvidia.com/v1beta1",
+                "kind": "GpuConfig",
+                "sharing": {
+                  "mpsConfig": {
+                    "defaultActiveThreadPercentage": 100,
+                    "defaultPinnedDeviceMemoryLimit": "8Gi",
+                    "multiUser": false
+                  },
+                  "strategy": "MPS"
+                }
+              }
+            },
+            "requests": [
+              "gpu"
+            ]
+          }
+        ],
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-06T09:35:56Z",
+        "devices": {
+          "config": [
+            {
+              "opaque": {
+                "driver": "gpu.nvidia.com",
+                "parameters": {
+                  "apiVersion": "resource.nvidia.com/v1beta1",
+                  "kind": "GpuConfig",
+                  "sharing": {
+                    "mpsConfig": {
+                      "defaultActiveThreadPercentage": 100,
+                      "defaultPinnedDeviceMemoryLimit": "8Gi",
+                      "multiUser": false
+                    },
+                    "strategy": "MPS"
+                  }
+                }
+              },
+              "source": "FromClaim"
+            }
+          ],
+          "results": [
+            {
+              "device": "gpu-0",
+              "driver": "gpu.nvidia.com",
+              "pool": "dra-a40",
+              "request": "gpu"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "survivor",
+          "resource": "pods",
+          "uid": "e93c0f1d-d31c-4476-8677-e1672a99ba5d"
+        },
+        {
+          "name": "pressure",
+          "resource": "pods",
+          "uid": "b6c33f67-9688-449d-8cb6-3a0b270a9f69"
+        }
+      ]
+    }
+  }
+]

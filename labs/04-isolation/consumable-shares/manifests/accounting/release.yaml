@@ -1,0 +1,37 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaim
+metadata:
+  name: capacity-release-gpu
+  namespace: gpu-isolation-lab
+  labels: {app.kubernetes.io/part-of: dra-book, app.kubernetes.io/component: capacity-release-gpu}
+spec:
+  devices:
+    requests:
+    - name: gpu
+      exactly:
+        deviceClassName: gpu.nvidia.com
+        allocationMode: ExactCount
+        count: 1
+        selectors:
+        - {cel: {expression: 'device.attributes["gpu.nvidia.com"].uuid == "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"'}}
+        capacity: {requests: {memory: 24Gi}}
+---
+apiVersion: batch/v1
+kind: Job
+metadata: {name: capacity-release, namespace: gpu-isolation-lab, labels: {app.kubernetes.io/part-of: dra-book, app.kubernetes.io/component: capacity-release}}
+spec:
+  backoffLimit: 0
+  template:
+    metadata: {labels: {app.kubernetes.io/part-of: dra-book, app.kubernetes.io/component: capacity-release}}
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      tolerations:
+      - {key: nvidia.com/gpu, operator: Exists, effect: NoSchedule}
+      resourceClaims:
+      - {name: gpu, resourceClaimName: capacity-release-gpu}
+      containers:
+      - name: workload
+        image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        command: [bash, -c, nvidia-smi -L; sleep 3600]
+        resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 50m, memory: 256Mi}, claims: [{name: gpu, request: gpu}]}

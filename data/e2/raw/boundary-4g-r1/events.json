@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-mps-20261006t092100z-boundary-4g-r1/pressure to dra-a40",
+      "eventTime": "2026-10-06T09:21:07.939059Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "pressure",
+        "namespace": "e2-mps-20261006t092100z-boundary-4g-r1",
+        "uid": "6909dbf2-3a2a-4586-b5f3-ddb2ab90e17d"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-mps-20261006t092100z-boundary-4g-r1/survivor to dra-a40",
+      "eventTime": "2026-10-06T09:21:01.961304Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "survivor",
+        "namespace": "e2-mps-20261006t092100z-boundary-4g-r1",
+        "uid": "d49ec4eb-c8e6-486d-8a65-dc3187ee4a7a"
+      }
+    }
+  ]
+}

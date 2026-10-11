@@ -107,3 +107,12 @@ def test_h1_mermaid_inventory_and_stale_errors(tiny_book):
     assert result.returncode == 1
     for rule in ("h1", "mermaid", "order", "nav"):
         assert f"[{rule}]" in result.stdout
+
+
+def test_sequence_diagram_quotes_are_flagged():
+    from tools.check_book import check_mermaid
+    text = "```mermaid\nsequenceDiagram\n  participant A as \"操作端\"\n  participant B as 原始 DaemonSet\n  A->>B: \"帶引號\"\n  A->>B: 不帶引號\n  Note over A,B: \"引號註解\"\n```\n"
+    rules = [issue.message for issue in check_mermaid(text, "x.md")]
+    assert len(rules) == 3
+    flow = "```mermaid\nflowchart LR\n  A[\"Pod A（推論）\"] -->|\"引用\"| B[\"Claim\"]\n```\n"
+    assert check_mermaid(flow, "x.md") == []

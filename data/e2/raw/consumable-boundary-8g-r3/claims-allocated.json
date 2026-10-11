@@ -1,0 +1,162 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:13:12Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "survivor-gpu",
+      "namespace": "e2-cap-20261007-consumable-boundary-8g-r3",
+      "uid": "14a7a22b-9883-4983-a4f5-f4be2007351d"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "memory": "4Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:13:12Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "memory": "4Gi"
+              },
+              "device": "gpu-0",
+              "driver": "gpu.nvidia.com",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "464197c5-3fb9-4668-8cb6-1314c002ed54"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "survivor",
+          "resource": "pods",
+          "uid": "bb860af6-f0b4-4456-acdd-f4dab6acffeb"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:13:12Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "pressure-gpu",
+      "namespace": "e2-cap-20261007-consumable-boundary-8g-r3",
+      "uid": "76029720-2567-4043-9101-ce95e44d4384"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "memory": "8Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "gpu.nvidia.com",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"gpu.nvidia.com\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:13:14Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "memory": "8Gi"
+              },
+              "device": "gpu-0",
+              "driver": "gpu.nvidia.com",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "818ab757-02b9-4d87-9687-fc7f383d151a"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "pressure",
+          "resource": "pods",
+          "uid": "b1ef797d-137b-4094-af21-9bf84e258a17"
+        }
+      ]
+    }
+  }
+]

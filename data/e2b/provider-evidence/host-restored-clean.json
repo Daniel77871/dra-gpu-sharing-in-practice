@@ -1,0 +1,24 @@
+{
+  "/usr/local/vgpu": [],
+  "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io": [],
+  "/tmp/vgpulock": [],
+  "/var/run/cdi": [
+    {
+      "path": "/var/run/cdi",
+      "mode": 16877,
+      "dev": 25,
+      "ino": 1530,
+      "uid": 0,
+      "size": 60
+    },
+    {
+      "path": "/var/run/cdi/management.nvidia.com-gpu.yaml",
+      "mode": 33188,
+      "dev": 25,
+      "ino": 2348,
+      "uid": 0,
+      "size": 20339,
+      "sha256": "4f3f2f9f4a5ff8e327dc51a01b86c36ef19cb76e680a2410699c631be03afd40"
+    }
+  ]
+}

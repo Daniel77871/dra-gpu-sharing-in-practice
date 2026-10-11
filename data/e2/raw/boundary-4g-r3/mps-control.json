@@ -1,0 +1,9 @@
+{
+  "get_server_list": "247617\n",
+  "get_default_device_pinned_mem_limit GPU-29ffee3e-bee4-e341-917a-fe7e43e977af": "4G\n",
+  "get_device_pinned_mem_limit 247617 GPU-29ffee3e-bee4-e341-917a-fe7e43e977af": "4G\n",
+  "get_active_thread_percentage 247617": "100.0\n",
+  "get_default_active_thread_percentage": "100.0\n",
+  "ps": "PID       ID        SERVER         DEVICE                    NAMESPACE      COMMAND        ATTRIBUTES     \n247573    1         247617         GPU-29ffee3e-bee4-e341    4026533424     python                        \n247663    2         247617         GPU-29ffee3e-bee4-e341    4026533492     python                        \n",
+  "get_client_list 247617": "247573\n247663\n"
+}

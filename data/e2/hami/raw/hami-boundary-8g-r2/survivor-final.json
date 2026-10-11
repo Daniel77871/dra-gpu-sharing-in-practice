@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "creationTimestamp": "2026-10-07T02:28:52Z",
+    "labels": {
+      "app.kubernetes.io/part-of": "dra-e2-isolation",
+      "experiment-run": "e2-capacity-20261007T015625Z"
+    },
+    "name": "survivor",
+    "namespace": "e2-cap-20261007-hami-boundary-8g-r2",
+    "uid": "813df10d-2feb-4cd8-845e-46193c8d372e"
+  },
+  "spec": {
+    "nodeName": "dra-a40",
+    "resourceClaims": [
+      {
+        "name": "gpu",
+        "resourceClaimName": "survivor-gpu"
+      }
+    ],
+    "containers": [
+      {
+        "name": "workload",
+        "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+        "command": [
+          "python",
+          "-u",
+          "/opt/lab/isolation_workload.py"
+        ],
+        "args": [
+          "--role",
+          "survivor",
+          "--quota-gib",
+          "4"
+        ],
+        "env": [
+          {
+            "name": "PYTORCH_NO_CUDA_MEMORY_CACHING",
+            "value": "1"
+          },
+          {
+            "name": "OMP_NUM_THREADS",
+            "value": "1"
+          },
+          {
+            "name": "POD_NAME",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.name"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "status": {
+    "phase": "Running",
+    "containerStatuses": [
+      {
+        "name": "workload",
+        "image": "docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime",
+        "imageID": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "exitCode": 0,
+            "finishedAt": "2026-10-07T02:31:41Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-07T02:28:53Z"
+          }
+        }
+      }
+    ]
+  }
+}

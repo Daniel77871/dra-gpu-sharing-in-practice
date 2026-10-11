@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-isolation-lab
+resources:
+  - ../../../common/manifests
+  - ../01-shared-claim.yaml
+  - ../02-steady-service.yaml
+  - ../03-quota-pressure.yaml
+patches:
+  - target:
+      kind: ResourceClaim
+      name: a40-shared-mps
+    patch: |
+      - op: replace
+        path: /spec/devices/config/0/opaque/parameters/sharing/mpsConfig/defaultPinnedDeviceMemoryLimit
+        value: 4Gi
+  - target:
+      kind: Job
+      name: steady-service
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/3
+        value: "4"
+  - target:
+      kind: Job
+      name: quota-pressure
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/3
+        value: "4"

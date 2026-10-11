@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: benchmark-lead
+  namespace: gpu-performance-lab
+spec:
+  template:
+    spec:
+      resourceClaims:
+      - name: gpu
+        resourceClaimName: null
+        resourceClaimTemplateName: benchmark-task-gpu

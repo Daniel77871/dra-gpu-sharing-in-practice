@@ -1,0 +1,740 @@
+[
+  {
+    "trial": "case3-r1",
+    "backend": "hami",
+    "case": "case3",
+    "repeat": 1,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 3.5,
+      "1": 3.75
+    },
+    "tensor_total_gib": 7.25,
+    "cuda_oom_count": 2,
+    "nvml_mib_by_client": {
+      "0": 3890.0,
+      "1": 4146.0
+    },
+    "nvml_process_total_mib": 8036.0,
+    "quota_exceeded": false,
+    "outcome": "allocation_oom",
+    "last_complete_round_id": 15,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 3.5,
+      "1": 3.75
+    },
+    "last_barrier_tensor_total_gib": 7.25,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 3890.0,
+      "1": 4146.0
+    },
+    "last_barrier_nvml_process_total_mib": 8036.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/f4f7c26f-5e9a-4d1d-9da8-6cc29ec54542/6287ddba-d938-4381-bb01-59e8c701e852.cache",
+      "/usr/local/vgpu/claims/f4f7c26f-5e9a-4d1d-9da8-6cc29ec54542/6287ddba-d938-4381-bb01-59e8c701e852.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2414046
+      ],
+      [
+        64769,
+        2414046
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/f4f7c26f-5e9a-4d1d-9da8-6cc29ec54542/6287ddba-d938-4381-bb01-59e8c701e852.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/f4f7c26f-5e9a-4d1d-9da8-6cc29ec54542/6287ddba-d938-4381-bb01-59e8c701e852.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case3-r2",
+    "backend": "hami",
+    "case": "case3",
+    "repeat": 2,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 3.5
+    },
+    "tensor_total_gib": 7.25,
+    "cuda_oom_count": 2,
+    "nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 3890.0
+    },
+    "nvml_process_total_mib": 8036.0,
+    "quota_exceeded": false,
+    "outcome": "allocation_oom",
+    "last_complete_round_id": 15,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 3.5
+    },
+    "last_barrier_tensor_total_gib": 7.25,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 3890.0
+    },
+    "last_barrier_nvml_process_total_mib": 8036.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/6bf5318d-0617-48ab-b5a3-dff2ccdf5d7d/96a753ad-8acc-4a59-a3a2-72b059773aa8.cache",
+      "/usr/local/vgpu/claims/6bf5318d-0617-48ab-b5a3-dff2ccdf5d7d/96a753ad-8acc-4a59-a3a2-72b059773aa8.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2414376
+      ],
+      [
+        64769,
+        2414376
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/6bf5318d-0617-48ab-b5a3-dff2ccdf5d7d/96a753ad-8acc-4a59-a3a2-72b059773aa8.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/6bf5318d-0617-48ab-b5a3-dff2ccdf5d7d/96a753ad-8acc-4a59-a3a2-72b059773aa8.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case3-r3",
+    "backend": "hami",
+    "case": "case3",
+    "repeat": 3,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 3.5,
+      "1": 3.75
+    },
+    "tensor_total_gib": 7.25,
+    "cuda_oom_count": 2,
+    "nvml_mib_by_client": {
+      "0": 3890.0,
+      "1": 4146.0
+    },
+    "nvml_process_total_mib": 8036.0,
+    "quota_exceeded": false,
+    "outcome": "allocation_oom",
+    "last_complete_round_id": 15,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 3.5,
+      "1": 3.75
+    },
+    "last_barrier_tensor_total_gib": 7.25,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 3890.0,
+      "1": 4146.0
+    },
+    "last_barrier_nvml_process_total_mib": 8036.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/f8ec79c4-6c9d-4560-9fdd-6a453fe01424/b293a12b-9f4e-439d-ade5-b4b607aa3b04.cache",
+      "/usr/local/vgpu/claims/f8ec79c4-6c9d-4560-9fdd-6a453fe01424/b293a12b-9f4e-439d-ade5-b4b607aa3b04.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2414108
+      ],
+      [
+        64769,
+        2414108
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/f8ec79c4-6c9d-4560-9fdd-6a453fe01424/b293a12b-9f4e-439d-ade5-b4b607aa3b04.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/f8ec79c4-6c9d-4560-9fdd-6a453fe01424/b293a12b-9f4e-439d-ade5-b4b607aa3b04.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case4a-r1",
+    "backend": "hami",
+    "case": "case4a",
+    "repeat": 1,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 3.75
+    },
+    "tensor_total_gib": 9.75,
+    "cuda_oom_count": 1,
+    "nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 4146.0
+    },
+    "nvml_process_total_mib": 10596.0,
+    "quota_exceeded": true,
+    "outcome": "shared_allocation_limit_exceeded",
+    "last_complete_round_id": 23,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 3.75
+    },
+    "last_barrier_tensor_total_gib": 9.75,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 4146.0
+    },
+    "last_barrier_nvml_process_total_mib": 10596.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/066648e2-e460-44bc-b003-5db939eed4fb/831ca514-9c61-45ca-a801-a371df237557.cache",
+      "/usr/local/vgpu/claims/066648e2-e460-44bc-b003-5db939eed4fb/831ca514-9c61-45ca-a801-a371df237557.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2413880
+      ],
+      [
+        64769,
+        2413880
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/066648e2-e460-44bc-b003-5db939eed4fb/831ca514-9c61-45ca-a801-a371df237557.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/066648e2-e460-44bc-b003-5db939eed4fb/831ca514-9c61-45ca-a801-a371df237557.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case4a-r2",
+    "backend": "hami",
+    "case": "case4a",
+    "repeat": 2,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 6.0
+    },
+    "tensor_total_gib": 9.75,
+    "cuda_oom_count": 1,
+    "nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 6450.0
+    },
+    "nvml_process_total_mib": 10596.0,
+    "quota_exceeded": true,
+    "outcome": "shared_allocation_limit_exceeded",
+    "last_complete_round_id": 23,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 6.0
+    },
+    "last_barrier_tensor_total_gib": 9.75,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 6450.0
+    },
+    "last_barrier_nvml_process_total_mib": 10596.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/9f46bf12-9d67-4bf4-b1ef-ab3ac39bb102/8244b23c-509b-4694-85ff-6dffccee5817.cache",
+      "/usr/local/vgpu/claims/9f46bf12-9d67-4bf4-b1ef-ab3ac39bb102/8244b23c-509b-4694-85ff-6dffccee5817.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2414227
+      ],
+      [
+        64769,
+        2414227
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/9f46bf12-9d67-4bf4-b1ef-ab3ac39bb102/8244b23c-509b-4694-85ff-6dffccee5817.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/9f46bf12-9d67-4bf4-b1ef-ab3ac39bb102/8244b23c-509b-4694-85ff-6dffccee5817.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case4a-r3",
+    "backend": "hami",
+    "case": "case4a",
+    "repeat": 3,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {},
+    "tensor_total_gib": null,
+    "cuda_oom_count": null,
+    "nvml_mib_by_client": {},
+    "nvml_process_total_mib": null,
+    "quota_exceeded": null,
+    "outcome": "stalled",
+    "last_complete_round_id": 14,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 3.75,
+      "1": 3.75
+    },
+    "last_barrier_tensor_total_gib": 7.5,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 4146.0,
+      "1": 4146.0
+    },
+    "last_barrier_nvml_process_total_mib": 8292.0,
+    "recovery_exit_codes": [
+      0,
+      137
+    ],
+    "recovery_exit_reasons": [
+      "Completed",
+      "Error"
+    ],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+      "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2413901
+      ],
+      [
+        64769,
+        2413901
+      ]
+    ],
+    "cache_path_equal": true,
+    "cache_inode_equal": true,
+    "cache_identity_complete": true,
+    "reserved_mib": 8192.0,
+    "reserved_cores": 50.0,
+    "claims_shared": true,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": false,
+    "incomplete_reason": "host control timeout waiting for ack-31.json; normal container termination evidence missing; cleanup not verified"
+  },
+  {
+    "trial": "case4b-r1",
+    "backend": "hami",
+    "case": "case4b",
+    "repeat": 1,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "tensor_total_gib": 12.0,
+    "cuda_oom_count": 0,
+    "nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "nvml_process_total_mib": 12900.0,
+    "quota_exceeded": false,
+    "outcome": "target_reached",
+    "last_complete_round_id": 23,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "last_barrier_tensor_total_gib": 12.0,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "last_barrier_nvml_process_total_mib": 12900.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/b7e3a075-2f7e-490d-9a74-f20da86e3041/fe8511e0-2347-4207-9291-8c2ee23df01c.cache",
+      "/usr/local/vgpu/claims/d44c86dc-9579-4cb9-9b76-d88c10fa78fb/e881461e-1471-44c8-a40c-c5695a114447.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2413882
+      ],
+      [
+        64769,
+        2414083
+      ]
+    ],
+    "cache_path_equal": false,
+    "cache_inode_equal": false,
+    "cache_identity_complete": true,
+    "reserved_mib": 16384.0,
+    "reserved_cores": 100.0,
+    "claims_shared": false,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/b7e3a075-2f7e-490d-9a74-f20da86e3041/fe8511e0-2347-4207-9291-8c2ee23df01c.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/d44c86dc-9579-4cb9-9b76-d88c10fa78fb/e881461e-1471-44c8-a40c-c5695a114447.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case4b-r2",
+    "backend": "hami",
+    "case": "case4b",
+    "repeat": 2,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "tensor_total_gib": 12.0,
+    "cuda_oom_count": 0,
+    "nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "nvml_process_total_mib": 12900.0,
+    "quota_exceeded": false,
+    "outcome": "target_reached",
+    "last_complete_round_id": 23,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "last_barrier_tensor_total_gib": 12.0,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "last_barrier_nvml_process_total_mib": 12900.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/3177a71c-2642-4d9b-b60b-43461791916b/6d36314e-49dd-460e-8a8b-f41b1a451319.cache",
+      "/usr/local/vgpu/claims/7431f134-2503-4405-8ddc-e75abecf99ad/c18a2787-af19-4796-b83d-71642b35376e.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2413881
+      ],
+      [
+        64769,
+        2414098
+      ]
+    ],
+    "cache_path_equal": false,
+    "cache_inode_equal": false,
+    "cache_identity_complete": true,
+    "reserved_mib": 16384.0,
+    "reserved_cores": 100.0,
+    "claims_shared": false,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/3177a71c-2642-4d9b-b60b-43461791916b/6d36314e-49dd-460e-8a8b-f41b1a451319.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/7431f134-2503-4405-8ddc-e75abecf99ad/c18a2787-af19-4796-b83d-71642b35376e.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  },
+  {
+    "trial": "case4b-r3",
+    "backend": "hami",
+    "case": "case4b",
+    "repeat": 3,
+    "quota_gib": 8,
+    "target_gib_per_client": 6.0,
+    "tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "tensor_total_gib": 12.0,
+    "cuda_oom_count": 0,
+    "nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "nvml_process_total_mib": 12900.0,
+    "quota_exceeded": false,
+    "outcome": "target_reached",
+    "last_complete_round_id": 23,
+    "last_barrier_tensor_gib_by_client": {
+      "0": 6.0,
+      "1": 6.0
+    },
+    "last_barrier_tensor_total_gib": 12.0,
+    "last_barrier_nvml_mib_by_client": {
+      "0": 6450.0,
+      "1": 6450.0
+    },
+    "last_barrier_nvml_process_total_mib": 12900.0,
+    "recovery_exit_codes": [],
+    "recovery_exit_reasons": [],
+    "cache_paths": [
+      "/usr/local/vgpu/claims/0f2184d2-dfed-4ba8-9d24-07507591a4ab/8d34a43c-4caf-421e-8913-a8e501a7a880.cache",
+      "/usr/local/vgpu/claims/58c8659f-ed65-4c73-ae74-5e044fe1928f/204b7b81-e37c-4929-a9cd-cba866c9aa4a.cache"
+    ],
+    "cache_identities": [
+      [
+        64769,
+        2414227
+      ],
+      [
+        64769,
+        2414428
+      ]
+    ],
+    "cache_path_equal": false,
+    "cache_inode_equal": false,
+    "cache_identity_complete": true,
+    "reserved_mib": 16384.0,
+    "reserved_cores": 100.0,
+    "claims_shared": false,
+    "libvgpu_present": true,
+    "library_sha256": [
+      "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    ],
+    "injected_env_by_client": {
+      "0": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/0f2184d2-dfed-4ba8-9d24-07507591a4ab/8d34a43c-4caf-421e-8913-a8e501a7a880.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "1": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/58c8659f-ed65-4c73-ae74-5e044fe1928f/204b7b81-e37c-4929-a9cd-cba866c9aa4a.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      }
+    },
+    "complete": true,
+    "incomplete_reason": ""
+  }
+]

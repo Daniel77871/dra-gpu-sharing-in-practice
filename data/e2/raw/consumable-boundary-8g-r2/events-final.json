@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-consumable-boundary-8g-r2/pressure to dra-a40",
+      "eventTime": "2026-10-07T02:10:47.265192Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "pressure",
+        "namespace": "e2-cap-20261007-consumable-boundary-8g-r2",
+        "uid": "b573bd2b-ff33-44b1-98dd-98c2c641dee0"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-consumable-boundary-8g-r2/survivor to dra-a40",
+      "eventTime": "2026-10-07T02:10:44.818287Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "survivor",
+        "namespace": "e2-cap-20261007-consumable-boundary-8g-r2",
+        "uid": "4a2c2e5b-ca89-4c45-bed9-adf1f518be9b"
+      }
+    }
+  ]
+}

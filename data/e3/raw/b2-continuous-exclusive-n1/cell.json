@@ -1,0 +1,8 @@
+{
+  "block": 2,
+  "repeat": 2,
+  "mode": "exclusive",
+  "workload_id": "continuous",
+  "concurrency": 1,
+  "trial_id": "b2-continuous-exclusive-n1"
+}

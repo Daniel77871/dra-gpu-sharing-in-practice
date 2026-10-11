@@ -1,0 +1,34 @@
+[
+  {
+    "metadata": {
+      "name": "task-1",
+      "uid": "ad428d2b-0367-4574-b460-49e8b72ba8bd"
+    },
+    "spec": {
+      "nodeName": "dra-a40",
+      "containers": [
+        {
+          "name": "workload",
+          "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+        }
+      ]
+    },
+    "status": {
+      "phase": "Running",
+      "containerStatuses": [
+        {
+          "name": "workload",
+          "restartCount": 0,
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "finishedAt": "2026-10-07T15:58:44Z",
+              "reason": "Completed",
+              "startedAt": "2026-10-07T15:57:49Z"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

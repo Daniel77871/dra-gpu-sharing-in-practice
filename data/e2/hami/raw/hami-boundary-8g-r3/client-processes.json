@@ -1,0 +1,14 @@
+{
+  "272721": {
+    "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t272721\nPPid:\t272719\nUid:\t0\t0\t0\t0\nNSpid:\t272721\t1",
+    "cgroup": "0::/kubepods.slice/kubepods-podbd870450_6e56_485d_a405_3e497ac915cc.slice/crio-6d3ed1383d06b0bee5bca67f4d2a9f962931cb46a6bbb4f95f5da42485a0774d.scope/container\n",
+    "cmdline": "python\u0000-u\u0000/opt/lab/isolation_workload.py\u0000--role\u0000survivor\u0000--quota-gib\u00004\u0000",
+    "maps": "748c54215000-748c54400000 rw-s 00000000 fd:01 2413879                    /usr/local/vgpu/claims/9f3f983e-2c79-4e98-85b5-478b6253a2cc/4661d731-8b79-4af4-a5de-1781b5f37607.cache\n748d13882000-748d13892000 r--p 00000000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n748d13892000-748d138c5000 r-xp 00010000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n748d138c5000-748d138db000 r--p 00043000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n748d138db000-748d138dd000 r--p 00058000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n748d138dd000-748d138e0000 rw-p 0005a000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so"
+  },
+  "272811": {
+    "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t272811\nPPid:\t272809\nUid:\t0\t0\t0\t0\nNSpid:\t272811\t1",
+    "cgroup": "0::/kubepods.slice/kubepods-poda58f5b12_a4c8_46b3_9c9b_adc1b529d000.slice/crio-4436fa5a0611a932295e219f31a0ed7779f8d89437827a1ad93bee0dac0a919d.scope/container\n",
+    "cmdline": "python\u0000-u\u0000/opt/lab/isolation_workload.py\u0000--role\u0000pressure\u0000--quota-gib\u00008\u0000",
+    "maps": "736dfde15000-736dfe000000 rw-s 00000000 fd:01 2414255                    /usr/local/vgpu/claims/def86a0f-316a-449e-8b27-18d791b83d44/a5ca7025-52c7-44f0-b6a1-9725b93f3a6d.cache\n736ebd567000-736ebd577000 r--p 00000000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n736ebd577000-736ebd5aa000 r-xp 00010000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n736ebd5aa000-736ebd5c0000 r--p 00043000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n736ebd5c0000-736ebd5c2000 r--p 00058000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n736ebd5c2000-736ebd5c5000 rw-p 0005a000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so"
+  }
+}

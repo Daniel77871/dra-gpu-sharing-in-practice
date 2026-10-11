@@ -1,0 +1,28 @@
+{
+  "survivor": {
+    "env": {
+      "NVIDIA_VISIBLE_DEVICES": "void",
+      "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+      "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+      "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+      "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/0d84fc0b-cbef-4fea-acd5-4ea047d90490/e38db06f-a2c1-46ee-985f-e0e6a5c90bf1.cache",
+      "CUDA_DEVICE_SM_LIMIT_0": "50",
+      "CUDA_DEVICE_MEMORY_LIMIT_0": "4096m"
+    },
+    "preload": "/usr/local/vgpu/libvgpu.so\n",
+    "library_sha256": "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+  },
+  "pressure": {
+    "env": {
+      "NVIDIA_VISIBLE_DEVICES": "void",
+      "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+      "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+      "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+      "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache",
+      "CUDA_DEVICE_SM_LIMIT_0": "50",
+      "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m"
+    },
+    "preload": "/usr/local/vgpu/libvgpu.so\n",
+    "library_sha256": "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+  }
+}

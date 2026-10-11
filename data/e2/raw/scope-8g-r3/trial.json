@@ -1,0 +1,44 @@
+{
+  "case": "scope",
+  "quota_gib": 8,
+  "quota_bytes": 8589934592,
+  "repeat": 3,
+  "namespace": "e2-mps-20261006t092100z-scope-8g-r3",
+  "run_id": "mps-20261006T092100Z",
+  "started_utc": "2026-10-06T09:44:49.120061+00:00",
+  "expected_gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "baseline_seconds": 60,
+  "recovery_seconds": 60,
+  "claim_uid": "e5351f2e-8f68-4280-8c4a-d3055cc9cf4c",
+  "phase": "finished",
+  "baseline_elapsed": 60.00007427390665,
+  "b_actual_exit_utc": "2026-10-06T09:46:35Z",
+  "recovery_start_utc": "2026-10-06T09:46:36.875254+00:00",
+  "recovery_elapsed": 60.0000716089271,
+  "cleanup": {
+    "gpu_raw": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af, NVIDIA A40, 46068, 0, 45490, 0, Default\n",
+    "processes_raw": "",
+    "claim_daemons": [],
+    "compute_mode": "Default",
+    "used_mib": 0,
+    "utc": "2026-10-06T09:47:45.339100+00:00",
+    "namespace_absent": true,
+    "verified": true
+  },
+  "finished_utc": "2026-10-06T09:47:45.549845+00:00",
+  "backend": "mps",
+  "terminations": {
+    "survivor": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-06T09:47:38Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-06T09:44:55Z"
+    },
+    "pressure": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-06T09:46:35Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-06T09:44:57Z"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "case": "case4a",
+  "repeat": 2,
+  "run_id": "e2b-20261007t053126z",
+  "namespace": "e2b-20261007t053126z-case4a-r2",
+  "started_utc": "2026-10-07T05:55:41.586498+00:00",
+  "target_bytes_per_client": 6442450944,
+  "step_bytes": 268435456,
+  "hold_seconds": 30,
+  "published_memory": "46068Mi",
+  "hold_started_utc": "2026-10-07T05:56:45.168780+00:00",
+  "hold_finished_utc": "2026-10-07T05:57:15.410694+00:00",
+  "finished_utc": "2026-10-07T05:57:24.885706+00:00",
+  "cleanup": {
+    "verified": true,
+    "all_cuda_containers_exited": true,
+    "claims_cache_cdi_checkpoint_absent": true,
+    "namespace_absent": true,
+    "identity_4090_unchanged": true,
+    "utc": "2026-10-07T05:57:24.885543+00:00"
+  },
+  "terminations": {},
+  "backend": "hami",
+  "quota_gib": 8
+}

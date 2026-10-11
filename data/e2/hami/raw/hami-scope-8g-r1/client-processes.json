@@ -1,0 +1,20 @@
+{
+  "273795": {
+    "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t273795\nPPid:\t273793\nUid:\t0\t0\t0\t0\nNSpid:\t273795\t1",
+    "cgroup": "0::/kubepods.slice/kubepods-pod47d13acf_c485_4ef7_9795_8f6929a5e58e.slice/crio-3498bd34bc1c1227cc3c3d20589299b465ec79a686aee78a91ec25d2a3c10ee0.scope/container\n",
+    "cmdline": "python\u0000-u\u0000/opt/lab/isolation_workload.py\u0000--role\u0000survivor\u0000--quota-gib\u00004\u0000",
+    "maps": "7b02eb415000-7b02eb600000 rw-s 00000000 fd:01 2413854                    /usr/local/vgpu/claims/0d84fc0b-cbef-4fea-acd5-4ea047d90490/e38db06f-a2c1-46ee-985f-e0e6a5c90bf1.cache\n7b03aab0e000-7b03aab1e000 r--p 00000000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7b03aab1e000-7b03aab51000 r-xp 00010000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7b03aab51000-7b03aab67000 r--p 00043000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7b03aab67000-7b03aab69000 r--p 00058000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7b03aab69000-7b03aab6c000 rw-p 0005a000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so"
+  },
+  "274178": {
+    "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t274178\nPPid:\t273884\nUid:\t0\t0\t0\t0\nNSpid:\t274178\t41",
+    "cgroup": "0::/kubepods.slice/kubepods-pod8f33a640_0b22_4359_a1dd_86f76f7b66fa.slice/crio-4c374698817fdb3470719ff682a06f79243d0ad67e7c465f793e4b2f346e6941.scope/container\n",
+    "cmdline": "/opt/conda/bin/python\u0000-u\u0000/opt/lab/..2026_10_07_02_35_47.2356485940/capacity_workload.py\u0000--role\u0000pressure-target\u0000--quota-gib\u00008\u0000--client-id\u00000\u0000--shared-quota\u0000/tmp/scope-quota.json\u0000--scope-barrier\u0000",
+    "maps": "714f79c15000-714f79e00000 rw-s 00000000 fd:01 2414058                    /usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache\n715039285000-715039295000 r--p 00000000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n715039295000-7150392c8000 r-xp 00010000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7150392c8000-7150392de000 r--p 00043000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7150392de000-7150392e0000 r--p 00058000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n7150392e0000-7150392e3000 rw-p 0005a000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so"
+  },
+  "274179": {
+    "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t274179\nPPid:\t273884\nUid:\t0\t0\t0\t0\nNSpid:\t274179\t42",
+    "cgroup": "0::/kubepods.slice/kubepods-pod8f33a640_0b22_4359_a1dd_86f76f7b66fa.slice/crio-4c374698817fdb3470719ff682a06f79243d0ad67e7c465f793e4b2f346e6941.scope/container\n",
+    "cmdline": "/opt/conda/bin/python\u0000-u\u0000/opt/lab/..2026_10_07_02_35_47.2356485940/capacity_workload.py\u0000--role\u0000pressure-target\u0000--quota-gib\u00008\u0000--client-id\u00001\u0000--shared-quota\u0000/tmp/scope-quota.json\u0000--scope-barrier\u0000",
+    "maps": "78f6a2615000-78f6a2800000 rw-s 00000000 fd:01 2414058                    /usr/local/vgpu/claims/7deb1e3f-13a6-4ab3-b72f-b49d479537d1/95a8ce23-d3b4-4fb4-80be-60f38622f7bc.cache\n78f761c74000-78f761c84000 r--p 00000000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n78f761c84000-78f761cb7000 r-xp 00010000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n78f761cb7000-78f761ccd000 r--p 00043000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n78f761ccd000-78f761ccf000 r--p 00058000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so\n78f761ccf000-78f761cd2000 rw-p 0005a000 fd:01 1125498                    /usr/local/vgpu/libvgpu.so"
+  }
+}

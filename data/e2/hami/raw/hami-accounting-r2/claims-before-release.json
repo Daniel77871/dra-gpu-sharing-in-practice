@@ -1,0 +1,207 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:21:20Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "a",
+      "namespace": "e2-cap-20261007-hami-accounting-r2",
+      "uid": "99ae55cb-acf0-494f-aea3-85c412433f75"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "10",
+                  "memory": "16Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:21:20Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "10",
+                "memory": "16Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "b8150f40-34d6-4662-9c9e-57eb46bac51a"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "a",
+          "resource": "pods",
+          "uid": "2429143b-3dc8-4032-8a8d-887d8bec0ea7"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:21:21Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "b",
+      "namespace": "e2-cap-20261007-hami-accounting-r2",
+      "uid": "a22b5d8f-3e0b-40e1-9bdf-cce04b49c47c"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "10",
+                  "memory": "24Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:21:21Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "10",
+                "memory": "24Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "1146acb1-caad-4b0b-9421-e30631d5c742"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "b",
+          "resource": "pods",
+          "uid": "1e1d15ab-5fbe-4732-a34c-06bb88d839a7"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:21:23Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "c",
+      "namespace": "e2-cap-20261007-hami-accounting-r2",
+      "uid": "ed68a8b3-b77a-4b06-94e9-d98553cef6c6"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "10",
+                  "memory": "8Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {}
+  }
+]

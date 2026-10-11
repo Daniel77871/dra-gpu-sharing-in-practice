@@ -52,16 +52,34 @@ def extract_e1(reader, output):
     (output / "version.json").write_bytes(reader.read_bytes(f"{source}/version.json"))
 
 
+@register("e3", help="A40 fixed-work performance, 180 batches and five raw fixtures")
+def extract_e3(reader, output):
+    import runpy
+    runpy.run_path(str(ROOT / "labs/05-performance/analysis/extract.py"))["extract"](reader, output)
+
+
+@register("e4", help="Native GPU selection and single-node HAMi acceptance, compact evidence")
+def extract_e4(reader, output):
+    import runpy
+    runpy.run_path(str(ROOT / "labs/06-heterogeneous/analysis/extract.py"))["extract_e4"](reader, output)
+
+
+@register("e4b", help="Two-GPU HAMi capacity selection, Pending and claim lifecycle evidence")
+def extract_e4b(reader, output):
+    import runpy
+    runpy.run_path(str(ROOT / "labs/06-heterogeneous/analysis/extract.py"))["extract_e4b"](reader, output)
+
+
 def main(argv=None):
     discover()
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--lab", type=Path, default=DEFAULT_LAB, help=f"read-only source lab (default: {DEFAULT_LAB})")
     parser.add_argument("--root", type=Path, default=ROOT, help="destination repository")
     subcommands = parser.add_subparsers(dest="exp", required=True)
     for exp, (_, help_text) in sorted(REGISTRY.items()):
         subcommands.add_parser(exp, help=help_text)
     args = parser.parse_args(argv)
-    output = args.root / "data" / args.exp
+    output = args.root / "data" / ("e2/hami" if args.exp == "e2-hami" else args.exp)
     if output.resolve().is_relative_to(args.lab.resolve()):
         parser.error("destination must be outside the read-only lab")
     try:

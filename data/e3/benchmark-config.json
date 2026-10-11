@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "shape": 8192,
+  "seed": 20261007,
+  "dtype": "float32",
+  "tf32": false,
+  "warmup_gemms": 10,
+  "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+  "t_continuous_gemm_seconds": 0.04930675063636364,
+  "t_synchronized_gemm_seconds": 0.0491372825,
+  "workloads": {
+    "continuous": {
+      "shape": 8192,
+      "iterations": 913,
+      "seed": 20261007,
+      "sleep_ns": 0,
+      "dtype": "float32",
+      "tf32": false,
+      "sync_each": false
+    },
+    "bursty-aligned": {
+      "shape": 8192,
+      "iterations": 367,
+      "seed": 20261007,
+      "sleep_ns": 73705924,
+      "dtype": "float32",
+      "tf32": false,
+      "sync_each": false
+    },
+    "bursty-staggered": {
+      "shape": 8192,
+      "iterations": 367,
+      "seed": 20261007,
+      "sleep_ns": 73705924,
+      "dtype": "float32",
+      "tf32": false,
+      "sync_each": false
+    }
+  },
+  "candidates": [
+    {
+      "shape": 2048,
+      "t_gemm_seconds": 0.0009017171988067335,
+      "median_tflops": 19.052391599865878,
+      "utilization": 96.07602497128498,
+      "physical_delta_mib": 395.0,
+      "error": null,
+      "iterations": 9386,
+      "measurements": [
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-2048/measure-1",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-2048/measure-2",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-2048/measure-3"
+      ]
+    },
+    {
+      "shape": 4096,
+      "t_gemm_seconds": 0.006532934610534717,
+      "median_tflops": 21.037858430478106,
+      "utilization": 98.30706758249538,
+      "physical_delta_mib": 539.0,
+      "error": null,
+      "iterations": 1253,
+      "measurements": [
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-4096/measure-1",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-4096/measure-2",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-4096/measure-3"
+      ]
+    },
+    {
+      "shape": 8192,
+      "t_gemm_seconds": 0.04930675063636364,
+      "median_tflops": 22.29941364185358,
+      "utilization": 93.8464911227584,
+      "physical_delta_mib": 1115.0,
+      "error": null,
+      "iterations": 165,
+      "measurements": [
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-8192/measure-1",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-8192/measure-2",
+        "/home/daniel/dra-gpu-oom-lab/deliveries/experiment-3-20261007/results/experiment-3-performance/a40/20261007T084500Z/calibration/shape-8192/measure-3"
+      ]
+    }
+  ],
+  "bursty_preview_mean_gpu_util": 39.2354526324719
+}

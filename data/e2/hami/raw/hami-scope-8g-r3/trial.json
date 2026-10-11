@@ -1,0 +1,36 @@
+{
+  "backend": "hami",
+  "case": "scope",
+  "quota_gib": 8,
+  "repeat": 3,
+  "namespace": "e2-cap-20261007-hami-scope-8g-r3",
+  "run_id": "e2-capacity-20261007T015625Z",
+  "started_utc": "2026-10-07T02:41:37.049163+00:00",
+  "phase": "finished",
+  "baseline_elapsed": 60.00007105106488,
+  "b_actual_exit_utc": "2026-10-07T02:43:22Z",
+  "recovery_start_utc": "2026-10-07T02:43:24.884891+00:00",
+  "recovery_elapsed": 60.00007424806245,
+  "collection_errors": [],
+  "finished_utc": "2026-10-07T02:44:34.411267+00:00",
+  "cleanup": {
+    "verified": true,
+    "namespace_absent": true,
+    "identity_4090_unchanged": true,
+    "utc": "2026-10-07T02:44:34.411171+00:00"
+  },
+  "terminations": {
+    "survivor": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:44:26Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:41:38Z"
+    },
+    "pressure": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:43:22Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:41:43Z"
+    }
+  }
+}

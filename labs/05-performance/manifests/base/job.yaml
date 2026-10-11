@@ -1,0 +1,112 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: benchmark-lead
+  namespace: gpu-performance-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: benchmark-worker
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: benchmark-worker
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 120
+      automountServiceAccountToken: false
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      resourceClaims:
+      - name: gpu
+        resourceClaimName: performance-gpu
+      containers:
+      - name: workload
+        image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - -u
+        - /opt/lab/worker.py
+        args:
+        - --config
+        - '{"concurrency": 1, "dtype": "float32", "final_sleep_ns": 0, "iterations": 913, "prefix_sleep_ns": 0, "seed": 20261007, "shape": 8192, "sleep_ns": 0, "sync_each": false, "task_id": "0", "tf32": false, "workload_id": "continuous"}'
+        - --control-dir
+        - /opt/e3-control
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        env:
+        - name: OMP_NUM_THREADS
+          value: '1'
+        - name: MKL_NUM_THREADS
+          value: '1'
+        - name: EXPERIMENT_RUN
+          value: manual-performance
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: GPU_UUID
+          value: GPU-29ffee3e-bee4-e341-917a-fe7e43e977af
+        resources:
+          requests:
+            cpu: '1'
+            memory: 2Gi
+          limits:
+            cpu: '1'
+            memory: 2Gi
+          claims:
+          - name: gpu
+            request: gpu
+        volumeMounts:
+        - name: code
+          mountPath: /opt/lab
+          readOnly: true
+        - name: control
+          mountPath: /opt/e3-control
+      volumes:
+      - name: code
+        configMap:
+          name: performance-code
+      - name: control
+        emptyDir: {}
+      nodeSelector:
+        kubernetes.io/hostname: dra-a40
+      initContainers:
+      - name: control-owner
+        image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - /opt/lab/control.py
+        - init
+        env:
+        - name: EXPERIMENT_RUN
+          value: manual-performance
+        - name: TASK_ID
+          value: '0'
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+        resources:
+          requests:
+            cpu: '1'
+            memory: 2Gi
+          limits:
+            cpu: '1'
+            memory: 2Gi
+        volumeMounts:
+        - name: code
+          mountPath: /opt/lab
+          readOnly: true
+        - name: control
+          mountPath: /opt/e3-control

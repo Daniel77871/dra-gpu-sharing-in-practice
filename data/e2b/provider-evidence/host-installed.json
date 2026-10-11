@@ -1,0 +1,104 @@
+{
+  "/usr/local/vgpu": [
+    {
+      "path": "/usr/local/vgpu",
+      "mode": 16877,
+      "dev": 64769,
+      "ino": 2359306,
+      "uid": 0,
+      "size": 4096
+    },
+    {
+      "path": "/usr/local/vgpu/ld.so.preload",
+      "mode": 33188,
+      "dev": 64769,
+      "ino": 2413672,
+      "uid": 0,
+      "size": 27,
+      "sha256": "7017c521149c8ba0fa8f48702c262d9ed8573696ba53005737c5a8b325f796de"
+    },
+    {
+      "path": "/usr/local/vgpu/libvgpu.so",
+      "mode": 33261,
+      "dev": 64769,
+      "ino": 2413673,
+      "uid": 0,
+      "size": 685576,
+      "sha256": "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f"
+    }
+  ],
+  "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io": [
+    {
+      "path": "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io",
+      "mode": 16872,
+      "dev": 64769,
+      "ino": 2413674,
+      "uid": 0,
+      "size": 4096
+    },
+    {
+      "path": "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io/checkpoint.json",
+      "mode": 33152,
+      "dev": 64769,
+      "ino": 2413677,
+      "uid": 0,
+      "size": 60,
+      "sha256": "be1268c1d9f54a68920217893979e86e2156c2ebfad3d5a672eff363eb7dd820"
+    },
+    {
+      "path": "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io/cp.lock",
+      "mode": 33188,
+      "dev": 64769,
+      "ino": 2413676,
+      "uid": 0,
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io/dra.sock",
+      "mode": 49645,
+      "dev": 64769,
+      "ino": 2413678,
+      "uid": 0,
+      "size": 0
+    },
+    {
+      "path": "/var/lib/kubelet/plugins/hami-core-gpu.project-hami.io/nvidia-cdi-hook",
+      "mode": 33261,
+      "dev": 64769,
+      "ino": 2413675,
+      "uid": 0,
+      "size": 6353784,
+      "sha256": "c17b984e5ac6ddf1f4495eccd2506c8562bfec931106e14ebd3e6c9f8bf45a45"
+    }
+  ],
+  "/tmp/vgpulock": [
+    {
+      "path": "/tmp/vgpulock",
+      "mode": 16877,
+      "dev": 64769,
+      "ino": 2413670,
+      "uid": 0,
+      "size": 4096
+    }
+  ],
+  "/var/run/cdi": [
+    {
+      "path": "/var/run/cdi",
+      "mode": 16877,
+      "dev": 25,
+      "ino": 1530,
+      "uid": 0,
+      "size": 60
+    },
+    {
+      "path": "/var/run/cdi/management.nvidia.com-gpu.yaml",
+      "mode": 33188,
+      "dev": 25,
+      "ino": 2348,
+      "uid": 0,
+      "size": 20339,
+      "sha256": "4f3f2f9f4a5ff8e327dc51a01b86c36ef19cb76e680a2410699c631be03afd40"
+    }
+  ]
+}

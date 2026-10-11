@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: steady-service
+  namespace: gpu-isolation-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: steady-service
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: steady-service
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 120
+      automountServiceAccountToken: false
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      resourceClaims:
+        - name: gpu
+          resourceClaimName: steady-gpu
+      containers:
+        - name: workload
+          image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -u
+            - /opt/lab/isolation_workload.py
+          args:
+            - --role
+            - survivor
+            - --quota-gib
+            - '4'
+          env:
+            - name: PYTORCH_NO_CUDA_MEMORY_CACHING
+              value: '1'
+            - name: OMP_NUM_THREADS
+              value: '1'
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          resources:
+            requests:
+              cpu: '2'
+              memory: 4Gi
+            limits:
+              cpu: '2'
+              memory: 4Gi
+            claims:
+              - name: gpu
+                request: gpu
+          volumeMounts:
+            - name: code
+              mountPath: /opt/lab
+              readOnly: true
+      volumes:
+        - name: code
+          configMap:
+            name: isolation-code

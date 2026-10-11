@@ -98,21 +98,25 @@ def bars(ax, labels, values, entities):
 
 def save_svg(fig, path):
     configure()
-    if len(fig.axes) != 1 or getattr(fig.axes[0], "name", "") == "3d":
-        raise ValueError("charts must have one 2D axis; dual axes and 3D are disallowed")
-    ax = fig.axes[0]
-    if any(isinstance(patch, Wedge) for patch in ax.patches):
-        raise ValueError("pie charts are disallowed")
-    handles, labels = ax.get_legend_handles_labels()
-    unique = dict(zip(labels, handles))
-    if len(unique) >= 2:
-        ax.legend(unique.values(), unique.keys(), frameon=False, labelcolor=INK)
+    if (not fig.axes or any(getattr(ax, "name", "") == "3d" for ax in fig.axes)
+            or any(ax.get_position().overlaps(other.get_position())
+                   for index, ax in enumerate(fig.axes) for other in fig.axes[index + 1:])):
+        raise ValueError("each panel must have one 2D axis; dual axes and 3D are disallowed")
     fig.set_facecolor(SURFACE)
-    ax.set_facecolor(SURFACE)
-    ax.grid(axis="y")
-    ax.grid(axis="x", visible=False)
+    for ax in fig.axes:
+        if any(isinstance(patch, Wedge) for patch in ax.patches):
+            raise ValueError("pie charts are disallowed")
+        if not fig.legends:
+            handles, labels = ax.get_legend_handles_labels()
+            unique = dict(zip(labels, handles))
+            if len(unique) >= 2:
+                ax.legend(unique.values(), unique.keys(), frameon=False, labelcolor=INK)
+        ax.set_facecolor(SURFACE)
+        ax.grid(axis="y")
+        ax.grid(axis="x", visible=False)
     fig.tight_layout()
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, format="svg", metadata={"Date": None}, facecolor=SURFACE, transparent=False)
+    fig.savefig(path, format="svg", metadata={"Date": None}, facecolor=SURFACE, transparent=False,
+                bbox_inches="tight", pad_inches=0.1)
     plt.close(fig)

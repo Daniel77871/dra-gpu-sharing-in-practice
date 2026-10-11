@@ -1,0 +1,420 @@
+{
+  "ready": [
+    {
+      "client_id": "0",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "pod-0",
+      "pod_uid": "4ec97e2a-7ba7-436b-b73e-12b74fe41837",
+      "container_name": "worker-0",
+      "run_id": "e2b-20261007t053126z",
+      "phase": "ready",
+      "target_bytes": 6442450944,
+      "block_bytes": 268435456,
+      "cache_path": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+      "cache_dev": 64769,
+      "cache_inode": 2413901,
+      "cache_map_lines": [
+        "74b0dba15000-74b0dbc00000 rw-s 00000000 fd:01 2413901                    /usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "74b195c4c000-74b195c53000 r--s 00000000 00:93 1116315                    /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache"
+      ],
+      "library_map_lines": [
+        "74b19b781000-74b19b791000 r--p 00000000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "74b19b791000-74b19b7c4000 r-xp 00010000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "74b19b7c4000-74b19b7da000 r--p 00043000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "74b19b7da000-74b19b7dc000 r--p 00058000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "74b19b7dc000-74b19b7df000 rw-p 0005a000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so"
+      ],
+      "library_sha256": "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f",
+      "preload": "/usr/local/vgpu/libvgpu.so\n",
+      "env": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "gpu_name": "NVIDIA A40",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "caching_disabled": true,
+      "cuda_processes": 1,
+      "allocated_bytes": 0,
+      "reserved_bytes": 0,
+      "device_free_bytes": 8315207680,
+      "device_total_bytes": 8589934592
+    },
+    {
+      "client_id": "1",
+      "pid": 1,
+      "uid": 0,
+      "pod_name": "pod-1",
+      "pod_uid": "70f97b2d-dfc8-4e5f-a229-c4dd2d52523c",
+      "container_name": "worker-1",
+      "run_id": "e2b-20261007t053126z",
+      "phase": "ready",
+      "target_bytes": 6442450944,
+      "block_bytes": 268435456,
+      "cache_path": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+      "cache_dev": 64769,
+      "cache_inode": 2413901,
+      "cache_map_lines": [
+        "760d40a15000-760d40c00000 rw-s 00000000 fd:01 2413901                    /usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "760dfabf0000-760dfabf7000 r--s 00000000 00:a3 1116315                    /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache"
+      ],
+      "library_map_lines": [
+        "760e00725000-760e00735000 r--p 00000000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "760e00735000-760e00768000 r-xp 00010000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "760e00768000-760e0077e000 r--p 00043000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "760e0077e000-760e00780000 r--p 00058000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so",
+        "760e00780000-760e00783000 rw-p 0005a000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so"
+      ],
+      "library_sha256": "56fc0944896337cc0ee439cbc7364105ccac11e8dc38add6a3dc467cea34b18f",
+      "preload": "/usr/local/vgpu/libvgpu.so\n",
+      "env": {
+        "NVIDIA_VISIBLE_DEVICES": "void",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "LD_LIBRARY_PATH": "/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+        "NVIDIA_CTK_LIBCUDA_DIR": "/usr/lib/x86_64-linux-gnu",
+        "CUDA_DEVICE_MEMORY_SHARED_CACHE": "/usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache",
+        "CUDA_DEVICE_SM_LIMIT_0": "50",
+        "CUDA_DEVICE_MEMORY_LIMIT_0": "8192m",
+        "CUDA_MODULE_LOADING": "LAZY"
+      },
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "gpu_name": "NVIDIA A40",
+      "torch_version": "2.5.1+cu124",
+      "cuda_runtime": "12.4",
+      "caching_disabled": true,
+      "cuda_processes": 1,
+      "allocated_bytes": 0,
+      "reserved_bytes": 0,
+      "device_free_bytes": 8315207680,
+      "device_total_bytes": 8589934592
+    }
+  ],
+  "clients": [
+    {
+      "host_pid": 284161,
+      "namespace_pid": 1,
+      "uid": 0,
+      "pod_name": "pod-0",
+      "pod_uid": "4ec97e2a-7ba7-436b-b73e-12b74fe41837",
+      "container_name": "worker-0",
+      "container_id": "131918471f2bff8dcb77304c0d98bdf776281cd609aaf07ded69a733dc9c4619",
+      "client_id": "0",
+      "claim_uid": "ad55f409-c774-4795-9a08-e06895aecc2d"
+    },
+    {
+      "host_pid": 284255,
+      "namespace_pid": 1,
+      "uid": 0,
+      "pod_name": "pod-1",
+      "pod_uid": "70f97b2d-dfc8-4e5f-a229-c4dd2d52523c",
+      "container_name": "worker-1",
+      "container_id": "3f96344cf90a85ed558dff212a09b9bdf6932e2a8f70bf7c53f32173881378a2",
+      "client_id": "1",
+      "claim_uid": "ad55f409-c774-4795-9a08-e06895aecc2d"
+    }
+  ],
+  "claims": [
+    {
+      "apiVersion": "resource.k8s.io/v1",
+      "kind": "ResourceClaim",
+      "metadata": {
+        "creationTimestamp": "2026-10-07T05:57:26Z",
+        "labels": {
+          "experiment-run": "e2b-20261007t053126z"
+        },
+        "name": "quota-0",
+        "namespace": "e2b-20261007t053126z-case4a-r3",
+        "uid": "ad55f409-c774-4795-9a08-e06895aecc2d"
+      },
+      "spec": {
+        "devices": {
+          "requests": [
+            {
+              "exactly": {
+                "allocationMode": "ExactCount",
+                "capacity": {
+                  "requests": {
+                    "cores": "50",
+                    "memory": "8Gi"
+                  }
+                },
+                "count": 1,
+                "deviceClassName": "e2b-20261007t053126z-gpu",
+                "selectors": [
+                  {
+                    "cel": {
+                      "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                    }
+                  }
+                ]
+              },
+              "name": "gpu"
+            }
+          ]
+        }
+      },
+      "status": {
+        "allocation": {
+          "allocationTimestamp": "2026-10-07T05:57:26Z",
+          "devices": {
+            "results": [
+              {
+                "consumedCapacity": {
+                  "cores": "50",
+                  "memory": "8Gi"
+                },
+                "device": "hami-gpu-0",
+                "driver": "hami-core-gpu.project-hami.io",
+                "pool": "dra-a40",
+                "request": "gpu",
+                "shareID": "10d3081e-4147-4db7-b772-f22677a70301"
+              }
+            ]
+          },
+          "nodeSelector": {
+            "nodeSelectorTerms": [
+              {
+                "matchFields": [
+                  {
+                    "key": "metadata.name",
+                    "operator": "In",
+                    "values": [
+                      "dra-a40"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "reservedFor": [
+          {
+            "name": "pod-0",
+            "resource": "pods",
+            "uid": "4ec97e2a-7ba7-436b-b73e-12b74fe41837"
+          },
+          {
+            "name": "pod-1",
+            "resource": "pods",
+            "uid": "70f97b2d-dfc8-4e5f-a229-c4dd2d52523c"
+          }
+        ]
+      }
+    }
+  ],
+  "pods": [
+    {
+      "metadata": {
+        "creationTimestamp": "2026-10-07T05:57:26Z",
+        "labels": {
+          "app.kubernetes.io/part-of": "dra-e2-isolation",
+          "experiment-run": "e2b-20261007t053126z"
+        },
+        "name": "pod-0",
+        "namespace": "e2b-20261007t053126z-case4a-r3",
+        "uid": "4ec97e2a-7ba7-436b-b73e-12b74fe41837"
+      },
+      "spec": {
+        "nodeName": "dra-a40",
+        "resourceClaims": [
+          {
+            "name": "gpu",
+            "resourceClaimName": "quota-0"
+          }
+        ],
+        "containers": [
+          {
+            "name": "worker-0",
+            "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+            "command": [
+              "python",
+              "-u",
+              "/opt/lab/hami_scope_workload.py"
+            ],
+            "args": [
+              "--client-id",
+              "0",
+              "--control-dir",
+              "/opt/e2b-control"
+            ],
+            "env": [
+              {
+                "name": "PYTORCH_NO_CUDA_MEMORY_CACHING",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "EXPERIMENT_RUN",
+                "value": "e2b-20261007t053126z"
+              },
+              {
+                "name": "CONTAINER_NAME",
+                "value": "worker-0"
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "status": {
+        "phase": "Running",
+        "containerStatuses": [
+          {
+            "name": "worker-0",
+            "image": "docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime",
+            "imageID": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+            "restartCount": 0,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-07T05:57:27Z"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "creationTimestamp": "2026-10-07T05:57:29Z",
+        "labels": {
+          "app.kubernetes.io/part-of": "dra-e2-isolation",
+          "experiment-run": "e2b-20261007t053126z"
+        },
+        "name": "pod-1",
+        "namespace": "e2b-20261007t053126z-case4a-r3",
+        "uid": "70f97b2d-dfc8-4e5f-a229-c4dd2d52523c"
+      },
+      "spec": {
+        "nodeName": "dra-a40",
+        "resourceClaims": [
+          {
+            "name": "gpu",
+            "resourceClaimName": "quota-0"
+          }
+        ],
+        "containers": [
+          {
+            "name": "worker-1",
+            "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+            "command": [
+              "python",
+              "-u",
+              "/opt/lab/hami_scope_workload.py"
+            ],
+            "args": [
+              "--client-id",
+              "1",
+              "--control-dir",
+              "/opt/e2b-control"
+            ],
+            "env": [
+              {
+                "name": "PYTORCH_NO_CUDA_MEMORY_CACHING",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "EXPERIMENT_RUN",
+                "value": "e2b-20261007t053126z"
+              },
+              {
+                "name": "CONTAINER_NAME",
+                "value": "worker-1"
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "status": {
+        "phase": "Running",
+        "containerStatuses": [
+          {
+            "name": "worker-1",
+            "image": "docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime",
+            "imageID": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+            "restartCount": 0,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-07T05:57:29Z"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "cache_identities": {
+    "0": [
+      64769,
+      2413901
+    ],
+    "1": [
+      64769,
+      2413901
+    ]
+  },
+  "proc_fields": {
+    "284161": {
+      "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t284161\nPPid:\t284159\nUid:\t0\t0\t0\t0\nNSpid:\t284161\t1",
+      "cgroup": "0::/kubepods.slice/kubepods-pod4ec97e2a_7ba7_436b_b73e_12b74fe41837.slice/crio-131918471f2bff8dcb77304c0d98bdf776281cd609aaf07ded69a733dc9c4619.scope/container\n",
+      "cmdline": "python\u0000-u\u0000/opt/lab/hami_scope_workload.py\u0000--client-id\u00000\u0000--control-dir\u0000/opt/e2b-control\u0000",
+      "maps": "74b0dba15000-74b0dbc00000 rw-s 00000000 fd:01 2413901                    /usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache\n74b19b781000-74b19b791000 r--p 00000000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n74b19b791000-74b19b7c4000 r-xp 00010000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n74b19b7c4000-74b19b7da000 r--p 00043000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n74b19b7da000-74b19b7dc000 r--p 00058000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n74b19b7dc000-74b19b7df000 rw-p 0005a000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so"
+    },
+    "284255": {
+      "status": "Name:\tpython\nState:\tS (sleeping)\nPid:\t284255\nPPid:\t284253\nUid:\t0\t0\t0\t0\nNSpid:\t284255\t1",
+      "cgroup": "0::/kubepods.slice/kubepods-pod70f97b2d_dfc8_4e5f_a229_c4dd2d52523c.slice/crio-3f96344cf90a85ed558dff212a09b9bdf6932e2a8f70bf7c53f32173881378a2.scope/container\n",
+      "cmdline": "python\u0000-u\u0000/opt/lab/hami_scope_workload.py\u0000--client-id\u00001\u0000--control-dir\u0000/opt/e2b-control\u0000",
+      "maps": "760d40a15000-760d40c00000 rw-s 00000000 fd:01 2413901                    /usr/local/vgpu/claims/ad55f409-c774-4795-9a08-e06895aecc2d/3cd1797e-360c-4ca1-9ebb-e9bcacce4e46.cache\n760e00725000-760e00735000 r--p 00000000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n760e00735000-760e00768000 r-xp 00010000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n760e00768000-760e0077e000 r--p 00043000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n760e0077e000-760e00780000 r--p 00058000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so\n760e00780000-760e00783000 rw-p 0005a000 fd:01 2413674                    /usr/local/vgpu/libvgpu.so"
+    }
+  },
+  "processes_raw": "284161, python, 262\n284255, python, 262\n"
+}

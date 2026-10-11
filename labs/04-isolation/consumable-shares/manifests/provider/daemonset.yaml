@@ -1,0 +1,228 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: a40-consumable-provider
+  namespace: nvidia-dra-driver-gpu
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: consumable-provider
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: consumable-provider
+  updateStrategy:
+    type: OnDelete
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: consumable-provider
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: feature.node.kubernetes.io/pci-10de.present
+                    operator: In
+                    values:
+                      - 'true'
+                matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - dra-a40
+              - matchExpressions:
+                  - key: feature.node.kubernetes.io/pci-0302_10de.present
+                    operator: In
+                    values:
+                      - 'true'
+                matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - dra-a40
+              - matchExpressions:
+                  - key: feature.node.kubernetes.io/pci-0300_10de.present
+                    operator: In
+                    values:
+                      - 'true'
+                matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - dra-a40
+              - matchExpressions:
+                  - key: feature.node.kubernetes.io/cpu-model.vendor_id
+                    operator: In
+                    values:
+                      - NVIDIA
+                matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - dra-a40
+              - matchExpressions:
+                  - key: nvidia.com/gpu.present
+                    operator: In
+                    values:
+                      - 'true'
+                matchFields:
+                  - key: metadata.name
+                    operator: In
+                    values:
+                      - dra-a40
+      containers:
+        - args:
+            - |-
+              # Conditionally mask the params file to prevent this container from
+              # recreating any missing GPU device nodes. This is necessary, for
+              # example, when running under nvkind to limit the set GPUs governed
+              # by the plugin even though it has cgroup access to all of them.
+              if [ "${MASK_NVIDIA_DRIVER_PARAMS}" = "true" ]; then
+                cp /proc/driver/nvidia/params /root/gpu-params
+                sed -i 's/^ModifyDeviceFiles: 1$/ModifyDeviceFiles: 0/' /root/gpu-params
+                mount --bind /root/gpu-params /proc/driver/nvidia/params
+              fi
+              gpu-kubelet-plugin -v $(LOG_VERBOSITY)
+          command:
+            - bash
+            - -c
+          env:
+            - name: HTTP_ENDPOINT
+              value: :8080
+            - name: METRICS_PATH
+              value: /metrics
+            - name: LOG_VERBOSITY
+              value: '4'
+            - name: MASK_NVIDIA_DRIVER_PARAMS
+            - name: NVIDIA_DRIVER_ROOT
+              value: /run/nvidia/driver
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: void
+            - name: CDI_ROOT
+              value: /var/run/cdi
+            - name: NVIDIA_MIG_CONFIG_DEVICES
+              value: all
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: SERVICE_ACCOUNT_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.serviceAccountName
+            - name: IMAGE_NAME
+              value: nvcr.io/nvidia/dra-driver-nvidia-gpu:v0.5.0
+            - name: IMAGE_PULL_POLICY
+              value: IfNotPresent
+            - name: FEATURE_GATES
+              value: MPSSupport=false,ConsumableShares=true
+            - name: KUBELET_REGISTRAR_DIRECTORY_PATH
+              value: /var/lib/kubelet/plugins_registry
+            - name: KUBELET_PLUGINS_DIRECTORY_PATH
+              value: /var/lib/kubelet/plugins
+            - name: HEALTHCHECK_PORT
+              value: '51516'
+            - name: CONSUMABLE_SHARES
+              value: memory
+          image: nvcr.io/nvidia/dra-driver-nvidia-gpu:v0.5.0@sha256:2f76a02532bea530418693bcf382f2094cb40dc8466cefdbb9af923a232e738b
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            grpc:
+              port: 51516
+              service: liveness
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: gpus
+          resources: {}
+          securityContext:
+            privileged: true
+          startupProbe:
+            failureThreshold: 600
+            grpc:
+              port: 51516
+              service: liveness
+            periodSeconds: 1
+            successThreshold: 1
+            timeoutSeconds: 10
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/lib/kubelet/plugins_registry
+              name: plugins-registry
+            - mountPath: /var/lib/kubelet/plugins
+              mountPropagation: Bidirectional
+              name: plugins
+            - mountPath: /var/run/cdi
+              name: cdi
+            - mountPath: /driver-root
+              mountPropagation: HostToContainer
+              name: driver-root
+      dnsPolicy: ClusterFirst
+      initContainers:
+        - command:
+            - bash
+            - /usr/bin/kubelet-plugin-prestart.sh
+          env:
+            - name: NVIDIA_DRIVER_ROOT
+              value: /run/nvidia/driver
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: void
+            - name: KUBELET_REGISTRAR_DIRECTORY_PATH
+              value: /var/lib/kubelet/plugins_registry
+            - name: KUBELET_PLUGINS_DIRECTORY_PATH
+              value: /var/lib/kubelet/plugins
+          image: nvcr.io/nvidia/dra-driver-nvidia-gpu:v0.5.0@sha256:2f76a02532bea530418693bcf382f2094cb40dc8466cefdbb9af923a232e738b
+          imagePullPolicy: IfNotPresent
+          name: init-container
+          resources: {}
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /driver-root-parent
+              mountPropagation: HostToContainer
+              name: driver-root-parent
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccountName: dra-driver-nvidia-gpu-service-account-kubeletplugin
+      terminationGracePeriodSeconds: 30
+      tolerations:
+        - effect: NoSchedule
+          key: nvidia.com/gpu
+          operator: Exists
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: ''
+          name: plugins-registry
+        - hostPath:
+            path: /var/lib/kubelet/plugins
+            type: ''
+          name: plugins
+        - hostPath:
+            path: /var/run/cdi
+            type: ''
+          name: cdi
+        - hostPath:
+            path: /run/nvidia
+            type: DirectoryOrCreate
+          name: driver-root-parent
+        - hostPath:
+            path: /run/nvidia/driver
+            type: DirectoryOrCreate
+          name: driver-root

@@ -1,0 +1,1 @@
+GPU-29ffee3e-bee4-e341-917a-fe7e43e977af, NVIDIA A40, 46068, 13246, 32245, 0, 0, 130.96, 1740, 7251, Exclusive_Process

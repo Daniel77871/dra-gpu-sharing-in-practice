@@ -1,0 +1,37 @@
+{
+  "claim_uid": "fa875f1b-25d6-435a-923b-e8c11d929924",
+  "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "server_pid": 252063,
+  "server_memory_limit_mib": 8192.0,
+  "default_memory_limit_mib": 8192.0,
+  "active_thread_percentage": 100.0,
+  "daemon_name": "mps-control-daemon-fa875f1b-25d6-435a-923b-e8c11d929924-d2lxn79",
+  "daemon_node": "dra-a40",
+  "daemon_gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "clients": [
+    {
+      "host_pid": 252020,
+      "namespace_pid": 1,
+      "uid": 0,
+      "pod": "survivor",
+      "pod_uid": "a83e19fc-f96d-47b3-a2e2-20081865ec68",
+      "client_id": "main"
+    },
+    {
+      "host_pid": 252399,
+      "namespace_pid": 40,
+      "uid": 0,
+      "pod": "pressure",
+      "pod_uid": "4f5669aa-0541-4408-8d00-eb323a5055a6",
+      "client_id": "0"
+    },
+    {
+      "host_pid": 252400,
+      "namespace_pid": 41,
+      "uid": 0,
+      "pod": "pressure",
+      "pod_uid": "4f5669aa-0541-4408-8d00-eb323a5055a6",
+      "client_id": "1"
+    }
+  ]
+}

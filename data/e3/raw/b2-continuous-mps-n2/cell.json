@@ -1,0 +1,8 @@
+{
+  "block": 2,
+  "repeat": 2,
+  "mode": "mps",
+  "workload_id": "continuous",
+  "concurrency": 2,
+  "trial_id": "b2-continuous-mps-n2"
+}

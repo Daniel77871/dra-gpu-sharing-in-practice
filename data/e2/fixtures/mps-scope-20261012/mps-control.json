@@ -1,0 +1,9 @@
+{
+  "get_server_list": "135455\n",
+  "get_default_device_pinned_mem_limit GPU-29ffee3e-bee4-e341-917a-fe7e43e977af": "8G\n",
+  "get_device_pinned_mem_limit 135455 GPU-29ffee3e-bee4-e341-917a-fe7e43e977af": "8G\n",
+  "get_active_thread_percentage 135455": "100.0\n",
+  "get_default_active_thread_percentage": "100.0\n",
+  "get_client_list 135455": "135414\n135565\n135564\n",
+  "ps": "PID       ID        SERVER         DEVICE                    NAMESPACE      COMMAND        ATTRIBUTES     \n135414    1         135455         GPU-29ffee3e-bee4-e341    4026533424     python                        \n135564    2         135455         GPU-29ffee3e-bee4-e341    4026533492     /opt/conda/bin/python               \n135565    3         135455         GPU-29ffee3e-bee4-e341    4026533492     /opt/conda/bin/python               \n"
+}

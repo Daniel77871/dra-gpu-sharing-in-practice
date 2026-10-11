@@ -1,0 +1,166 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:31:50Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "survivor-gpu",
+      "namespace": "e2-cap-20261007-hami-boundary-8g-r3",
+      "uid": "9f3f983e-2c79-4e98-85b5-478b6253a2cc"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "50",
+                  "memory": "4Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:31:51Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "50",
+                "memory": "4Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "73214b3b-1bea-473e-b65d-3183f4e219c3"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "survivor",
+          "resource": "pods",
+          "uid": "bd870450-6e56-485d-a405-3e497ac915cc"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:31:50Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "pressure-gpu",
+      "namespace": "e2-cap-20261007-hami-boundary-8g-r3",
+      "uid": "def86a0f-316a-449e-8b27-18d791b83d44"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "50",
+                  "memory": "8Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:31:55Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "50",
+                "memory": "8Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "2c42877a-4ba3-4343-8241-4fd2516af5bd"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "pressure",
+          "resource": "pods",
+          "uid": "a58f5b12-a4c8-46b3-9c9b-adc1b529d000"
+        }
+      ]
+    }
+  }
+]

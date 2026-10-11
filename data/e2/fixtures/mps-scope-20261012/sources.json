@@ -1,0 +1,116 @@
+[
+  {
+    "file": "client-135414.status.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135414.status.txt",
+    "sha256": "0d7571663aba7f486e2ef4bb274eea950d811e4969ba3f800746a1d2014e6e1b",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135414.cgroup.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135414.cgroup.txt",
+    "sha256": "519af8d14f56062f66ce1e9a9d4977f89450c059ca45efccc5aa2fac5af29f5d",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135414.cmdline.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135414.cmdline.txt",
+    "sha256": "29badb158308cf17592fd70f1c4e02810a077b28c12ddc1c4e81694415065060",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135564.status.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135564.status.txt",
+    "sha256": "d4662e40f69bbdb2c16f0842ba5feae4e9156372672b5bd87a16010247356366",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135564.cgroup.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135564.cgroup.txt",
+    "sha256": "603f330afa23fed211eaf9fe7e2573f22cc9e98e265d8d9a66b277a4b72bbacf",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135564.cmdline.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135564.cmdline.txt",
+    "sha256": "ab9be36d322a5cb7e384bfb3a711d15cb3d45119667d777e407098ef68ac71d5",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135565.status.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135565.status.txt",
+    "sha256": "e265eb700a175c2d6595d30ab09e964bd6f9078eb48e67c7925ec6a94ad5c230",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135565.cgroup.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135565.cgroup.txt",
+    "sha256": "603f330afa23fed211eaf9fe7e2573f22cc9e98e265d8d9a66b277a4b72bbacf",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "client-135565.cmdline.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/client-135565.cmdline.txt",
+    "sha256": "8d80887d6e2a687f60a2b2e84a1e959141b849785e7915eb1574dd3cd3e64ea5",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "mps-client-list.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/mps-client-list.txt",
+    "sha256": "0c0bf3c49afe51ac0fc40aad7dc5c7326610b959408280a3123726325eeef5ce",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "mps-ps.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/mps-ps.txt",
+    "sha256": "60f7df2252c22baa37c7977a9e197d0c13eda3fe60405eaf08d3455d9c23f9fa",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "processes-during.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/processes-during.txt",
+    "sha256": "aff368cb1404e9ab1117a6be20e1328c8b2bd1d758bbe5335b56abce7b4f107d",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "gpu-during.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/gpu-during.txt",
+    "sha256": "70a2e0e2b7593dbb81041287e008ee5cbd311c0d670e388c0f9e515e665ca152",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "mps-control.json",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/mps-control.json",
+    "sha256": "96ceb5cc175f4c3753ffac422a34d7cba0a0af8bbadd47e5941db7ef43ef71ae",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "mps-server-status.txt",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/mps-server-status.txt",
+    "sha256": "0d19d8cccf70e8207dc6c21c30f92eaac656ea42ad1b4440ffd3b9323fad6ab2",
+    "projection": "byte-identical"
+  },
+  {
+    "file": "a-current.json",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/a-current.json",
+    "sha256": "cd935ceefaec18ae54563889995edfd185e66549da4abd09d9ca70fb57291508",
+    "projection": "Pod name/UID and container name/ID only"
+  },
+  {
+    "file": "task-a.log",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/task-a.log",
+    "sha256": "962306b74791663ce73e87ab0b770148039f2ecae3d96740ee156b2e6472fa62",
+    "projection": "A_READY/B_READY events only"
+  },
+  {
+    "file": "b-current.json",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/b-current.json",
+    "sha256": "c12cc9a15ab9dd325a4c43d60f0fe778d66cc97ddcc8628588ac54b6812110fc",
+    "projection": "Pod name/UID and container name/ID only"
+  },
+  {
+    "file": "task-b.log",
+    "source": ".work/smoke/lab04/mps-smoke-20261012/scope-8g-r1/task-b.log",
+    "sha256": "1ba3cfb051f61a1e2a88bbad71cf6e03cdb1c3b706490f1f6a5314b928fd7200",
+    "projection": "A_READY/B_READY events only"
+  }
+]

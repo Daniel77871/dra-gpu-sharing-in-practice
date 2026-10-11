@@ -1,0 +1,29 @@
+[
+  {
+    "host_pid": 273795,
+    "namespace_pid": 1,
+    "uid": 0,
+    "pod": "survivor",
+    "pod_uid": "47d13acf-c485-4ef7-9795-8f6929a5e58e",
+    "container_id": "3498bd34bc1c1227cc3c3d20589299b465ec79a686aee78a91ec25d2a3c10ee0",
+    "client_id": "main"
+  },
+  {
+    "host_pid": 274178,
+    "namespace_pid": 41,
+    "uid": 0,
+    "pod": "pressure",
+    "pod_uid": "8f33a640-0b22-4359-a1dd-86f76f7b66fa",
+    "container_id": "4c374698817fdb3470719ff682a06f79243d0ad67e7c465f793e4b2f346e6941",
+    "client_id": "0"
+  },
+  {
+    "host_pid": 274179,
+    "namespace_pid": 42,
+    "uid": 0,
+    "pod": "pressure",
+    "pod_uid": "8f33a640-0b22-4359-a1dd-86f76f7b66fa",
+    "container_id": "4c374698817fdb3470719ff682a06f79243d0ad67e7c465f793e4b2f346e6941",
+    "client_id": "1"
+  }
+]

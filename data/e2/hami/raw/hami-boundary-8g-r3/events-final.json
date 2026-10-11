@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-boundary-8g-r3/pressure to dra-a40",
+      "eventTime": "2026-10-07T02:31:55.254586Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "pressure",
+        "namespace": "e2-cap-20261007-hami-boundary-8g-r3",
+        "uid": "a58f5b12-a4c8-46b3-9c9b-adc1b529d000"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-cap-20261007-hami-boundary-8g-r3/survivor to dra-a40",
+      "eventTime": "2026-10-07T02:31:51.048680Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "survivor",
+        "namespace": "e2-cap-20261007-hami-boundary-8g-r3",
+        "uid": "bd870450-6e56-485d-a405-3e497ac915cc"
+      }
+    }
+  ]
+}

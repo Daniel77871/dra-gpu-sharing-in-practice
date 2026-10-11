@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-mps-20261006t092100z-scope-8g-r1/pressure to dra-a40",
+      "eventTime": "2026-10-06T09:39:02.649368Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "pressure",
+        "namespace": "e2-mps-20261006t092100z-scope-8g-r1",
+        "uid": "4f5669aa-0541-4408-8d00-eb323a5055a6"
+      }
+    },
+    {
+      "reason": "Scheduled",
+      "type": "Normal",
+      "message": "Successfully assigned e2-mps-20261006t092100z-scope-8g-r1/survivor to dra-a40",
+      "eventTime": "2026-10-06T09:38:54.918880Z",
+      "firstTimestamp": null,
+      "lastTimestamp": null,
+      "involvedObject": {
+        "kind": "Pod",
+        "name": "survivor",
+        "namespace": "e2-mps-20261006t092100z-scope-8g-r1",
+        "uid": "a83e19fc-f96d-47b3-a2e2-20081865ec68"
+      }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+[
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:19:28Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "a",
+      "namespace": "e2-cap-20261007-hami-accounting-r1",
+      "uid": "1b13c7be-d4c6-4fbd-b724-39b78d2d5974"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "10",
+                  "memory": "16Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:19:28Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "10",
+                "memory": "16Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "98e5893e-2af7-45ae-9855-f217662a278d"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "a",
+          "resource": "pods",
+          "uid": "d44e42e3-725b-4b4e-bfb2-910e342d5877"
+        }
+      ]
+    }
+  },
+  {
+    "apiVersion": "resource.k8s.io/v1",
+    "kind": "ResourceClaim",
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:19:32Z",
+      "labels": {
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "c",
+      "namespace": "e2-cap-20261007-hami-accounting-r1",
+      "uid": "cbdbfd8a-5fdd-4728-831c-bceff4a5611c"
+    },
+    "spec": {
+      "devices": {
+        "requests": [
+          {
+            "exactly": {
+              "allocationMode": "ExactCount",
+              "capacity": {
+                "requests": {
+                  "cores": "10",
+                  "memory": "8Gi"
+                }
+              },
+              "count": 1,
+              "deviceClassName": "e2-hami-gpu-20261007",
+              "selectors": [
+                {
+                  "cel": {
+                    "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                  }
+                }
+              ]
+            },
+            "name": "gpu"
+          }
+        ]
+      }
+    },
+    "status": {
+      "allocation": {
+        "allocationTimestamp": "2026-10-07T02:20:08Z",
+        "devices": {
+          "results": [
+            {
+              "consumedCapacity": {
+                "cores": "10",
+                "memory": "8Gi"
+              },
+              "device": "hami-gpu-0",
+              "driver": "hami-core-gpu.project-hami.io",
+              "pool": "dra-a40",
+              "request": "gpu",
+              "shareID": "9fdb89e9-e5a0-4132-8dbe-d140eee019f3"
+            }
+          ]
+        },
+        "nodeSelector": {
+          "nodeSelectorTerms": [
+            {
+              "matchFields": [
+                {
+                  "key": "metadata.name",
+                  "operator": "In",
+                  "values": [
+                    "dra-a40"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "reservedFor": [
+        {
+          "name": "c",
+          "resource": "pods",
+          "uid": "dd6cae96-24a0-46b4-bf50-866df412ec50"
+        }
+      ]
+    }
+  }
+]

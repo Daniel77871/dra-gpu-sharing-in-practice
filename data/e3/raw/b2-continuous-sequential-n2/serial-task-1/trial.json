@@ -1,0 +1,17 @@
+{
+  "release": {
+    "run_id": "e3-20261007-a40f",
+    "seq": 1,
+    "operation": "start",
+    "clock_domain": "0c8d0ed1-d493-4101-86f8-3e842faba065/time:[4026531834]",
+    "release_ns": 1238501285340546
+  },
+  "makespan_seconds": 45.131459872,
+  "valid": true,
+  "cleanup": {
+    "verified": true,
+    "actual_containers_exited": true,
+    "claims_cache_cdi_checkpoint_absent": true,
+    "identity_4090_unchanged": true
+  }
+}

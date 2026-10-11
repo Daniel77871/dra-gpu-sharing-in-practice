@@ -1,0 +1,41 @@
+{
+  "backend": "consumable-shares",
+  "case": "boundary",
+  "quota_gib": 8,
+  "repeat": 1,
+  "namespace": "e2-cap-20261007-consumable-boundary-8g-r1",
+  "run_id": "e2-capacity-20261007T015625Z",
+  "started_utc": "2026-10-07T02:08:15.868551+00:00",
+  "phase": "finished",
+  "baseline_elapsed": 60.00008915690705,
+  "b_actual_exit_utc": "2026-10-07T02:09:31Z",
+  "recovery_start_utc": "2026-10-07T02:09:34.299320+00:00",
+  "recovery_elapsed": 60.00007525505498,
+  "cleanup": {
+    "verified": true,
+    "namespace_absent": true,
+    "idle": {
+      "gpu_raw": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af, NVIDIA A40, 46068, 0, 45490, 0, Default\n",
+      "processes_raw": "",
+      "utc": "2026-10-07T02:10:43.237813+00:00"
+    },
+    "identity_4090_unchanged": true,
+    "utc": "2026-10-07T02:10:43.548193+00:00"
+  },
+  "collection_errors": [],
+  "finished_utc": "2026-10-07T02:10:43.548281+00:00",
+  "terminations": {
+    "survivor": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:10:35Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:08:17Z"
+    },
+    "pressure": {
+      "exitCode": 0,
+      "finishedAt": "2026-10-07T02:09:31Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-07T02:08:20Z"
+    }
+  }
+}

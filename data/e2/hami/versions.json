@@ -1,0 +1,159 @@
+{
+  "kubernetes": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "37",
+      "gitVersion": "v1.37.0",
+      "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+      "gitTreeState": "clean",
+      "buildDate": "2026-08-26T10:48:06Z",
+      "goVersion": "go1.26.6",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    },
+    "kustomizeVersion": "v5.8.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "37",
+      "emulationMajor": "1",
+      "emulationMinor": "37",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "36",
+      "gitVersion": "v1.37.0",
+      "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+      "gitTreeState": "clean",
+      "buildDate": "2026-08-26T10:44:25Z",
+      "goVersion": "go1.26.6",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  },
+  "provider": {
+    "metadata": {
+      "creationTimestamp": "2026-10-07T02:18:43Z",
+      "labels": {
+        "app.kubernetes.io/part-of": "dra-e2-isolation",
+        "experiment-run": "e2-capacity-20261007T015625Z"
+      },
+      "name": "e2-hami-provider",
+      "namespace": "nvidia-dra-driver-gpu",
+      "uid": "88edc92e-1503-46ec-ac6d-317587489d37"
+    },
+    "spec": {
+      "nodeName": "dra-a40",
+      "containers": [
+        {
+          "name": "gpus",
+          "image": "docker.io/projecthami/k8s-dra-driver:v0.1.0",
+          "command": [
+            "bash",
+            "-c"
+          ],
+          "args": [
+            "exec hami-kubelet-plugin -v 4"
+          ],
+          "env": [
+            {
+              "name": "HTTP_ENDPOINT",
+              "value": ":8080"
+            },
+            {
+              "name": "METRICS_PATH",
+              "value": "/metrics"
+            },
+            {
+              "name": "LOG_VERBOSITY",
+              "value": "4"
+            },
+            {
+              "name": "MASK_NVIDIA_DRIVER_PARAMS"
+            },
+            {
+              "name": "NVIDIA_DRIVER_ROOT",
+              "value": "/run/nvidia/driver"
+            },
+            {
+              "name": "NVIDIA_VISIBLE_DEVICES",
+              "value": "void"
+            },
+            {
+              "name": "CDI_ROOT",
+              "value": "/var/run/cdi"
+            },
+            {
+              "name": "NVIDIA_MIG_CONFIG_DEVICES",
+              "value": "all"
+            },
+            {
+              "name": "NODE_NAME",
+              "valueFrom": {
+                "fieldRef": {
+                  "apiVersion": "v1",
+                  "fieldPath": "spec.nodeName"
+                }
+              }
+            },
+            {
+              "name": "NAMESPACE",
+              "valueFrom": {
+                "fieldRef": {
+                  "apiVersion": "v1",
+                  "fieldPath": "metadata.namespace"
+                }
+              }
+            },
+            {
+              "name": "SERVICE_ACCOUNT_NAME",
+              "valueFrom": {
+                "fieldRef": {
+                  "apiVersion": "v1",
+                  "fieldPath": "spec.serviceAccountName"
+                }
+              }
+            },
+            {
+              "name": "IMAGE_NAME",
+              "value": "docker.io/projecthami/k8s-dra-driver:v0.1.0"
+            },
+            {
+              "name": "IMAGE_PULL_POLICY",
+              "value": "IfNotPresent"
+            },
+            {
+              "name": "FEATURE_GATES",
+              "value": "HAMiCoreSupport=true,MPSSupport=false,TimeSlicingSettings=false,DynamicMIG=false,ComputeDomainCliques=false,PassthroughSupport=false"
+            },
+            {
+              "name": "KUBELET_REGISTRAR_DIRECTORY_PATH",
+              "value": "/var/lib/kubelet/plugins_registry"
+            },
+            {
+              "name": "KUBELET_PLUGINS_DIRECTORY_PATH",
+              "value": "/var/lib/kubelet/plugins"
+            },
+            {
+              "name": "HEALTHCHECK_PORT",
+              "value": "51516"
+            }
+          ]
+        }
+      ]
+    },
+    "status": {
+      "phase": "Running",
+      "containerStatuses": [
+        {
+          "name": "gpus",
+          "image": "docker.io/projecthami/k8s-dra-driver:v0.1.0",
+          "imageID": "docker.io/projecthami/k8s-dra-driver@sha256:ae7e844acbd099a109bfa84296905ea941eed292a7991c06e2eeee443457ede3",
+          "restartCount": 0,
+          "state": {
+            "running": {
+              "startedAt": "2026-10-07T02:18:52Z"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

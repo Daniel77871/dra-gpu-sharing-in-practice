@@ -1,0 +1,33 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaim
+metadata:
+  name: a40-shared-mps
+  namespace: gpu-isolation-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: shared-mps
+spec:
+  devices:
+    requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+            - cel:
+                expression: 'device.attributes["gpu.nvidia.com"].uuid == "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"'
+    config:
+      - requests:
+          - gpu
+        opaque:
+          driver: gpu.nvidia.com
+          parameters:
+            apiVersion: resource.nvidia.com/v1beta1
+            kind: GpuConfig
+            sharing:
+              strategy: MPS
+              mpsConfig:
+                defaultActiveThreadPercentage: 100
+                defaultPinnedDeviceMemoryLimit: 8Gi
+                multiUser: false

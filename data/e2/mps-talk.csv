@@ -1,0 +1,3 @@
+case,processes,without_mps,with_mps,unit,quoted_speedup,without_latency_ms,with_latency_ms,source_page
+V100 JPEG,18,1009,3558,FPS,3.53,,,32
+V100 ResNet-50 TRT,8,588,1538,images/s,2.61,13.6,5.2,35

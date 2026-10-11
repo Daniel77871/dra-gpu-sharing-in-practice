@@ -82,12 +82,18 @@ def lint_text(text, path):
     return issues
 
 
+SEQ_QUOTED_ALIAS = re.compile(r'^\s*(participant|actor)\s+\S+\s+as\s+"')
+SEQ_QUOTED_TEXT = re.compile(r'^[^:]*:\s*".*"\s*$')
+
+
 def check_mermaid(text, path):
     issues = []
     first = None
     in_block = False
+    sequence = False
     for number, line, language, delimiter in markdown_lines(text):
         if delimiter and language == "mermaid":
+            sequence = False
             if not in_block:
                 first = number
             else:
@@ -99,7 +105,14 @@ def check_mermaid(text, path):
             keyword = line.strip().split()[0].rstrip(";")
             if keyword not in DIAGRAMS:
                 issues.append(Issue(path, number, "mermaid", f"unknown diagram keyword: {keyword}"))
+            sequence = keyword == "sequenceDiagram"
             first = None
+        elif in_block and sequence and line.strip():
+            # In sequence diagrams Mermaid prints quotes literally (checked with mermaid-cli 11.4.2).
+            if SEQ_QUOTED_ALIAS.match(line):
+                issues.append(Issue(path, number, "mermaid", "sequenceDiagram alias is quoted; Mermaid renders the quotes literally"))
+            elif SEQ_QUOTED_TEXT.match(line):
+                issues.append(Issue(path, number, "mermaid", "sequenceDiagram message or note text is quoted; Mermaid renders the quotes literally"))
     if in_block:
         issues.append(Issue(path, first or 1, "mermaid", "unclosed Mermaid block"))
     return issues

@@ -9,7 +9,7 @@ from pathlib import Path
 import pkgutil
 import re
 
-EXPERIMENTS = ("e1", "e2", "e2b", "e3", "e4", "e4b")
+EXPERIMENTS = ("e1", "e2", "e2-hami", "e2b", "e3", "e4", "e4b")
 REGISTRY = {}
 
 
@@ -26,7 +26,7 @@ def register(exp, *, help=""):
 
 def discover():
     for module in sorted(pkgutil.iter_modules(__path__), key=lambda item: item.name):
-        if module.name in EXPERIMENTS:
+        if module.name.replace('_', '-') in EXPERIMENTS:
             importlib.import_module(f"{__name__}.{module.name}")
 
 
@@ -49,5 +49,8 @@ class SourceReader:
     def write_sources(self, output_dir):
         # Source paths are code spans; escape backticks from unusual filenames.
         rows = ["# 資料來源", "", "以下為擷取器實際讀取的實驗室相對路徑。", ""]
-        rows.extend(f"- `{source.replace('`', '&#96;')}`" for source in sorted(self.sources))
+        line_ranges = getattr(self, 'line_ranges', {})
+        rows.extend(f"- `{source.replace('`', '&#96;')}`" +
+                    (f" L1–L{line_ranges[source]}" if source in line_ranges else '')
+                    for source in sorted(self.sources))
         (output_dir / "SOURCES.md").write_text("\n".join(rows) + "\n", encoding="utf-8")

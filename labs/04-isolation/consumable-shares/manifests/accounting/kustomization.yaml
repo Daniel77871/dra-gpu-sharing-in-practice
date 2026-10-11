@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-isolation-lab
+resources:
+  - ../../../common/manifests
+  - 00-capacity-resident-gpu.yaml
+  - 01-capacity-resident.yaml
+  - 02-capacity-release-gpu.yaml
+  - 03-capacity-release.yaml
+  - 04-capacity-waiter-gpu.yaml
+  - 05-capacity-waiter.yaml
