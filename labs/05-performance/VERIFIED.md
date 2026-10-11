@@ -57,7 +57,33 @@ $ bash scripts/restore-native-settings.sh native-perf-20261012-r4
 
 ## HAMi 模式
 
-（待 provider 切換窗 2 執行後補上。）
+HAMi 批次需要把 A40 切換給 HAMi-DRA，本 lab 使用第 4 章的 `labs/04-isolation/hami-dra/scripts/install-provider.sh` 與 `uninstall-provider.sh`。runner 會在 provider 邊界停下（退出碼 78），切換後以**相同 run-id** 重跑：
+
+```console
+$ cd labs/05-performance
+$ export I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1
+$ bash scripts/install-native-settings.sh native-perf-20261012-hami
+$ MODES=hami HAMI=1 SMOKE=1 bash scripts/run.sh perf-hami-smoke-20261012-r5     # NVIDIA 批次，停在 HAMi 邊界
+$ bash scripts/restore-native-settings.sh native-perf-20261012-hami
+$ (cd ../04-isolation/hami-dra && bash scripts/install-provider.sh hami-provider-20261012-perf2)
+$ MODES=hami HAMI=1 SMOKE=1 bash scripts/run.sh perf-hami-smoke-20261012-r5     # HAMi 批次
+$ (cd ../04-isolation/hami-dra && bash scripts/uninstall-provider.sh hami-provider-20261012-perf2)
+```
+
+同一個 run-id 共完成 4 個有效批次（bursty-aligned，N=2，GEMM 依 `37/367` 縮短）：
+
+| 模式 | N | 總時間（秒） | Task/s | GPU 使用率 | Speedup |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| exclusive | 1 | 4.408 | 0.22685 | 32.34% | 1.000 |
+| sequential | 2 | 8.806 | 0.22712 | 34.02% | 1.000 |
+| TimeSlicing | 2 | 6.178 | 0.32371 | 53.46% | 1.425 |
+| HAMi | 2 | 5.838 | 0.34259 | 57.46% | 1.508 |
+
+原始正式結果中，bursty-aligned N=2 的 HAMi 與 TimeSlicing 分別為 1.362 與 1.361。本次縮短版只有一個 block、工作量約十分之一，HAMi 略高於 TimeSlicing，但兩者都遠低於上表 MPS 的 1.951，「MPS 明顯領先、TimeSlicing 與 HAMi 相近」的順序與原報告一致；單一短 block 的差距不足以判斷 HAMi 與 TimeSlicing 的高下。
+
+**切換順序要注意：** `install-native-settings.sh` 執行期間，原生 DaemonSet 維持 `OnDelete`；第 4 章的 HAMi 安裝腳本會把這個狀態視為「已被其他流程暫停」而拒絕安裝（這是刻意的安全檢查）。因此要先還原原生設定，再切換到 HAMi；不要把兩種切換疊在一起。第一次嘗試就因為疊用而在任何變更前停止，改用上面的順序後成功。
+
+HAMi 解除安裝後，以獨立快照比對原生 DaemonSet 與執行前相同，HAMi 的 host 路徑已清除。
 
 ## 清理
 
@@ -65,4 +91,4 @@ $ bash scripts/restore-native-settings.sh native-perf-20261012-r4
 
 ## 結論
 
-NVIDIA 四種模式通過：復現套件在原叢集重現了第 5 章 bursty-aligned 的主要趨勢。
+通過。NVIDIA 四種模式與 HAMi 模式都在原叢集重現了第 5 章 bursty-aligned 的主要趨勢；provider 設定與切換都經獨立核對還原。

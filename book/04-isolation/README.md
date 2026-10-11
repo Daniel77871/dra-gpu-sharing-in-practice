@@ -56,12 +56,12 @@ MPS 的 A、B 引用同一份 Claim，使它們進入同一個 MPS 服務；容�
 | runtime Pod `pressure` | Job `quota-pressure` | B 測單行程邊界或同 Pod 雙行程。 |
 | 記帳 Pod `a`／`b`／`c` | `capacity-resident`／`capacity-release`／`capacity-waiter` | 依序占住、釋放、等待記帳容量。 |
 | MPS 共用 Claim | `a40-shared-mps` | A、B 仍引用同一個 allocation。 |
-| 容量方案的 A／B Claims | `steady-gpu`／`pressure-gpu` | A、B 各有自己的 allocation。 |
+| 容量方案的 A／B Claim | `steady-gpu`／`pressure-gpu` | A、B 各有自己的 allocation。 |
 | 原工作負載 ConfigMap | `isolation-code` | 由一份共用 generator 產生原始程式。 |
 
 ### 只讓一個 provider 公布目標 GPU
 
-> **僅限專用實驗叢集。以下流程會修改原始 NVIDIA DaemonSet、刪除 A40 plugin Pod 與暫留的 ResourceSlice。先停止目標 GPU 的工作並清理 Claims，完整保存備份；勿在正式服務節點執行。**
+> **僅限專用實驗叢集。以下流程會修改原始 NVIDIA DaemonSet、刪除 A40 plugin Pod 與暫留的 ResourceSlice。先停止目標 GPU 的工作並清理 Claim，完整保存備份；勿在正式服務節點執行。**
 
 MPS 直接使用原始 NVIDIA provider。ConsumableShares 與 HAMi-DRA 改用不同設定或替代 provider，因此先從原始 DaemonSet 排除 A40；同一時間只能有一個 provider 公布這張 GPU，避免同一份實體容量出現在彼此獨立的裝置帳本。即使使用相同 `gpu.nvidia.com` driver 名稱，也必須先停止舊 plugin，才啟動替代 plugin。
 
@@ -69,29 +69,29 @@ MPS 直接使用原始 NVIDIA provider。ConsumableShares 與 HAMi-DRA 改用不
 sequenceDiagram
     participant O as 操作端
     participant D as 原始 NVIDIA DaemonSet
-    participant K as A40 plugin 與 Slices
+    participant K as A40 plugin 與 Slice
     participant P as 替代 provider
     participant W as 實驗工作負載
     O->>D: 備份 YAML UID spec 與更新策略
     O->>D: OnDelete 並在所有 affinity terms 排除 A40
     O->>K: 刪除 A40 plugin Pod
-    O->>K: 確認 A40 Slices 消失
+    O->>K: 確認 A40 Slice 消失
     Note over O,D: 持續核對 4090 plugin UID
     O->>P: 部署並確認只有一個 publisher
     O->>W: 逐輪執行 收集 清理
-    O->>P: 移除 provider 與暫留 Slices
+    O->>P: 移除 provider 與暫留 Slice
     O->>D: OnDelete 下恢復原始 Pod 範本
-    D->>K: A40 plugin Ready 並重新公布 Slices
+    D->>K: A40 plugin Ready 並重新公布 Slice
     O->>D: 恢復原始更新策略
     O->>D: 核對原 UID 與原 spec
-    O->>K: 核對 Slices 與 4090 plugin UID
+    O->>K: 核對 Slice 與 4090 plugin UID
 ```
 
 原始 DaemonSet 是 `nvidia-dra-driver-gpu/dra-driver-nvidia-gpu-kubelet-plugin`，selector 為 `dra-driver-nvidia-gpu-component=kubelet-plugin`。`nodeSelectorTerms` 是 OR 關係，因此要在每一個原始 term 加上 `metadata.name NotIn [dra-a40]`，只新增一個 term 會放寬條件。先改成 `OnDelete`，則範本變更不會主動把 4090 的既有 plugin 替換；[DaemonSet 更新策略說明](https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/#daemonset-update-strategy)說明這個策略要由操作端刪除既有 Pod 才更新。
 
-這次原始 Slices 由 Node 持有，plugin Pod 消失不代表 Slice 一定一起刪除。腳本確認原 plugin 與替代 provider 都不存在、沒有相關 Claims、GPU 為 `Default` 且沒有 compute 行程、用量最多 64 MiB，再核對 Slice UID、spec 與 Node owner，才清除暫留的目標 Slice。所有刪除都有 UID／resourceVersion 前置條件；外部修改、受保護 UID 改變或身分不符會停止。
+這次原始 Slice 由 Node 持有，plugin Pod 消失不代表 Slice 一定一起刪除。腳本確認原 plugin 與替代 provider 都不存在、沒有相關 Claim、GPU 為 `Default` 且沒有 compute 行程、用量最多 64 MiB，再核對 Slice UID、spec 與 Node owner，才清除暫留的目標 Slice。所有刪除都有 UID／resourceVersion 前置條件；外部修改、受保護 UID 改變或身分不符會停止。
 
-還原採兩階段，先在 `OnDelete` 下恢復原範本，等 A40 plugin Ready 且原始 Slices 的裝置、屬性與容量回復，再恢復原始更新策略。最後核對同一個 DaemonSet UID 與備份 spec，略過伺服器管理的範本 metadata 欄位；Slice 的 pool generation 可以因重新公布而改變。可執行腳本與中斷復原方式見 [provider 工具](../../labs/04-isolation/provider/README.md)。
+還原採兩階段，先在 `OnDelete` 下恢復原範本，等 A40 plugin Ready 且原始 Slice 的裝置、屬性與容量回復，再恢復原始更新策略。最後核對同一個 DaemonSet UID 與備份 spec，略過伺服器管理的範本 metadata 欄位；Slice 的 pool generation 可以因重新公布而改變。可執行腳本與中斷復原方式見 [provider 工具](../../labs/04-isolation/provider/README.md)。
 
 ## 實驗設計
 
@@ -136,7 +136,7 @@ sequenceDiagram
 
 單行程邊界測試的安全規則以該 CUDA client 成功保留的張量合計為準：一旦超過宣告配額，保存 `B_LIMIT_EXCEEDED`，同步退出，不再故意耗盡實體 GPU。這個停止是量測工具的保護，結果必須記為「限制未強制執行」，不能算成配額有效；此時也沒有 30 秒 hold，應比較 A 的整段 pressure phase 而不是 hold 次數。MPS 雙行程測試則讓兩個 client 各到 5 GiB 目標後保留，配額檢查仍在各 client 內執行；它刻意用有限的 10 GiB 合計量檢查 Pod 範圍，不會因 Pod 合計超過 8 GiB 而觸發這個單行程停止條件。
 
-每個正式條件重複三輪，且每輪都使用新 Claim。先保存日誌與 API 快照，再讓 CUDA 行程同步退出、Pods 消失、Claim 釋放，核對沒有 compute 行程與殘留配額服務後才開始下一輪；這避免上一輪的張量、Claim 記帳或 MPS 服務污染下一輪結果。
+每個正式條件重複三輪，且每輪都使用新 Claim。先保存日誌與 API 快照，再讓 CUDA 行程同步退出、Pod 消失、Claim 釋放，核對沒有 compute 行程與殘留配額服務後才開始下一輪；這避免上一輪的張量、Claim 記帳或 MPS 服務污染下一輪結果。
 
 ## 結果
 

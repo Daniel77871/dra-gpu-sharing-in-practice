@@ -56,7 +56,7 @@ flowchart LR
 
 ### MPS 的三個元件與架構演變
 
-MPS client runtime 內建在 `libcuda.so`，應用程式照常呼叫 CUDA API。`nvidia-cuda-mps-control` 是管理連線與 server 生命週期的 control daemon；`nvidia-cuda-mps-server` 管理 clients 共用的 GPU 排程資源。第一個 client 連線時，daemon 才按需啟動 server，兩者不是同一個行程。[NVIDIA R595 的元件定義](https://docs.nvidia.com/deploy/mps/595/index.html)、[server 啟動順序](https://docs.nvidia.com/deploy/mps/595/architecture.html)
+MPS client runtime 內建在 `libcuda.so`，應用程式照常呼叫 CUDA API。`nvidia-cuda-mps-control` 是管理連線與 server 生命週期的 control daemon；`nvidia-cuda-mps-server` 管理 client 共用的 GPU 排程資源。第一個 client 連線時，daemon 才按需啟動 server，兩者不是同一個行程。[NVIDIA R595 的元件定義](https://docs.nvidia.com/deploy/mps/595/index.html)、[server 啟動順序](https://docs.nvidia.com/deploy/mps/595/architecture.html)
 
 ```mermaid
 flowchart TB
@@ -76,17 +76,17 @@ flowchart TB
   end
 ```
 
-「所有 clients 共用 server 的一個 context」適合說明早期架構，不能直接套用到本書的 A40。Volta 起，每個 client 有自己的 GPU 位址空間，而且直接向 GPU 提交工作，server 留在共用資源的協調路徑，沒有逐筆轉送所有 kernel。[NVIDIA R595 的 Volta 架構](https://docs.nvidia.com/deploy/mps/595/architecture.html)
+「所有 client 共用 server 的一個 context」適合說明早期架構，不能直接套用到本書的 A40。Volta 起，每個 client 有自己的 GPU 位址空間，而且直接向 GPU 提交工作，server 留在共用資源的協調路徑，沒有逐筆轉送所有 kernel。[NVIDIA R595 的 Volta 架構](https://docs.nvidia.com/deploy/mps/595/architecture.html)
 
 Volta MPS 的 client 可透過 `CUDA_MPS_ACTIVE_THREAD_PERCENTAGE` 限制可用執行緒比例，透過 `CUDA_MPS_PINNED_DEVICE_MEM_LIMIT` 限制可由 CUDA API 配置的 GPU 記憶體。client 的環境變數可以進一步降低 server 給它的上限；`PinnedDevice` 在此指裝置記憶體限制，不能解讀成只限制 CPU 端的 page-locked memory。[R595 的資源限制介面](https://docs.nvidia.com/deploy/mps/595/appendix-tools-and-interface-reference.html#environment-variables)
 
-R595 說明的連線上限是：使用 Volta MPS 預設 `CUDA_DEVICE_MAX_CONNECTIONS=2` 時，每個 server、每張裝置最多 **60 個 client CUDA context**。這是 context 數，不是 Pod 數；提高每個 client 的連線需求，會減少可容納的 clients。2019 年投影片記錄的 Volta 上限是 48，屬於當時條件，本頁採用與原叢集驅動同系列的 R595 說明。[R595 的連線限制](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#client-server-connection-limits)
+R595 說明的連線上限是：使用 Volta MPS 預設 `CUDA_DEVICE_MAX_CONNECTIONS=2` 時，每個 server、每張裝置最多 **60 個 client CUDA context**。這是 context 數，不是 Pod 數；提高每個 client 的連線需求，會減少可容納的 client。2019 年投影片記錄的 Volta 上限是 48，屬於當時條件，本頁採用與原叢集驅動同系列的 R595 說明。[R595 的連線限制](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#client-server-connection-limits)
 
 ### 配置失敗與致命 GPU 故障的差別
 
-CUDA 記憶體配置超過 MPS 上限時，呼叫會回報 OOM；這種配置失敗要和 fatal GPU fault 分開判定。Volta MPS 雖有分開的 GPU 位址空間，共用故障 GPU 的 clients 仍可能一起收到致命錯誤，server 進入 `FAULT`，拒絕新的連線；受影響的 clients 全部退出後，server 才能重建相應的 GPU contexts。Volta 以前的 server 則會在致命故障後關閉。[NVIDIA 的錯誤侷限範圍](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#memory-protection-and-error-containment)、[server 狀態](https://docs.nvidia.com/deploy/mps/595/architecture.html)
+CUDA 記憶體配置超過 MPS 上限時，呼叫會回報 OOM；這種配置失敗要和 fatal GPU fault 分開判定。Volta MPS 雖有分開的 GPU 位址空間，共用故障 GPU 的 client 仍可能一起收到致命錯誤，server 進入 `FAULT`，拒絕新的連線；受影響的 client 全部退出後，server 才能重建相應的 GPU context。Volta 以前的 server 則會在致命故障後關閉。[NVIDIA 的錯誤侷限範圍](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#memory-protection-and-error-containment)、[server 狀態](https://docs.nvidia.com/deploy/mps/595/architecture.html)
 
-因此，清理前必須讓 client 完成 CUDA 同步。直接以訊號終止仍有 GPU 工作的 client，可能讓 server 與其他 clients 停滯或發生未定義行為；本實驗讓工作負載自己同步並正常退出，沒有以強制終止來驗證故障隔離。[NVIDIA 的 client 終止條件](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#client-early-termination)
+因此，清理前必須讓 client 完成 CUDA 同步。直接以訊號終止仍有 GPU 工作的 client，可能讓 server 與其他 client 停滯或發生未定義行為；本實驗讓工作負載自己同步並正常退出，沒有以強制終止來驗證故障隔離。[NVIDIA 的 client 終止條件](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#client-early-termination)
 
 ### 哪些工作可能受惠
 
@@ -131,8 +131,8 @@ type MpsConfig struct {
 
 | 參數 | 意義 | 為什麼這樣設 |
 | --- | --- | --- |
-| `sharing.strategy: MPS` | 選用 MPS 的準備路徑。 | 讓同一 Claim 的 A、B 成為同一組 MPS clients。 |
-| `defaultActiveThreadPercentage: 100` | 對新 clients 設定可用執行緒比例的預設上限。 | 保留原始條件，沒有另外限制運算比例；100 不代表為某個 client 保留整張卡的 SM。 |
+| `sharing.strategy: MPS` | 選用 MPS 的準備路徑。 | 讓同一 Claim 的 A、B 成為同一組 MPS client。 |
+| `defaultActiveThreadPercentage: 100` | 對新 client 設定可用執行緒比例的預設上限。 | 保留原始條件，沒有另外限制運算比例；100 不代表為某個 client 保留整張卡的 SM。 |
 | `defaultPinnedDeviceMemoryLimit: 8Gi` | 對這組裝置的每個 client 設定記憶體上限。 | 比較單行程與雙行程的配額範圍；另以 `4Gi` 測不同邊界。 |
 | `defaultPerDevicePinnedMemoryLimit` | 以這組裝置的索引或 UUID 指定覆寫值。 | 多裝置 Claim 可用；本實驗只選一張 A40，沒有設定覆寫。 |
 | `multiUser: false` | 不啟用跨 UID 的 MPS server。 | A、B 與 server 都使用 UID 0，避免混入不同使用者的連線條件。 |
@@ -164,7 +164,7 @@ sequenceDiagram
   participant P as GPU kubelet plugin
   participant D as MPS daemon Deployment
   participant A as A 的 CUDA client
-  participant B as B 的 CUDA clients
+  participant B as B 的 CUDA client
   K->>P: Prepare Claim
   P->>C: 讀取裝置配置與 GpuConfig
   P->>P: 建立 pipe 與 shm 目錄
@@ -528,7 +528,7 @@ overlay 由 `mps/scripts/run.sh` 渲染後分階段套用，先建立 A 與 B �
 
 ### 先確認限制與 client 身分
 
-MPS 測試依循[本章的共用設計](README.md#實驗設計)：A 先執行至少 60 秒 baseline，B 保留成功配置 30 秒，B 退出後 A 再執行至少 60 秒。單行程 B 每次增加 256 MiB、等待 200 ms；雙行程則由兩個 child 各自到達 5 GiB 目標。以下正式結果來自 2026-10-06 的原始九輪量測，每種案例各三輪，使用新的 Claim 與 clients；後面的縮短版復現另列。
+MPS 測試依循[第四章的共用設計](README.md#實驗設計)：A 先執行至少 60 秒 baseline，B 保留成功配置 30 秒，B 退出後 A 再執行至少 60 秒。單行程 B 每次增加 256 MiB、等待 200 ms；雙行程則由兩個 child 各自到達 5 GiB 目標。以下正式結果來自 2026-10-06 的原始九輪量測，每種案例各三輪，使用新的 Claim 與 client；後面的縮短版復現另列。
 
 有 `GpuConfig` 不等於已確認 MPS 生效。原始 8 GiB 單行程第一輪讀回的 control 結果如下，server 與預設記憶體上限都為 `8G`，執行緒比例為 `100.0`；完整內容見 [control 原始結果](../../data/e2/raw/boundary-8g-r1/mps-control.json)。這是原始結果的實際輸出，PID 與 namespace 編號會隨重跑改變。
 
@@ -544,7 +544,7 @@ MPS 測試依循[本章的共用設計](README.md#實驗設計)：A 先執行至
 }
 ```
 
-雙行程第一輪另核對了 host PID 與容器 PID namespace：A 只有一個 client，B 的兩個 clients 在同一個 Pod、同一個容器，對應 namespace PID 40 與 41。B 的 parent PID 1 沒有出現在 client 清單，而 server 的上限仍讀回 `8G`；這排除了「其實使用不同 Claim」或「parent 多配了一份 GPU 記憶體」的解釋。[原始身分核對](../../data/e2/raw/scope-8g-r1/mps-identity.json)
+雙行程第一輪另核對了 host PID 與容器 PID namespace：A 只有一個 client，B 的兩個 client 在同一個 Pod、同一個容器，對應 namespace PID 40 與 41。B 的 parent PID 1 沒有出現在 client 清單，而 server 的上限仍讀回 `8G`；這排除了「其實使用不同 Claim」或「parent 多配了一份 GPU 記憶體」的解釋。[原始身分核對](../../data/e2/raw/scope-8g-r1/mps-identity.json)
 
 ### 單行程邊界與雙行程合計量
 
@@ -582,7 +582,7 @@ A40 的 NVML total 是 46,068 MiB，另有 578 MiB driver reserved，所以 tota
 
 2026-10-12 在原叢集執行的縮短版中，8 GiB 單行程 B 成功保留 **7.5 GiB**，下一次配置發生 CUDA OOM；30 秒 hold 內 A 有 **30 次成功、0 次 OOM**，運算錯誤為 **0**。B 活躍窗口的整卡取樣 peak used 為 **10,379 MiB**、min free 為 **35,112 MiB**，和原始同案例一致；清理後該輪判定 `complete=True`。
 
-同次雙行程輪次在 MPS host PID 對回 CUDA client 時中止，結果是 `incomplete`，不能據此宣稱雙行程復現通過。下列直接節錄實際執行紀錄，`...` 表示省略中間的階段、取樣與清理行；原始九輪的雙行程結果仍以上表為準。
+最初的雙行程輪次在 MPS host PID 對回 CUDA client 時中止，結果是 `incomplete`。下列節錄保留這次失敗，`...` 表示省略中間的階段、取樣與清理行；它不能作為雙行程通過的證據。
 
 ```text
 boundary-8g-r1: allocation_oom; complete=True
@@ -592,9 +592,11 @@ MPS check failed: cannot map MPS host PID to exactly one experimental CUDA clien
 scope-8g-r1: incomplete; complete=False
 ```
 
+身分檢查修正後，同日重跑的單行程與雙行程都通過。雙行程各保留 5 GiB，合計 10 GiB，共同 hold 期間 A 有 30 次成功、0 次 OOM，整卡 NVML 峰值為 13,246 MiB；完整重跑結果與還原證據見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)。原始九輪的正式結果仍以上表為準。
+
 ### NVML 行程列表要和 MPS 身分對照
 
-NVIDIA 的系統說明將 MPS clients 的執行行為歸到 server，但同份說明也提到可查詢各 client 的記憶體用量。不能因此假設 `nvidia-smi` 或 NVML 的行程列表永遠只有 server，或者把 server 那一列直接當成整張 GPU 的合計；實際可見性須核對驅動版本與查詢欄位。[NVIDIA 的監控範圍](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#limitations)、[client 記憶體查詢](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#dynamic-execution-resource-provisioning)
+NVIDIA 的系統說明將 MPS client 的執行行為歸到 server，但同份說明也提到可查詢各 client 的記憶體用量。不能因此假設 `nvidia-smi` 或 NVML 的行程列表永遠只有 server，或者把 server 那一列直接當成整張 GPU 的合計；實際可見性須核對驅動版本與查詢欄位。[NVIDIA 的監控範圍](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#limitations)、[client 記憶體查詢](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#dynamic-execution-resource-provisioning)
 
 原始 8 GiB 單行程第一輪的 [`--query-compute-apps` 快照](../../data/e2/raw/boundary-8g-r1/processes-during.txt) 實際列出三個行程，完整內容如下。control 的 client 清單可將兩個 Python host PID 對應到 A、B；server 那列只顯示 30 MiB，A、B 則分別為 2354、7986 MiB，不能用 server 那列取代整卡量測。
 
@@ -610,19 +612,19 @@ NVIDIA 的系統說明將 MPS clients 的執行行為歸到 server，但同份�
 
 MPS 在本實驗有效限制**每個 CUDA client 行程**的記憶體配置。A 與 B 共用一個 Claim，各自有相同上限；B 再啟動兩個 CUDA child 時，兩個 child 各有上限，沒有累計成 Pod 的 `8Gi` 帳本。因此這條路徑提供的是執行期配置配額，沒有同時提供 Pod 的實體合計上限或 scheduler 的 VRAM 容量記帳。
 
-多行程工作要從實際 CUDA clients 盤點資源。只做 CPU 資料處理的 DataLoader worker 不會因此成為 MPS client；若 worker 自己初始化 CUDA，才需要計入該 GPU 的 client 與記憶體總量。這是由 MPS 的連線與配額範圍推得的部署含義，本實驗沒有直接執行 DataLoader。[MPS 的 client 連線條件](https://docs.nvidia.com/deploy/mps/595/architecture.html#client-attach-detach)
+多行程工作要從實際 CUDA client 盤點資源。只做 CPU 資料處理的 DataLoader worker 不會因此成為 MPS client；若 worker 自己初始化 CUDA，才需要計入該 GPU 的 client 與記憶體總量。這是由 MPS 的連線與配額範圍推得的部署含義，本實驗沒有直接執行 DataLoader。[MPS 的 client 連線條件](https://docs.nvidia.com/deploy/mps/595/architecture.html#client-attach-detach)
 
-推論服務也不能只數 Pod：vLLM 的 tensor parallel 會使用多 GPU 與 worker 執行環境，要逐張卡確認對應的 clients；Triton Python backend 則會為每個 model instance 建立獨立行程，是否形成額外的 CUDA client 取決於該行程有沒有使用 GPU。這些是配額規劃時應檢查的應用型態，沒有在本頁測過；也不能將 Triton Python backend 的行程模型套到所有 Triton backends。[vLLM 的平行部署](https://docs.vllm.ai/en/latest/serving/parallelism_scaling/)、[Triton Python backend r24.10 的多 instance 實作說明](https://raw.githubusercontent.com/triton-inference-server/python_backend/r24.10/README.md)
+推論服務也不能只數 Pod：vLLM 的 tensor parallel 會使用多 GPU 與 worker 執行環境，要逐張卡確認對應的 client；Triton Python backend 則會為每個 model instance 建立獨立行程，是否形成額外的 CUDA client 取決於該行程有沒有使用 GPU。這些是配額規劃時應檢查的應用型態，沒有在本頁測過；也不能將 Triton Python backend 的行程模型套到所有 Triton backend。[vLLM 的平行部署](https://docs.vllm.ai/en/latest/serving/parallelism_scaling/)、[Triton Python backend r24.10 的多 instance 實作說明](https://raw.githubusercontent.com/triton-inference-server/python_backend/r24.10/README.md)
 
-當多個 clients 的可能用量合計超過整張 GPU，仍可能發生實體容量不足。active thread 比例沒有為 client 保留專用 SM，記憶體配額也不保證跨 client 的致命故障隔離；容量規劃、運算干擾與故障範圍需要分別處理。[NVIDIA 的資源分配限制](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#dynamic-execution-resource-provisioning)
+當多個 client 的可能用量合計超過整張 GPU，仍可能發生實體容量不足。active thread 比例沒有為 client 保留專用 SM，記憶體配額也不保證跨 client 的致命故障隔離；容量規劃、運算干擾與故障範圍需要分別處理。[NVIDIA 的資源分配限制](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#dynamic-execution-resource-provisioning)
 
 ## 限制
 
 本次只測 `dra-a40` 的 A40 與這個 PyTorch CUDA allocator，**沒有測 RTX 4090 的 MPS**。張量量不含 CUDA 內部配置，配置邊界的解析度為 256 MiB，完整性檢查只取張量中的三個點；這些結果不能推廣成所有 allocator、配置 API 或工作型態的相同邊界。
 
-所有 CUDA clients 與 server 都使用 UID 0，沒有啟用 multi-user 模式，也沒有測不受信任工作之間的安全隔離。沒有注入 driver fatal fault、GPU reset 或強制終止，也沒有測總 VRAM 超額配置，因此 A 的 270 次成功探測只證明本次配額 OOM 情境的穩定性。
+所有 CUDA client 與 server 都使用 UID 0，沒有啟用 multi-user 模式，也沒有測不受信任工作之間的安全隔離。沒有注入 driver fatal fault、GPU reset 或強制終止，也沒有測總 VRAM 超額配置，因此 A 的 270 次成功探測只證明本次配額 OOM 情境的穩定性。
 
-本次只驗證**同一 Claim 內的共用**，沒有測獨立 MPS Claims 如何共用 server，也沒有據此估算 scheduler 還能接受多少個 `8Gi` 工作。本頁沒有測 MPS 效能或 Kubeflow；前面的歷史案例是講者結果，本書的效能測試另見[第 5 章](../05-performance/README.md)。
+本次只驗證**同一 Claim 內的共用**，沒有測獨立 MPS Claim 如何共用 server，也沒有據此估算 scheduler 還能接受多少個 `8Gi` 工作。本頁沒有測 MPS 效能或 Kubeflow；前面的歷史案例是講者結果，本書的效能測試另見[第 5 章](../05-performance/README.md)。
 
 ## 動手復現
 
@@ -642,9 +644,9 @@ Full mode 每個案例執行三輪；未指定 `CASE` 的 `SMOKE=1` 選擇 `sing
 
 ## 重點整理
 
-- MPS 透過跨行程並行使用 GPU 空檔；Volta 起 clients 各有 GPU 位址空間，直接提交工作。
-- NVIDIA DRA 的 MPS 設定在 Prepare 階段建立 Claim 裝置群組的 daemon，再以 CDI 掛載與環境變數接上 clients。
-- 單行程在 `4Gi`、`8Gi` 上限下分別成功保留 3.5、7.5 GiB 張量，同 Pod 兩個 clients 卻能合計保留 10 GiB。
+- MPS 透過跨行程並行使用 GPU 空檔；Volta 起 client 各有 GPU 位址空間，直接提交工作。
+- NVIDIA DRA 的 MPS 設定在 Prepare 階段建立 Claim 裝置群組的 daemon，再以 CDI 掛載與環境變數接上 client。
+- 單行程在 `4Gi`、`8Gi` 上限下分別成功保留 3.5、7.5 GiB 張量，同 Pod 兩個 client 卻能合計保留 10 GiB。
 - 九輪共同保留窗口的 A 探測共 270 次成功，沒有配置 OOM 或運算錯誤；這項結果不涵蓋致命 GPU 故障。
 - 以 CUDA client 規劃配額，以整卡取樣觀察實體用量，另行處理 Pod 合計量與排程容量記帳。
 
