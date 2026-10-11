@@ -1,0 +1,4 @@
+apiVersion: v2
+name: local-values-json
+description: Render a values file as JSON locally for semantic comparison
+version: 0.1.0

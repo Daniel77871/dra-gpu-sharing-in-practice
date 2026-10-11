@@ -1,0 +1,7 @@
+nvidiaDriverRoot: /run/nvidia/driver
+gpuResourcesEnabledOverride: true
+featureGates:
+  MPSSupport: true
+resources:
+  computeDomains:
+    enabled: false

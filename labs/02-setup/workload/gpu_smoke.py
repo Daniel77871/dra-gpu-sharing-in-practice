@@ -1,0 +1,22 @@
+"""Hold the allocated GPU until run.sh has saved the claim, then check CUDA."""
+
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+
+def main():
+    deadline = time.monotonic() + 600
+    marker = Path("/tmp/dra-book-start")
+    print("WAITING_FOR_CLAIM_SNAPSHOT", flush=True)
+    while not marker.exists():
+        if time.monotonic() >= deadline:
+            raise TimeoutError("run.sh did not release the claim snapshot barrier")
+        time.sleep(0.2)
+    subprocess.run(["nvidia-smi", "-L"], check=True)
+    subprocess.run([sys.executable, "-c", 'import torch; assert torch.cuda.is_available(); print("PYTORCH_CUDA_OK", torch.cuda.get_device_name(0))'], check=True)
+
+
+if __name__ == "__main__":
+    main()

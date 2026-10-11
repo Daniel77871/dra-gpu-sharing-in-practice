@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gpu-smoke-rtx4090
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: rtx4090-smoke
+  namespace: gpu-setup-lab
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: rtx4090-smoke
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      resourceClaims:
+      - name: gpu
+        resourceClaimTemplateName: rtx4090-whole-gpu
+      containers:
+      - name: workload
+        image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - -u
+        - /opt/lab/gpu_smoke.py
+        env:
+        - name: PYTORCH_NO_CUDA_MEMORY_CACHING
+          value: '1'
+        - name: OMP_NUM_THREADS
+          value: '1'
+        resources:
+          claims:
+          - name: gpu
+        volumeMounts:
+        - name: workload
+          mountPath: /opt/lab
+          readOnly: true
+      volumes:
+      - name: workload
+        configMap:
+          name: gpu-setup-workload

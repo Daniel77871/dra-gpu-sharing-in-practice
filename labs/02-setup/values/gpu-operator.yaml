@@ -1,0 +1,8 @@
+devicePlugin:
+  enabled: false
+driver:
+  enabled: true
+  manager:
+    env:
+      - name: NODE_LABEL_FOR_GPU_POD_EVICTION
+        value: nvidia.com/dra-kubelet-plugin

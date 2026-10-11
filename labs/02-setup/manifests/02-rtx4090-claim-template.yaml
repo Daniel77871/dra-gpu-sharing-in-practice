@@ -1,0 +1,24 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: rtx4090-whole-gpu
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: rtx4090-allocation
+  namespace: gpu-setup-lab
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: rtx4090-allocation
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["gpu.nvidia.com"].productName == "NVIDIA GeForce RTX 4090"'
