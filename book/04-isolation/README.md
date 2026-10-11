@@ -97,7 +97,7 @@ sequenceDiagram
 
 ### 容量記帳測試
 
-依序建立 16 GiB、24 GiB、8 GiB 的三份 Claim，讓前兩個 sleeper Job Ready 後再建立第三個。這些工作只列出 GPU 並休眠，不建立 CUDA context，所以可以同時看到「實體 VRAM 幾乎空著」與「scheduler 的可分配餘額不足」。保存第三個 Pending 的 Claim、Pod 與真實 scheduler event，再釋放 24 GiB 的工作和 Claim，驗證第三個取得 allocation。
+依序建立 16 GiB、24 GiB、8 GiB 的三份 Claim，讓前兩個 sleeper Job Ready 後再建立第三個。A40 在 ResourceSlice 公布的容量是 46,068 MiB，前兩份共保留 40,960 MiB 後只剩 5,108 MiB，不夠第三份的 8,192 MiB。這些工作只列出 GPU 並休眠，不建立 CUDA context，所以可以同時看到「實體 VRAM 幾乎空著」與「scheduler 的可分配餘額不足」。保存第三個 Pending 的 Claim、Pod 與真實 scheduler event，再釋放 24 GiB 的工作和 Claim，驗證第三個取得 allocation。
 
 ### CUDA 執行期測試
 
@@ -167,9 +167,9 @@ sequenceDiagram
 
 ## 動手復現
 
-從[隔離復現套件](../../labs/04-isolation/README.md)依序執行 MPS、ConsumableShares，再還原原始 provider；完整命令、收集與清理見各方案 README。共用程式與分析讓兩種方法使用相同的 CUDA 配置路徑，`SMOKE=1` 只減少案例的重複次數，保留關鍵觀察窗口。
+從[隔離復現套件](../../labs/04-isolation/README.md)依序執行 MPS（原生 provider）、ConsumableShares 與 HAMi-DRA（各自切換 provider，跑完立即還原）；完整命令、收集與清理見各方案 README。共用程式與分析讓兩種方法使用相同的 CUDA 配置路徑，`SMOKE=1` 只減少案例的重複次數，保留關鍵觀察窗口。
 
-2026-10-12 在原叢集執行的縮短版重現了本章三種方案的關鍵結果：MPS 單行程在 8 GiB 前 OOM、同 Pod 雙行程合計 10 GiB；ConsumableShares 的第三份 Claim 先 Pending、B 成功配置 8.25 GiB；HAMi-DRA 的單行程、雙行程與跨 Pod 案例得到與原始實驗相同的 7,986／8,292／10,596 MiB。逐項輸出、provider 切換與還原的核對見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)。本章的數值來自原始量測，公開重算資料保存在 [data/e2](../../data/e2/README.md)。
+2026-10-12 在原叢集執行的縮短版重現了本章三種方案的關鍵結果：MPS 單行程在 8 GiB 前 OOM、同 Pod 雙行程合計 10 GiB；ConsumableShares 的第三份 Claim 先 Pending、B 成功配置 8.25 GiB；HAMi-DRA 的 NVML 實體用量在單行程、同容器雙行程與跨 Pod 共用 Claim 三個案例分別為 7,986、8,292、10,596 MiB（跨 Pod 的成功張量合計為 9.75 GiB），都與原始實驗相同。逐項輸出、provider 切換與還原的核對見[實機驗證紀錄](../../labs/04-isolation/VERIFIED.md)。本章的數值來自原始量測，公開重算資料保存在 [data/e2](../../data/e2/README.md)。
 
 ### 章節導覽
 

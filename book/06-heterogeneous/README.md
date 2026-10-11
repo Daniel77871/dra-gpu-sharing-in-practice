@@ -27,7 +27,7 @@ flowchart TD
 
 ## 部署與設定
 
-本章提供兩條入口。`selection/native/` 使用第 2 章的 NVIDIA 原生獨占 provider，不切換 provider；`selection/capacity/` 與 KFP 的容量案例則需要兩個 GPU 節點都由 HAMi-DRA 公布 `memory` 與 `cores`。後者重用[第 4 章的 provider 切換與還原流程](../../labs/04-isolation/provider/README.md)，必須在 GPU 空閒、既有 Claim 已釋放的邊界操作。
+本章提供兩條入口。`selection/native/` 使用第 2 章的 NVIDIA 原生獨占 provider，不切換 provider；`selection/capacity/` 與 KFP 的容量案例則需要兩個 GPU 節點都由 HAMi-DRA 公布 `memory` 與 `cores`。後者用本章套件的 `scripts/install-provider.sh` 與 `restore-provider.sh`（以 `NODES="dra-a40 dra-4090"` 指定兩個節點）切換，底層重用[第 4 章的 provider 切換與還原流程](../../labs/04-isolation/provider/README.md)，必須在 GPU 空閒、既有 Claim 已釋放的邊界操作。
 
 | 頁面 | 讀完可以回答的問題 |
 |---|---|
@@ -39,7 +39,7 @@ flowchart TD
 
 ## 實驗設計
 
-E4 分三階段驗證 KFP 的 Template 參照、原生獨占選卡，以及 A40 上的 HAMi 並行與容量等待。E4B 接著讓兩張 GPU 使用相同 HAMi 容量模型，以 H1、H2 檢查通用需求，以 H3–H4 檢查釋放後的同一 Pod／Claim，以 H5 檢查同時跨卡執行，再用 L1、L2、L3 分別檢查失敗、取消與重試。[E4 精簡資料](../../data/e4/)、[E4B 精簡資料](../../data/e4b/)
+E4 與 E4B 是原始實驗的兩個階段；KFP 指 Kubeflow Pipelines，Task 是管線中的一個步驟，H 開頭的代號測容量選卡，L 開頭的代號測失敗、取消與重試，holder 是刻意占住容量的占位工作。E4 分三階段驗證 KFP 的 Template 參照、原生獨占選卡，以及 A40 上的 HAMi 並行與容量等待。E4B 接著讓兩張 GPU 使用相同 HAMi 容量模型，以 H1、H2 檢查通用需求，以 H3–H4 檢查釋放後的同一 Pod／Claim，以 H5 檢查同時跨卡執行，再用 L1、L2、L3 分別檢查失敗、取消與重試。[E4 精簡資料](../../data/e4/)、[E4B 精簡資料](../../data/e4b/)
 
 工作負載做小量固定矩陣運算並檢查正確性。`30Gi` 是 DRA 預留容量，不代表程式真的配置同樣大小的張量；因此本章觀測選卡與生命週期，不拿 CUDA 時間比較 GPU 效能。
 

@@ -2,7 +2,7 @@
 
 ## 本章要回答的問題
 
-一個已經能執行一般 Pod 的 Kubernetes 叢集，還需要哪些元件，才能讓 Pod 透過 ResourceClaim 使用 GPU？本章從 GPU 節點的 kernel 與 PCI 裝置開始，依序安裝 GPU Operator、NVIDIA DRA Driver，最後用兩個 GPU Job 驗證整條路徑。
+一個已經能執行一般 Pod 的 Kubernetes 叢集，還需要哪些元件，才能讓 Pod 透過 ResourceClaim（DRA 的資源申請物件，見[第 1 章](../01-why-dra/dra-model.md)）使用 GPU？本章從 GPU 節點的 kernel 與 PCI 裝置開始，依序安裝 GPU Operator、NVIDIA DRA Driver，最後用兩個 GPU Job 驗證整條路徑。
 
 本章延續已完成的 kubeadm 與 Cilium 叢集。部署重點是讓 host 驅動、容器執行期與 DRA 裝置分配接起來；GPU 共用、記憶體隔離與效能量測留到後續章節。
 
