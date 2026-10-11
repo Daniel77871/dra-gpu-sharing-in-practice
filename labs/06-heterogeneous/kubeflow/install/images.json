@@ -1,0 +1,28 @@
+{
+  "kfp_revision": "8279bb0cd394628c77d28a4c28174334e57ddb4f",
+  "kfp_source_url": "https://codeload.github.com/kubeflow/pipelines/tar.gz/8279bb0cd394628c77d28a4c28174334e57ddb4f",
+  "kfp_source_sha256": "23e1b6b642225fa184d2239244531e017afe9a0589b7de517e83c491393c4895",
+  "argo_version": "v4.1.2",
+  "argo_source_url": "https://codeload.github.com/argoproj/argo-workflows/tar.gz/refs/tags/v4.1.2",
+  "argo_source_sha256": "83f981ac5524d80bc21c9cbf9be929f02101525110c9ec3c51e2d5caed67c682",
+  "images": {
+    "api_server": "ghcr.io/kubeflow/kfp-api-server:2.17.1@sha256:fb0822260617401eb3f35bb9856030046bdd2cd26e4a4360f14c12c23d0e418d",
+    "driver": "ghcr.io/kubeflow/kfp-driver:2.17.1@sha256:b2dd28deed025f85c5c67c3bf21ebbf64e90761e57331ac30b4057c52326264a",
+    "launcher": "ghcr.io/kubeflow/kfp-launcher:2.17.1@sha256:d0847ea2dda9c6120d33e3dd6f5539b679c84b95aa544fa39876c0cf09c60f09",
+    "frontend": "ghcr.io/kubeflow/kfp-frontend:2.17.1@sha256:130dbbbaaa0ac7c1e200f38eda7ac66d708891014eb8cb8b9b78dfe14260c107",
+    "persistence_agent": "ghcr.io/kubeflow/kfp-persistence-agent:2.17.1@sha256:3798472962a78c621900b38a268805b3494f8607e591ab32f151adf4739941c1",
+    "scheduled_workflow": "ghcr.io/kubeflow/kfp-scheduled-workflow-controller:2.17.1@sha256:2e725bce548953c7590832e56581ca51435b50f4b6fd253a7f700c9ef1003063",
+    "viewer": "ghcr.io/kubeflow/kfp-viewer-crd-controller:2.17.1@sha256:6a381f9503391f5ea09f30e6e1f8458fd04ab37bb23d741c3eccd6fd2be526ed",
+    "mysql": "docker.io/library/mysql:8.4@sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242",
+    "seaweedfs": "ghcr.io/chrislusf/seaweedfs:4.48@sha256:4e61d15fd35994cb1e43e1e553dff106794841fd9a99ade2fc8c8bfce4d7872d",
+    "alpine": "docker.io/library/alpine:3.23@sha256:85fe1e81d6758c208f3e1eed4338a1997e19d4be002d4dd32d3100c9a8c010a0",
+    "argo_controller": "quay.io/argoproj/workflow-controller:v4.1.2@sha256:466192f538abfe750157c5bb5c0b883137b19f67af27c5636ab15bc853c96668",
+    "argo_executor": "quay.io/argoproj/argoexec:v4.1.2@sha256:4a7b9a9859b63e7aea7927c69fc336a5ef07f8dbea91ae2e175cda8788d972e9",
+    "pytorch": "docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+    "hami": "docker.io/projecthami/k8s-dra-driver:v0.1.0@sha256:ae7e844acbd099a109bfa84296905ea941eed292a7991c06e2eeee443457ede3",
+    "nvidia_dra": "nvcr.io/nvidia/dra-driver-nvidia-gpu:v0.5.0@sha256:2f76a02532bea530418693bcf382f2094cb40dc8466cefdbb9af923a232e738b"
+  },
+  "notes": [
+    "All runtime images are pinned to the immutable digests observed in the original installation. Credentials are generated per installation and are absent from this file."
+  ]
+}

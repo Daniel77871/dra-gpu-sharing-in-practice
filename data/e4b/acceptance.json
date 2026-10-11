@@ -1,0 +1,310 @@
+{
+  "run_id": "e4b-20261011t060100z",
+  "overall": "accepted",
+  "capabilities": [
+    {
+      "capability": "A40 HAMi capacity scheduling",
+      "verdict": "VERIFIED",
+      "cases": [
+        "l1",
+        "l2",
+        "l3"
+      ],
+      "evidence": [
+        "lifecycle/l1-r2/acceptance.json",
+        "lifecycle/l1-r3/acceptance.json",
+        "lifecycle/l1-r4/acceptance.json",
+        "lifecycle/l2-r2/acceptance.json",
+        "lifecycle/l2-r3/acceptance.json",
+        "lifecycle/l2-r4/acceptance.json",
+        "lifecycle/l3-r3/acceptance.json",
+        "lifecycle/l3-r4/acceptance.json",
+        "lifecycle/l3-r5/acceptance.json"
+      ]
+    },
+    {
+      "capability": "4090 HAMi quota support",
+      "verdict": "VERIFIED",
+      "cases": [
+        "admission-4090"
+      ],
+      "evidence": [
+        "heterogeneous-capacity/admission-4090-r2/acceptance.json"
+      ]
+    },
+    {
+      "capability": "A40/4090 unified capacity scheduling",
+      "verdict": "VERIFIED",
+      "cases": [
+        "h1",
+        "h2",
+        "h5"
+      ],
+      "evidence": [
+        "heterogeneous-capacity/h1-r1/acceptance.json",
+        "heterogeneous-capacity/h1-r2/acceptance.json",
+        "heterogeneous-capacity/h1-r3/acceptance.json",
+        "heterogeneous-capacity/h2-r1/acceptance.json",
+        "heterogeneous-capacity/h2-r2/acceptance.json",
+        "heterogeneous-capacity/h2-r3/acceptance.json",
+        "heterogeneous-capacity/h5-r1/acceptance.json",
+        "heterogeneous-capacity/h5-r2/acceptance.json",
+        "heterogeneous-capacity/h5-r3/acceptance.json"
+      ]
+    },
+    {
+      "capability": "30Gi memory-based GPU selection",
+      "verdict": "VERIFIED",
+      "cases": [
+        "h2"
+      ],
+      "evidence": [
+        "heterogeneous-capacity/h2-r1/acceptance.json",
+        "heterogeneous-capacity/h2-r2/acceptance.json",
+        "heterogeneous-capacity/h2-r3/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Pending → Release → same Claim Reallocate",
+      "verdict": "VERIFIED",
+      "cases": [
+        "h3-h4"
+      ],
+      "evidence": [
+        "heterogeneous-capacity/h3-h4-r1/acceptance.json",
+        "heterogeneous-capacity/h3-h4-r2/acceptance.json",
+        "heterogeneous-capacity/h3-h4-r3/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Controlled failure releases Claim",
+      "verdict": "VERIFIED",
+      "cases": [
+        "l1"
+      ],
+      "evidence": [
+        "lifecycle/l1-r2/acceptance.json",
+        "lifecycle/l1-r3/acceptance.json",
+        "lifecycle/l1-r4/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Cancel releases Claim",
+      "verdict": "VERIFIED",
+      "cases": [
+        "l2"
+      ],
+      "evidence": [
+        "lifecycle/l2-r2/acceptance.json",
+        "lifecycle/l2-r3/acceptance.json",
+        "lifecycle/l2-r4/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Actual retry does not leak Claim",
+      "verdict": "VERIFIED",
+      "cases": [
+        "l3"
+      ],
+      "evidence": [
+        "lifecycle/l3-r3/acceptance.json",
+        "lifecycle/l3-r4/acceptance.json",
+        "lifecycle/l3-r5/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Fresh environment reproduction",
+      "verdict": "VERIFIED",
+      "cases": [
+        "repro"
+      ],
+      "evidence": [
+        "reproduction/repro-r1/acceptance.json"
+      ]
+    },
+    {
+      "capability": "Original provider and service state restored",
+      "verdict": "VERIFIED",
+      "cases": [],
+      "evidence": [
+        "cleanup-verification.json"
+      ]
+    }
+  ],
+  "cases": {
+    "l1": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 4,
+      "evidence": [
+        "lifecycle/l1-r1",
+        "lifecycle/l1-r2",
+        "lifecycle/l1-r3",
+        "lifecycle/l1-r4"
+      ],
+      "formal_evidence": [
+        "lifecycle/l1-r2",
+        "lifecycle/l1-r3",
+        "lifecycle/l1-r4"
+      ],
+      "retained_invalid": [
+        "lifecycle/l1-r1"
+      ],
+      "reason": null
+    },
+    "l2": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 4,
+      "evidence": [
+        "lifecycle/l2-r1",
+        "lifecycle/l2-r2",
+        "lifecycle/l2-r3",
+        "lifecycle/l2-r4"
+      ],
+      "formal_evidence": [
+        "lifecycle/l2-r2",
+        "lifecycle/l2-r3",
+        "lifecycle/l2-r4"
+      ],
+      "retained_invalid": [
+        "lifecycle/l2-r1"
+      ],
+      "reason": null
+    },
+    "l3": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 5,
+      "evidence": [
+        "lifecycle/l3-r1",
+        "lifecycle/l3-r2",
+        "lifecycle/l3-r3",
+        "lifecycle/l3-r4",
+        "lifecycle/l3-r5"
+      ],
+      "formal_evidence": [
+        "lifecycle/l3-r3",
+        "lifecycle/l3-r4",
+        "lifecycle/l3-r5"
+      ],
+      "retained_invalid": [
+        "lifecycle/l3-r1",
+        "lifecycle/l3-r2"
+      ],
+      "reason": null
+    },
+    "h1": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 3,
+      "evidence": [
+        "heterogeneous-capacity/h1-r1",
+        "heterogeneous-capacity/h1-r2",
+        "heterogeneous-capacity/h1-r3"
+      ],
+      "formal_evidence": [
+        "heterogeneous-capacity/h1-r1",
+        "heterogeneous-capacity/h1-r2",
+        "heterogeneous-capacity/h1-r3"
+      ],
+      "retained_invalid": [],
+      "reason": null
+    },
+    "h2": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 3,
+      "evidence": [
+        "heterogeneous-capacity/h2-r1",
+        "heterogeneous-capacity/h2-r2",
+        "heterogeneous-capacity/h2-r3"
+      ],
+      "formal_evidence": [
+        "heterogeneous-capacity/h2-r1",
+        "heterogeneous-capacity/h2-r2",
+        "heterogeneous-capacity/h2-r3"
+      ],
+      "retained_invalid": [],
+      "reason": null
+    },
+    "h3-h4": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 3,
+      "evidence": [
+        "heterogeneous-capacity/h3-h4-r1",
+        "heterogeneous-capacity/h3-h4-r2",
+        "heterogeneous-capacity/h3-h4-r3"
+      ],
+      "formal_evidence": [
+        "heterogeneous-capacity/h3-h4-r1",
+        "heterogeneous-capacity/h3-h4-r2",
+        "heterogeneous-capacity/h3-h4-r3"
+      ],
+      "retained_invalid": [],
+      "reason": null
+    },
+    "h5": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 3,
+      "required_repeats": 3,
+      "executed": 3,
+      "evidence": [
+        "heterogeneous-capacity/h5-r1",
+        "heterogeneous-capacity/h5-r2",
+        "heterogeneous-capacity/h5-r3"
+      ],
+      "formal_evidence": [
+        "heterogeneous-capacity/h5-r1",
+        "heterogeneous-capacity/h5-r2",
+        "heterogeneous-capacity/h5-r3"
+      ],
+      "retained_invalid": [],
+      "reason": null
+    },
+    "admission-4090": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 1,
+      "required_repeats": 1,
+      "executed": 2,
+      "evidence": [
+        "heterogeneous-capacity/admission-4090-r1",
+        "heterogeneous-capacity/admission-4090-r2"
+      ],
+      "formal_evidence": [
+        "heterogeneous-capacity/admission-4090-r2"
+      ],
+      "retained_invalid": [
+        "heterogeneous-capacity/admission-4090-r1"
+      ],
+      "reason": null
+    },
+    "repro": {
+      "verdict": "VERIFIED",
+      "valid_repeats": 1,
+      "required_repeats": 1,
+      "executed": 1,
+      "evidence": [
+        "reproduction/repro-r1"
+      ],
+      "formal_evidence": [
+        "reproduction/repro-r1"
+      ],
+      "retained_invalid": [],
+      "reason": null
+    }
+  },
+  "formal_verified_trials": 23,
+  "original_invalid_trials_retained": 5,
+  "raw_verified_with_current_verifier": 25,
+  "whole_raw_directory_verifier": "incomplete",
+  "fresh_venv_used_by_actual_reproduction": true,
+  "historical_invalid_records_retained": true
+}

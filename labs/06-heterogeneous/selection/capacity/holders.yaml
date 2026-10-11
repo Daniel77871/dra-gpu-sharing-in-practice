@@ -1,0 +1,86 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: capacity-holder-pending-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: capacity-holder-pending-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: capacity-holder-pending-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["hami-core-gpu.project-hami.io"].productName == "NVIDIA A40"'
+          capacity:
+            requests:
+              memory: 15349Mi
+              cores: '25'
+---
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: capacity-holder-a40-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: capacity-holder-a40-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: capacity-holder-a40-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["hami-core-gpu.project-hami.io"].productName == "NVIDIA A40"'
+          capacity:
+            requests:
+              memory: 37876Mi
+              cores: '25'
+---
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: capacity-holder-rtx4090-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: capacity-holder-rtx4090-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: capacity-holder-rtx4090-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["hami-core-gpu.project-hami.io"].productName == "NVIDIA GeForce RTX 4090"'
+          capacity:
+            requests:
+              memory: 16372Mi
+              cores: '25'

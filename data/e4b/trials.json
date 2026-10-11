@@ -1,0 +1,3018 @@
+[
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "admission-4090",
+    "repeat": 1,
+    "kfp_run_id": "4c3da643-2ee6-4b59-b455-6b051626f255",
+    "valid": false,
+    "status": "invalid",
+    "allocation_verified": false,
+    "cuda_verified": false,
+    "claim_lifecycle_verified": false,
+    "cleanup_verified": false,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "quota",
+        "template": "gpu-target",
+        "request_memory": "1Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "3ec2d83fe39c4de6f8bfcb95cd59f46b261556452ed022479bfb12e3fb652637",
+      "workload_sha256": "3fc3b021ffd003cc865e229a67ae776e165627c8b8f9bd7b02186f63de28b35b",
+      "template_sha256": "7b455d697a5a3b028f38d88b62c083dfdd9dc1bb3aa740b66bcc863883ecd4eb",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:05:07.778120+00:00",
+    "submitted_at": "2026-10-11T07:05:55.922961+00:00",
+    "requested_memory": "1Gi",
+    "pod_uids": [],
+    "claim_uids": [],
+    "gpu_uuids": [],
+    "nodes": [],
+    "original_record_sha256": "9a7424bd844cdba569bdabc33385412e0f431d47887bd5369fc90154d24dcd91",
+    "path": "heterogeneous-capacity/admission-4090-r1",
+    "offline_status": "invalid",
+    "offline_valid": false,
+    "offline_errors": [
+      "executor Pod UID missing from actual KFP task status: 300982c5-86e7-4239-9c84-b7eb0c4174d8",
+      "primary Run has no actual GPU attempts",
+      "primary attempt count/scenario differs from formal case",
+      "primary Run not succeeded",
+      "actual incremental CUDA allocation failure missing",
+      "actual oversize CUDA rejection missing",
+      "quota result contradicts raw allocation/rejection evidence",
+      "missing/malformed raw evidence: [Errno 2] No such file or directory: '<source-lab>/results/experiment-4b/e4b-20261011t060100z/heterogeneous-capacity/admission-4090-r1/cleanup-verification.json'"
+    ],
+    "attempts": []
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "admission-4090",
+    "repeat": 2,
+    "kfp_run_id": "805d64a3-b03e-4e29-ab16-a917352ce2ca",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "quota",
+        "template": "gpu-target",
+        "request_memory": "1Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "3ec2d83fe39c4de6f8bfcb95cd59f46b261556452ed022479bfb12e3fb652637",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "c9879d1160bfc97cbb6a4a2c86de89197d13afb32f5021ab84ef9af267041f03",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:08:57.261887+00:00",
+    "submitted_at": "2026-10-11T07:09:44.113776+00:00",
+    "finished_at": "2026-10-11T07:10:21.968268+00:00",
+    "requested_memory": "1Gi",
+    "pod_uids": [
+      "0abc4788-63b4-49ea-a0d5-28b04203ddc4"
+    ],
+    "claim_uids": [
+      "cb5f72fe-8e94-435e-a3d9-52250377ff2d"
+    ],
+    "gpu_uuids": [
+      "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+    ],
+    "nodes": [
+      "dra-4090"
+    ],
+    "original_record_sha256": "633c0083bda704b09371b85a94a85313b348d1a5109a14792346da9ea1c78b98",
+    "path": "heterogeneous-capacity/admission-4090-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "0abc4788-63b4-49ea-a0d5-28b04203ddc4",
+        "pod_name": "e4b-kubeflow-dra-75drz-metadata-0-3-retry-system-container-impl-onfailure-3835708510",
+        "node": "dra-4090",
+        "kfp_task_id": "9d661385-c376-434e-98b6-08c94c52db26",
+        "kfp_run_id": "805d64a3-b03e-4e29-ab16-a917352ce2ca",
+        "scenario": "quota",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "cb5f72fe-8e94-435e-a3d9-52250377ff2d",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "295c77c7-0133-4439-804c-c70488f61ffa",
+          "54864323-c006-40f6-bd71-89909f91c08e",
+          "cb5f72fe-8e94-435e-a3d9-52250377ff2d"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "1Gi"
+        },
+        "share_id": "ebb43c0d-02b7-4e1c-ae6b-3f5357e9b1d8",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h1",
+    "repeat": 1,
+    "kfp_run_id": "15812ec9-6370-4d48-8b92-0e21ad72f5a7",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "a298654ed63aecabf38a2db904b52f3311aa02e7743006bdfad8c40ff024a8fd",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:11:24.918101+00:00",
+    "submitted_at": "2026-10-11T07:12:23.808930+00:00",
+    "finished_at": "2026-10-11T07:13:12.765125+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "12a519bc-482c-4942-941d-304b4c411ebd"
+    ],
+    "claim_uids": [
+      "e06d0ef7-051e-494b-962c-ef3a91a1b8db"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "d5a398f29f9be620dcbd7327383e63dbb33ce7205eaa2c8b4ab678b3083962b8",
+    "path": "heterogeneous-capacity/h1-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "12a519bc-482c-4942-941d-304b4c411ebd",
+        "pod_name": "e4b-kubeflow-dra-7n4pm-metadata-0-3-retry-system-container-impl-onfailure-3839063886",
+        "node": "dra-a40",
+        "kfp_task_id": "8ec8e164-138c-4359-a261-337b41dbe05d",
+        "kfp_run_id": "15812ec9-6370-4d48-8b92-0e21ad72f5a7",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "e06d0ef7-051e-494b-962c-ef3a91a1b8db",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "54471ddb-a477-40e4-91c2-c2e698b40b88",
+          "719a903e-dd37-4bdb-b093-84f4c1374de8",
+          "e06d0ef7-051e-494b-962c-ef3a91a1b8db"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "e032bab0-5b88-4185-82a9-f36c5c9d7008",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h1",
+    "repeat": 2,
+    "kfp_run_id": "f7890a1f-31ad-42e1-b53d-6b5e1e336bcf",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "520094b6ec5f88bc127913b130b466048061d56a2baf9ec2ff4744283ca248ed",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:14:16.467082+00:00",
+    "submitted_at": "2026-10-11T07:15:20.283837+00:00",
+    "finished_at": "2026-10-11T07:16:10.244165+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "38af8c6f-66b5-4e4f-9278-03ec66ea68fb"
+    ],
+    "claim_uids": [
+      "bc2749c3-6018-4d65-89ba-eb53e4e681fb"
+    ],
+    "gpu_uuids": [
+      "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+    ],
+    "nodes": [
+      "dra-4090"
+    ],
+    "original_record_sha256": "a21fde49be5fa43c423cff3e2c5ea6001d0c427a9f6485a772557f9955e8c2d2",
+    "path": "heterogeneous-capacity/h1-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "38af8c6f-66b5-4e4f-9278-03ec66ea68fb",
+        "pod_name": "e4b-kubeflow-dra-h2np9-metadata-0-3-retry-system-container-impl-onfailure-3530372715",
+        "node": "dra-4090",
+        "kfp_task_id": "a6c2c57b-5475-4df4-924c-45a9523a5044",
+        "kfp_run_id": "f7890a1f-31ad-42e1-b53d-6b5e1e336bcf",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "bc2749c3-6018-4d65-89ba-eb53e4e681fb",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "81b07bd2-a5dc-40f7-8a90-b00e244649f4",
+          "bc2749c3-6018-4d65-89ba-eb53e4e681fb"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "b6812f1a-d6bc-40db-bea8-6c5068f93147",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h1",
+    "repeat": 3,
+    "kfp_run_id": "d6872437-f88e-4f50-8033-11491b4e9e00",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "51c134436c53ab65923ad5860bc7143eb3d500cc72eefd67bfe2d46c4926fbda",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:17:12.918066+00:00",
+    "submitted_at": "2026-10-11T07:18:10.979496+00:00",
+    "finished_at": "2026-10-11T07:18:51.149675+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "e5e1343a-7fa9-48e7-ae12-c4beaf586e86"
+    ],
+    "claim_uids": [
+      "3c6fc698-595f-450f-8a13-b94503dc3e44"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "27e6645e3bf09da6406c5f958e2c5c726bb167a4d5338ed60b40cc0006747af5",
+    "path": "heterogeneous-capacity/h1-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "e5e1343a-7fa9-48e7-ae12-c4beaf586e86",
+        "pod_name": "e4b-kubeflow-dra-dtdkb-metadata-0-3-retry-system-container-impl-onfailure-3242015933",
+        "node": "dra-a40",
+        "kfp_task_id": "f1402243-0b60-420e-8293-8b7765123889",
+        "kfp_run_id": "d6872437-f88e-4f50-8033-11491b4e9e00",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "3c6fc698-595f-450f-8a13-b94503dc3e44",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "3c6fc698-595f-450f-8a13-b94503dc3e44",
+          "a6ebfdec-ee40-4403-9e29-818369793cf2"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "aa11d4e2-35e5-4ec6-8bf6-54793d867f5c",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h2",
+    "repeat": 1,
+    "kfp_run_id": "22a75221-82a5-421e-9bf7-ddc670c45e93",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "321fa107ead39cfcafc45a337ef4cdded3dfe7cd67cb89a62a56357fa28176d3",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:20:59.743893+00:00",
+    "submitted_at": "2026-10-11T07:21:58.452570+00:00",
+    "finished_at": "2026-10-11T07:22:38.376469+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "d693072f-0404-4f72-abe0-f3ee312e63ca"
+    ],
+    "claim_uids": [
+      "60f0b6d3-26b4-4736-872c-a6fc5875b2f2"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "216ee7dd1bf5c0f872b6fcca0989fc274fb2cd6a299e3a102ee9fe0438b1445a",
+    "path": "heterogeneous-capacity/h2-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "d693072f-0404-4f72-abe0-f3ee312e63ca",
+        "pod_name": "e4b-kubeflow-dra-gmfzd-metadata-0-3-retry-system-container-impl-onfailure-2716859874",
+        "node": "dra-a40",
+        "kfp_task_id": "f24b0a50-a090-4870-849f-8f24114332f2",
+        "kfp_run_id": "22a75221-82a5-421e-9bf7-ddc670c45e93",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "60f0b6d3-26b4-4736-872c-a6fc5875b2f2",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "60f0b6d3-26b4-4736-872c-a6fc5875b2f2",
+          "75ebe9f6-c1f6-42cb-9419-db90b05883b1",
+          "76522b2a-0272-4d62-8624-94bfb7004c46"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "5aa0d1e8-b33e-4075-9981-9a0e05de3c63",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h2",
+    "repeat": 2,
+    "kfp_run_id": "d9f9a411-76ce-4989-aae0-c14fa0028949",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "ee100482ee47057cf2f0f0d037f429004e26a52779d503e20d9b5da7dc6c13fc",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:23:42.496769+00:00",
+    "submitted_at": "2026-10-11T07:24:41.110313+00:00",
+    "finished_at": "2026-10-11T07:25:30.309691+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "48fa968c-6736-4232-b006-1854bf55859a"
+    ],
+    "claim_uids": [
+      "f7f19547-8d6f-4f50-a595-e3559448325f"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "352d4c4b616b4be185fe3157712a737012ee4f6739a688889e47c782d8c44dd5",
+    "path": "heterogeneous-capacity/h2-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "48fa968c-6736-4232-b006-1854bf55859a",
+        "pod_name": "e4b-kubeflow-dra-zmx5r-metadata-0-3-retry-system-container-impl-onfailure-777224554",
+        "node": "dra-a40",
+        "kfp_task_id": "1c986132-0602-404d-8a60-f0b29682f70f",
+        "kfp_run_id": "d9f9a411-76ce-4989-aae0-c14fa0028949",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "f7f19547-8d6f-4f50-a595-e3559448325f",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "50cc2bec-c852-426e-bed2-5e14a3cfcd93",
+          "9c811fab-50f1-4f54-8ce2-4bb122888b3d",
+          "f7f19547-8d6f-4f50-a595-e3559448325f"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "c181831d-f0ac-43b2-ace8-cfd8b423a87d",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h2",
+    "repeat": 3,
+    "kfp_run_id": "d9f58799-d3e0-46a0-8480-d2029539b11d",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "2c3d37c0d88acef5ad6e0ced5efe2be2ea047d7cc762b88e942e691b5a998fdf",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:26:33.497889+00:00",
+    "submitted_at": "2026-10-11T07:27:23.295444+00:00",
+    "finished_at": "2026-10-11T07:28:11.978579+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "d79183c2-7133-4c0a-9804-71c94b2ffbbd"
+    ],
+    "claim_uids": [
+      "1afcc552-fe72-4a27-a85c-98b5a433a601"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "9a4dba584a637e88d755e4d73220eea84d2a803acefcd36c3b33265f196580c6",
+    "path": "heterogeneous-capacity/h2-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "d79183c2-7133-4c0a-9804-71c94b2ffbbd",
+        "pod_name": "e4b-kubeflow-dra-p4lt6-metadata-0-3-retry-system-container-impl-onfailure-3826894448",
+        "node": "dra-a40",
+        "kfp_task_id": "840de348-8b88-428f-93b8-e4e9eca5fe8f",
+        "kfp_run_id": "d9f58799-d3e0-46a0-8480-d2029539b11d",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "1afcc552-fe72-4a27-a85c-98b5a433a601",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "1afcc552-fe72-4a27-a85c-98b5a433a601",
+          "25793533-aab7-4ca4-86e4-dab607ac3528",
+          "d045241d-7981-449d-9857-81bb9a9a0ea6"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "9fee7bce-fbb4-4119-90b0-cac9370873ba",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h3-h4",
+    "repeat": 1,
+    "kfp_run_id": "b8b95929-e067-461c-a85a-9b1b368f3dac",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "15349Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "dff47b7c4af3e331d762fc249adab2b3a30ca57a4fa70723b277f669e7054188",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:29:11.505529+00:00",
+    "submitted_at": "2026-10-11T07:30:28.432152+00:00",
+    "finished_at": "2026-10-11T07:31:53.252608+00:00",
+    "pending_started_at": "2026-10-11T07:30:50.125024+00:00",
+    "pending_pod_uid": "bd33e26b-b221-4a3e-9216-e0827b9641f4",
+    "pending_claim_uid": "8a0592a7-718e-45a2-9eae-27325f203266",
+    "pending_duration_seconds": 33.98959729203489,
+    "release_issued_at": "2026-10-11T07:31:24.114669+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "bd33e26b-b221-4a3e-9216-e0827b9641f4"
+    ],
+    "claim_uids": [
+      "8a0592a7-718e-45a2-9eae-27325f203266"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "c9e4ecb4bfcade49c004781c6b5b97bb62d3ae41526bb599cf61a9793c5e3a94",
+    "path": "heterogeneous-capacity/h3-h4-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "e6d9f120-402e-43ca-9027-3f085359b3eb",
+        "pod_name": "e4b-kubeflow-dra-gnr9q-metadata-0-3-retry-system-container-impl-onfailure-2498579739",
+        "node": "dra-a40",
+        "kfp_task_id": "dcb8cfc3-f849-420a-a572-538d34370a40",
+        "kfp_run_id": "27c1b66c-c3b8-445d-9fc1-5bedd976c3a8",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "cdef3645-64ea-4190-881a-d44c1950fc9f",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "8461f37a-f354-4076-a951-f5b20416d0c3",
+          "cdef3645-64ea-4190-881a-d44c1950fc9f",
+          "e9b794a7-1a6d-4e0e-a8f8-7a1fe23d4cad"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "15349Mi"
+        },
+        "share_id": "e0f98ba6-bed8-480c-88fa-fe5067a0990e",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "bd33e26b-b221-4a3e-9216-e0827b9641f4",
+        "pod_name": "e4b-kubeflow-dra-6jk2n-metadata-0-3-retry-system-container-impl-onfailure-335424217",
+        "node": "dra-a40",
+        "kfp_task_id": "192e89f8-229b-4aa1-9886-739822fc1272",
+        "kfp_run_id": "b8b95929-e067-461c-a85a-9b1b368f3dac",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "8a0592a7-718e-45a2-9eae-27325f203266",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "5664eb0e-f57d-40bf-8e23-798e39182bea",
+          "8a0592a7-718e-45a2-9eae-27325f203266",
+          "bfe2831a-797c-4ad1-903b-ab66a5818d21"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "30a05493-eb98-4211-bf0b-629e1230014c",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h3-h4",
+    "repeat": 2,
+    "kfp_run_id": "ee314ec9-8c6f-40ec-8ff9-30e30760b6df",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "15349Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "0ece521d17e66cc9d09d817e0ae2d40a048c6dc9d60eb6b898e67d5baad78116",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:32:57.227496+00:00",
+    "submitted_at": "2026-10-11T07:34:14.844842+00:00",
+    "finished_at": "2026-10-11T07:35:39.889929+00:00",
+    "pending_started_at": "2026-10-11T07:34:36.281560+00:00",
+    "pending_pod_uid": "40ccc24a-ff3a-44b3-b232-7eee62f0a8d4",
+    "pending_claim_uid": "5543f016-5714-47ca-bfc9-b4cbbebb9b80",
+    "pending_duration_seconds": 33.96674579195678,
+    "release_issued_at": "2026-10-11T07:35:10.248367+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "40ccc24a-ff3a-44b3-b232-7eee62f0a8d4"
+    ],
+    "claim_uids": [
+      "5543f016-5714-47ca-bfc9-b4cbbebb9b80"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "922c1c4102a56886a0f1111ab6821bf7526c4e84a54170335a2bdeadc325c0c9",
+    "path": "heterogeneous-capacity/h3-h4-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "8a6f4186-6b9e-4ae9-a17f-b0effb96e92a",
+        "pod_name": "e4b-kubeflow-dra-6c8q8-metadata-0-3-retry-system-container-impl-onfailure-439371918",
+        "node": "dra-a40",
+        "kfp_task_id": "5d78a640-dfec-429c-b944-44ea9b0a0139",
+        "kfp_run_id": "9079a062-79f3-4085-be49-1858fb88877e",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "6fc7b754-692e-4b60-bb7f-05acd54a8f30",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "145b3643-072b-4854-8898-d8a915475f68",
+          "31376849-7626-4ba0-9f71-41c213d78306",
+          "6fc7b754-692e-4b60-bb7f-05acd54a8f30"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "15349Mi"
+        },
+        "share_id": "0545e3f5-bcd1-4bb0-a344-573d3ae24167",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "40ccc24a-ff3a-44b3-b232-7eee62f0a8d4",
+        "pod_name": "e4b-kubeflow-dra-5zvtl-metadata-0-3-retry-system-container-impl-onfailure-2120246627",
+        "node": "dra-a40",
+        "kfp_task_id": "623e748b-4d8d-4127-bd78-d1e235aad82a",
+        "kfp_run_id": "ee314ec9-8c6f-40ec-8ff9-30e30760b6df",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "5543f016-5714-47ca-bfc9-b4cbbebb9b80",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "5543f016-5714-47ca-bfc9-b4cbbebb9b80",
+          "b2f72538-2df4-4f3f-9693-8bb3f1a1fe91",
+          "e4f24e33-4b77-4a70-a332-27d6c72d0ef8"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "1e6dec3f-5411-4886-a54f-a7c88221e52a",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h3-h4",
+    "repeat": 3,
+    "kfp_run_id": "d4868748-d010-435e-b0ff-977882b8ac95",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "30Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "15349Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "0a2b102308dbea8a456f01b16e9ce41d25a5584065bac81b3b2248b523a52bbd",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:36:43.123450+00:00",
+    "submitted_at": "2026-10-11T07:38:00.255142+00:00",
+    "finished_at": "2026-10-11T07:39:24.767673+00:00",
+    "pending_started_at": "2026-10-11T07:38:22.074708+00:00",
+    "pending_pod_uid": "9323878b-d444-43a4-9ff7-81e198fb2e0d",
+    "pending_claim_uid": "1a6b9a25-0472-488a-a4a0-ce8096831ede",
+    "pending_duration_seconds": 33.982515916926786,
+    "release_issued_at": "2026-10-11T07:38:56.057287+00:00",
+    "requested_memory": "30Gi",
+    "pod_uids": [
+      "9323878b-d444-43a4-9ff7-81e198fb2e0d"
+    ],
+    "claim_uids": [
+      "1a6b9a25-0472-488a-a4a0-ce8096831ede"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "c864358110a24bbf9bb35ba7644fbfdaa2069da203c2ff52d978d2c1b6738b31",
+    "path": "heterogeneous-capacity/h3-h4-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "a3ff2ea1-7066-4ebf-a0dc-8ce04ffdd105",
+        "pod_name": "e4b-kubeflow-dra-2kl6p-metadata-0-3-retry-system-container-impl-onfailure-2848576187",
+        "node": "dra-a40",
+        "kfp_task_id": "e235c1fe-4529-4b56-b4f8-35326141bed0",
+        "kfp_run_id": "c9ff502b-da8c-4875-9521-b46100e66a03",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "602ee126-c544-4b3c-bb9e-b9ac8024177d",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "602ee126-c544-4b3c-bb9e-b9ac8024177d",
+          "ed383602-ea80-401c-b5d1-04fc79613052"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "15349Mi"
+        },
+        "share_id": "66266eb6-3281-4fee-8701-8fee0d4d4e23",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "9323878b-d444-43a4-9ff7-81e198fb2e0d",
+        "pod_name": "e4b-kubeflow-dra-sm26b-metadata-0-3-retry-system-container-impl-onfailure-1370137872",
+        "node": "dra-a40",
+        "kfp_task_id": "5122e870-fcc0-4567-a65a-eb614e606bb0",
+        "kfp_run_id": "d4868748-d010-435e-b0ff-977882b8ac95",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "1a6b9a25-0472-488a-a4a0-ce8096831ede",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "1a6b9a25-0472-488a-a4a0-ce8096831ede",
+          "61481d06-13e1-413c-bf5d-0a2684dbaf7e",
+          "f4b72e60-f294-44cc-965c-2f9fb22f8755"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "30Gi"
+        },
+        "share_id": "143e6e67-2d5e-4b1b-b810-98b9b2542ec4",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h5",
+    "repeat": 1,
+    "kfp_run_id": "2999ef12-b87d-4891-82a2-221fb3007749",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target-a",
+        "scenario": "success",
+        "template": "gpu-target-a",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      },
+      {
+        "task_id": "target-b",
+        "scenario": "success",
+        "template": "gpu-target-b",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "37876Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      },
+      {
+        "task_id": "holder-4090",
+        "scenario": "success",
+        "template": "gpu-holder-4090",
+        "request_memory": "16372Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "e641f24d66baacc894e42ba7663925bf0ee98415d323771c1b41e62071c1e76d",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "cfd0e9d68fff115ff6e54d62356b40e89d282f59848d61e371413cfae682903b",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:40:28.298522+00:00",
+    "submitted_at": "2026-10-11T07:41:46.781111+00:00",
+    "finished_at": "2026-10-11T07:42:35.757386+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "c1469c19-d962-4d6e-931f-79fd20510451",
+      "cbeb76b1-7bee-47ae-a538-9f777c329dfc"
+    ],
+    "claim_uids": [
+      "557063bd-16b1-4d7b-b3d0-f18dda61ea29",
+      "d3941468-6fd4-400f-95fc-95966777ecb8"
+    ],
+    "gpu_uuids": [
+      "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-4090",
+      "dra-a40"
+    ],
+    "original_record_sha256": "5cb01e55bb27e3dd571babe1f16b528c65e9dffcc9a360a0b7dd9fd22ed3bde6",
+    "path": "heterogeneous-capacity/h5-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "7e05ce2a-5ad0-4430-986e-64b7b53d31a8",
+        "pod_name": "e4b-kubeflow-dra-pdlq9-metadata-0-3-retry-system-container-impl-onfailure-3726272704",
+        "node": "dra-a40",
+        "kfp_task_id": "1eb8ece5-dfee-4f09-9842-295736cebe4d",
+        "kfp_run_id": "838bfa16-99a9-4615-8eea-7eebe34721a7",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "138d5f46-fbb9-4abe-954d-74bc607990b4",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "138d5f46-fbb9-4abe-954d-74bc607990b4",
+          "4068b19b-2417-4f84-9075-52d6dcc6b845"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "37876Mi"
+        },
+        "share_id": "0b0a64b2-afbb-4be7-b5ce-19e1fd834449",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "7e901437-6b65-4d62-a3a8-c9378ebd7efa",
+        "pod_name": "e4b-kubeflow-dra-pdlq9-metadata-0-3-retry-system-container-impl-onfailure-4095986069",
+        "node": "dra-4090",
+        "kfp_task_id": "5d49c0cd-a3ed-4845-9c2f-dffea47f62f8",
+        "kfp_run_id": "838bfa16-99a9-4615-8eea-7eebe34721a7",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "2eeb80a8-1e6c-496a-a300-3dbcdfac93c5",
+        "logical_task_id": "holder-4090",
+        "all_generated_claim_uids": [
+          "2eeb80a8-1e6c-496a-a300-3dbcdfac93c5",
+          "52b731d5-51e3-49da-bed9-03c06c455690",
+          "a05024d0-3251-4775-bc51-fddc454e0b0e"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "16372Mi"
+        },
+        "share_id": "d7e33f84-4522-4fe7-b732-03fdd6028d4a",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "cbeb76b1-7bee-47ae-a538-9f777c329dfc",
+        "pod_name": "e4b-kubeflow-dra-pdtmq-metadata-0-3-retry-system-container-impl-onfailure-2407295841",
+        "node": "dra-a40",
+        "kfp_task_id": "e88a69dc-0366-4b91-ad92-a228583b5ea9",
+        "kfp_run_id": "2999ef12-b87d-4891-82a2-221fb3007749",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "d3941468-6fd4-400f-95fc-95966777ecb8",
+        "logical_task_id": "target-b",
+        "all_generated_claim_uids": [
+          "56a817f6-2077-4c64-af6e-954f25612ee7",
+          "d3941468-6fd4-400f-95fc-95966777ecb8"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "921d666f-b424-4272-8e5d-146f012514de",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "c1469c19-d962-4d6e-931f-79fd20510451",
+        "pod_name": "e4b-kubeflow-dra-pdtmq-metadata-0-3-retry-system-container-impl-onfailure-704853796",
+        "node": "dra-4090",
+        "kfp_task_id": "f8e8ba98-afb7-4962-87e0-9060a1d2672d",
+        "kfp_run_id": "2999ef12-b87d-4891-82a2-221fb3007749",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "557063bd-16b1-4d7b-b3d0-f18dda61ea29",
+        "logical_task_id": "target-a",
+        "all_generated_claim_uids": [
+          "557063bd-16b1-4d7b-b3d0-f18dda61ea29",
+          "eae39101-3b96-48b9-96cd-5e0449bf8d51",
+          "f0745bed-cec3-4457-8f9d-0329ffb64b72"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "36d76337-2c8d-4b51-917b-f9eb5e5485e3",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h5",
+    "repeat": 2,
+    "kfp_run_id": "53c3627a-a3c8-401a-a363-9a206ee0ccfc",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target-a",
+        "scenario": "success",
+        "template": "gpu-target-a",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      },
+      {
+        "task_id": "target-b",
+        "scenario": "success",
+        "template": "gpu-target-b",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "37876Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      },
+      {
+        "task_id": "holder-4090",
+        "scenario": "success",
+        "template": "gpu-holder-4090",
+        "request_memory": "16372Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "e641f24d66baacc894e42ba7663925bf0ee98415d323771c1b41e62071c1e76d",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "0f41a4a03d68f0c77f9e8fa5d5a5ba65fb851c0104fc147076420cf5dab41201",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:43:39.774013+00:00",
+    "submitted_at": "2026-10-11T07:44:57.247942+00:00",
+    "finished_at": "2026-10-11T07:45:49.946220+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "016523f9-2166-4f3d-a1ad-a0ae3a684c13",
+      "a4943690-dfd6-46d9-9300-f3e92478837c"
+    ],
+    "claim_uids": [
+      "44f67208-a12f-477c-b120-2e3d9352c296",
+      "de3bb819-fe48-4216-ad43-4f4a928f7a80"
+    ],
+    "gpu_uuids": [
+      "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-4090",
+      "dra-a40"
+    ],
+    "original_record_sha256": "0a5b8bbfb0dadcbb8e040274d20b9558b2c75cc128ce2187643d736a39c8b95e",
+    "path": "heterogeneous-capacity/h5-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "ba36cd96-3dae-416e-bba1-31439add6861",
+        "pod_name": "e4b-kubeflow-dra-w7fqq-metadata-0-3-retry-system-container-impl-onfailure-2118937425",
+        "node": "dra-4090",
+        "kfp_task_id": "9134ab4a-afc2-49b4-bbc6-2c833d93dad6",
+        "kfp_run_id": "2d3efe06-b580-4715-82d0-c71fc9914f7b",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "e177f4d3-714a-4464-bf71-2105c984ad7c",
+        "logical_task_id": "holder-4090",
+        "all_generated_claim_uids": [
+          "5f3dcd2d-67fb-4357-99b2-74383beb6212",
+          "e177f4d3-714a-4464-bf71-2105c984ad7c",
+          "fd6f1907-242b-45bb-860e-82229725a37b"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "16372Mi"
+        },
+        "share_id": "2f0438db-ae7d-4b15-8bce-a02b82f6fc4a",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "a41e8269-f3a8-42d9-9876-d78f6a0c9e9e",
+        "pod_name": "e4b-kubeflow-dra-w7fqq-metadata-0-3-retry-system-container-impl-onfailure-890143156",
+        "node": "dra-a40",
+        "kfp_task_id": "d490e704-8268-4e7b-b1d9-4646fdacf48c",
+        "kfp_run_id": "2d3efe06-b580-4715-82d0-c71fc9914f7b",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "3621d57d-85d6-4222-a012-061d20a82266",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "3621d57d-85d6-4222-a012-061d20a82266",
+          "98094f4d-f0fa-4353-9302-a2e0c6809920"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "37876Mi"
+        },
+        "share_id": "e9d073f1-9c51-4819-b6c2-eb15567e2856",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "016523f9-2166-4f3d-a1ad-a0ae3a684c13",
+        "pod_name": "e4b-kubeflow-dra-pwlkj-metadata-0-3-retry-system-container-impl-onfailure-2807544024",
+        "node": "dra-4090",
+        "kfp_task_id": "4b8a312e-c688-4f9f-b9e4-5ee494ffe323",
+        "kfp_run_id": "53c3627a-a3c8-401a-a363-9a206ee0ccfc",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "de3bb819-fe48-4216-ad43-4f4a928f7a80",
+        "logical_task_id": "target-a",
+        "all_generated_claim_uids": [
+          "607b4a19-0070-43d4-b4d5-82b970051ffa",
+          "9f8751cf-9267-49e0-b3f1-3699842c4848",
+          "de3bb819-fe48-4216-ad43-4f4a928f7a80"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "07013ba1-1ba6-4046-afe1-15e68964494f",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "a4943690-dfd6-46d9-9300-f3e92478837c",
+        "pod_name": "e4b-kubeflow-dra-pwlkj-metadata-0-3-retry-system-container-impl-onfailure-3900447805",
+        "node": "dra-a40",
+        "kfp_task_id": "fbebd139-7d1d-44a2-82f5-b20bdcd36146",
+        "kfp_run_id": "53c3627a-a3c8-401a-a363-9a206ee0ccfc",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "44f67208-a12f-477c-b120-2e3d9352c296",
+        "logical_task_id": "target-b",
+        "all_generated_claim_uids": [
+          "44f67208-a12f-477c-b120-2e3d9352c296",
+          "a9058449-f687-4428-af6a-def478cfaec1"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "16ef61bf-1f7f-4461-b6d4-9ad88ed1ba23",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "heterogeneous-capacity",
+    "case": "h5",
+    "repeat": 3,
+    "kfp_run_id": "eac40d4d-54b1-4055-b368-509e4601bb09",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target-a",
+        "scenario": "success",
+        "template": "gpu-target-a",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      },
+      {
+        "task_id": "target-b",
+        "scenario": "success",
+        "template": "gpu-target-b",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": null
+      }
+    ],
+    "setup_holder_requests": [
+      {
+        "task_id": "holder-a40",
+        "scenario": "success",
+        "template": "gpu-holder-a40",
+        "request_memory": "37876Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      },
+      {
+        "task_id": "holder-4090",
+        "scenario": "success",
+        "template": "gpu-holder-4090",
+        "request_memory": "16372Mi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e"
+      }
+    ],
+    "pins": {
+      "pipeline_sha256": "e641f24d66baacc894e42ba7663925bf0ee98415d323771c1b41e62071c1e76d",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "fe81b4bd2b5acf7b27552d44d8a25f16fea08fee62bebde0acda2ca133500357",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:46:53.241492+00:00",
+    "submitted_at": "2026-10-11T07:48:28.074902+00:00",
+    "finished_at": "2026-10-11T07:49:17.672597+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "b7534157-4d96-451d-b729-8b39c1b79799",
+      "e0e0ae49-d509-4ecb-bf4c-993896d42381"
+    ],
+    "claim_uids": [
+      "3483cc32-4eb9-478b-a807-f28d389f92ef",
+      "476fbd77-72e8-48d8-8d7c-8c32ecd52759"
+    ],
+    "gpu_uuids": [
+      "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-4090",
+      "dra-a40"
+    ],
+    "original_record_sha256": "5dced9d3b997feba5cf6331acfca90155d835e2f039c6d548a971b94911ad2a9",
+    "path": "heterogeneous-capacity/h5-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "f235c14f-9de6-44b0-9d87-2733163a513b",
+        "pod_name": "e4b-kubeflow-dra-nlln9-metadata-0-3-retry-system-container-impl-onfailure-1338448498",
+        "node": "dra-4090",
+        "kfp_task_id": "63a20a37-e0e4-440f-a7f1-d6e3bf8fb006",
+        "kfp_run_id": "6c54a76d-fa35-481c-a292-895ae84ec088",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "73c23add-8b80-4c3b-9b7d-4bdb103ea456",
+        "logical_task_id": "holder-4090",
+        "all_generated_claim_uids": [
+          "73c23add-8b80-4c3b-9b7d-4bdb103ea456",
+          "b1ebc8ed-5f8a-4dae-9f0d-5e30359021b1"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "16372Mi"
+        },
+        "share_id": "c2e67304-d7e2-4179-8b07-5ae405fe9912",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "1b651745-f54c-4fe1-88fb-73005e2fa5c8",
+        "pod_name": "e4b-kubeflow-dra-nlln9-metadata-0-3-retry-system-container-impl-onfailure-1631663111",
+        "node": "dra-a40",
+        "kfp_task_id": "1c20ee0e-f27b-427a-bada-ba1aaba70850",
+        "kfp_run_id": "6c54a76d-fa35-481c-a292-895ae84ec088",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "95801ec9-527e-4fab-9a01-ac68a3181ad5",
+        "logical_task_id": "holder-a40",
+        "all_generated_claim_uids": [
+          "95801ec9-527e-4fab-9a01-ac68a3181ad5",
+          "d2355afd-648c-4363-bc08-c617ca7811e8"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "37876Mi"
+        },
+        "share_id": "884b9f7e-458e-4b72-bef0-9061daf33c48",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "b7534157-4d96-451d-b729-8b39c1b79799",
+        "pod_name": "e4b-kubeflow-dra-scw5m-metadata-0-3-retry-system-container-impl-onfailure-1569328668",
+        "node": "dra-4090",
+        "kfp_task_id": "375463bb-5998-4468-b20b-58c27474012b",
+        "kfp_run_id": "eac40d4d-54b1-4055-b368-509e4601bb09",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "3483cc32-4eb9-478b-a807-f28d389f92ef",
+        "logical_task_id": "target-b",
+        "all_generated_claim_uids": [
+          "3483cc32-4eb9-478b-a807-f28d389f92ef",
+          "de29e1bf-d40b-4b3c-b2c4-707ca3753616"
+        ],
+        "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "3fd9c12b-ba09-4dfe-aae6-b9e8890ca349",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "e0e0ae49-d509-4ecb-bf4c-993896d42381",
+        "pod_name": "e4b-kubeflow-dra-scw5m-metadata-0-3-retry-system-container-impl-onfailure-3479466741",
+        "node": "dra-a40",
+        "kfp_task_id": "863de1e5-e8f1-4ff6-8767-6954c33f186b",
+        "kfp_run_id": "eac40d4d-54b1-4055-b368-509e4601bb09",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "476fbd77-72e8-48d8-8d7c-8c32ecd52759",
+        "logical_task_id": "target-a",
+        "all_generated_claim_uids": [
+          "446dbce6-c07a-46ec-a3fe-7e330a1bc2e3",
+          "476fbd77-72e8-48d8-8d7c-8c32ecd52759"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "d78ae58b-a754-4273-b318-42d4312f9e77",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l1",
+    "repeat": 1,
+    "kfp_run_id": "21e4d878-2ca6-42f4-9f37-860967c6e9aa",
+    "valid": false,
+    "status": "invalid",
+    "allocation_verified": false,
+    "cuda_verified": false,
+    "claim_lifecycle_verified": false,
+    "cleanup_verified": false,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "controlled_failure",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "532583062a3fea4976f927c29d965d60c1fd89230ceb55fd3acb148cfc36fed9",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "0b43a8700202457e69120e91501d95c5124b4ca3c4843c36205bd9e47460f19e",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:01:52.039308+00:00",
+    "submitted_at": "2026-10-11T06:02:51.607954+00:00",
+    "finished_at": "2026-10-11T06:04:04.549122+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "8f6133a3-6b4b-45e7-a767-9e7d6ee14b77"
+    ],
+    "claim_uids": [
+      "778087bd-8a80-4973-99fb-ee0fcc26b432"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "386696c056a8e63e16548e5511d4762ad4ffffcb6415a4d4b24f7e1caeb69adc",
+    "path": "lifecycle/l1-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "8f6133a3-6b4b-45e7-a767-9e7d6ee14b77",
+        "pod_name": "e4b-kubeflow-dra-ckhdq-metadata-0-3-retry-system-container-impl-onfailure-1234067865",
+        "node": "dra-a40",
+        "kfp_task_id": "1488d3ae-c9dc-4dd4-9624-d0e2f7b61904",
+        "kfp_run_id": "21e4d878-2ca6-42f4-9f37-860967c6e9aa",
+        "scenario": "controlled_failure",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "778087bd-8a80-4973-99fb-ee0fcc26b432",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "778087bd-8a80-4973-99fb-ee0fcc26b432",
+          "82dfd414-692e-40f1-991c-6ede6dad2ba0"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "6d0e0be8-787b-4f64-98e0-5fcac94f7ea2",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "7c4d243e-1420-44a4-aa8f-78f862c1e6f7",
+        "pod_name": "e4b-kubeflow-dra-zq7d9-metadata-0-3-retry-system-container-impl-onfailure-2406279209",
+        "node": "dra-a40",
+        "kfp_task_id": "a62cc56c-9911-4038-837f-548f24fbd5ee",
+        "kfp_run_id": "a8b7bd31-31d0-44c5-a8e4-974234280f00",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "49170e9c-7e28-4045-a2a6-3f85a03788b9",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "49170e9c-7e28-4045-a2a6-3f85a03788b9",
+          "4c45b00e-a078-4d60-9d3c-a3bab8f2da72",
+          "9381c29b-1709-41e0-80f3-2a77d4be68b1"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "a5c698ea-5488-454d-a35a-735dbc21a84c",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l1",
+    "repeat": 2,
+    "kfp_run_id": "dcb3144a-126b-4999-85aa-a63b8005864e",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "controlled_failure",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "532583062a3fea4976f927c29d965d60c1fd89230ceb55fd3acb148cfc36fed9",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "51d3a195b4ed44fc1341311ca1856b2815644d4356da460c88134ee8075de192",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:06:44.418608+00:00",
+    "submitted_at": "2026-10-11T06:07:41.312107+00:00",
+    "finished_at": "2026-10-11T06:09:04.154815+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "2bfe5ce2-f5e6-4535-aeec-2627e764154b"
+    ],
+    "claim_uids": [
+      "e663967d-62d4-4d5d-a0b3-5ef34678584b"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "05a95fd37b266e2a96d62effe494914a759f5a058efa287976d7cfe81f21750e",
+    "path": "lifecycle/l1-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "2bfe5ce2-f5e6-4535-aeec-2627e764154b",
+        "pod_name": "e4b-kubeflow-dra-xxsbf-metadata-0-3-retry-system-container-impl-onfailure-3003692125",
+        "node": "dra-a40",
+        "kfp_task_id": "ce478354-1181-46b1-8f86-59878aa6301f",
+        "kfp_run_id": "dcb3144a-126b-4999-85aa-a63b8005864e",
+        "scenario": "controlled_failure",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "e663967d-62d4-4d5d-a0b3-5ef34678584b",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "6e978a6d-2c50-461e-add2-32b080f26f3f",
+          "e663967d-62d4-4d5d-a0b3-5ef34678584b"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "6bae2372-7401-4f3f-a297-e7f2e4ff5d34",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "69ddcaa7-f4ec-46b4-a0bb-252968862022",
+        "pod_name": "e4b-kubeflow-dra-8rlgw-metadata-0-3-retry-system-container-impl-onfailure-4194170214",
+        "node": "dra-a40",
+        "kfp_task_id": "3c07c234-5084-4eeb-b594-bde91f173454",
+        "kfp_run_id": "b386bf35-3bcc-4503-8913-d262a125e5f3",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "f830e257-e2a4-429a-8287-aaa0dae914d9",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "9f7202a9-da61-4348-ab29-3539da0e1166",
+          "c11cf348-1777-402b-9ca8-81df4ef887f4",
+          "f830e257-e2a4-429a-8287-aaa0dae914d9"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "92a0bc79-b6d0-497b-a5a7-06647a3d6efc",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l1",
+    "repeat": 3,
+    "kfp_run_id": "7bf172f9-3287-48d4-81a3-5efd86cf1da0",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "controlled_failure",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "532583062a3fea4976f927c29d965d60c1fd89230ceb55fd3acb148cfc36fed9",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "2cad2e959c11facbaea29f24c2eee06f7b325a3841dd196eddefa2bea3d02959",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:10:05.678913+00:00",
+    "submitted_at": "2026-10-11T06:11:02.681383+00:00",
+    "finished_at": "2026-10-11T06:12:25.992086+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "ed9357e2-9d6e-4c00-9086-cf2515e8715d"
+    ],
+    "claim_uids": [
+      "4251f762-53c8-4166-8f9e-5e9b491ebea5"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "f6700e2bafcb3a9bbba7b9a9dcdb4ce954fcf8f9d50f0d657d9f4821147faf28",
+    "path": "lifecycle/l1-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "ed9357e2-9d6e-4c00-9086-cf2515e8715d",
+        "pod_name": "e4b-kubeflow-dra-mfnnj-metadata-0-3-retry-system-container-impl-onfailure-3847115535",
+        "node": "dra-a40",
+        "kfp_task_id": "590fd2af-0d62-4c03-ad18-819c6542fc61",
+        "kfp_run_id": "7bf172f9-3287-48d4-81a3-5efd86cf1da0",
+        "scenario": "controlled_failure",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "4251f762-53c8-4166-8f9e-5e9b491ebea5",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "4251f762-53c8-4166-8f9e-5e9b491ebea5",
+          "670f79a1-aca3-42f3-aa40-dd470c108c0b",
+          "f14c9884-bff0-4930-af05-d9ac34e7741c"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "6a7b62a7-7517-46d3-aa74-9a784d6ef344",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "ac205bc9-31f4-4dcb-b9ac-9ca455b3640d",
+        "pod_name": "e4b-kubeflow-dra-62fxt-metadata-0-3-retry-system-container-impl-onfailure-3099327532",
+        "node": "dra-a40",
+        "kfp_task_id": "47a8e17c-8ac1-479d-a13e-bcac67edfbda",
+        "kfp_run_id": "ad347cf0-9a29-4884-a0fb-25f3b650c526",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "750e7047-d7dd-4fc5-8d93-6ac98fb6fbd4",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "54effca9-f3ff-407d-a702-8d7ef4afd5ce",
+          "750e7047-d7dd-4fc5-8d93-6ac98fb6fbd4",
+          "c5017bec-2d25-4893-a1c8-6f0c87226e65"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "1ec54977-148e-4c53-8130-db9544aee413",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l1",
+    "repeat": 4,
+    "kfp_run_id": "24730d10-1d9a-4b01-b439-d6d18d62d87a",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "controlled_failure",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "532583062a3fea4976f927c29d965d60c1fd89230ceb55fd3acb148cfc36fed9",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "d23dec77270c01c053bbc472231f49727ba9ada5bac58c4acc155feb82faa49a",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:13:27.883658+00:00",
+    "submitted_at": "2026-10-11T06:14:30.529067+00:00",
+    "finished_at": "2026-10-11T06:15:54.035240+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "424bca09-1682-4c3f-b509-abdd49923dec"
+    ],
+    "claim_uids": [
+      "8f1ad601-7d49-4e0e-bad8-5f4bd96c4ab7"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "72e79a8c94570359f584fcdd42764610a37ae3ac6259ba1c71334b0e84213c5f",
+    "path": "lifecycle/l1-r4",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "424bca09-1682-4c3f-b509-abdd49923dec",
+        "pod_name": "e4b-kubeflow-dra-b7ppr-metadata-0-3-retry-system-container-impl-onfailure-1385448611",
+        "node": "dra-a40",
+        "kfp_task_id": "8419053d-d880-4860-8801-50136da1b3ab",
+        "kfp_run_id": "24730d10-1d9a-4b01-b439-d6d18d62d87a",
+        "scenario": "controlled_failure",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "8f1ad601-7d49-4e0e-bad8-5f4bd96c4ab7",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "3b32cecd-701c-4c4d-b90a-36936d77fcbf",
+          "50d94361-4ef0-4c94-aea6-4054985e39a3",
+          "8f1ad601-7d49-4e0e-bad8-5f4bd96c4ab7"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "8af90b60-6f9e-4ea3-80d4-5c74272bdc5b",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "6d3bab28-ff46-4dce-91a8-16cff2d38f08",
+        "pod_name": "e4b-kubeflow-dra-pbv7t-metadata-0-3-retry-system-container-impl-onfailure-2438966383",
+        "node": "dra-a40",
+        "kfp_task_id": "62ec0a81-af33-45c7-9406-cba19ccc1f40",
+        "kfp_run_id": "f0bf97b7-2e8f-4ed0-b2c0-8589b8be9a0c",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "734cd3fb-42df-4183-83fe-0dfd986bc72f",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "734cd3fb-42df-4183-83fe-0dfd986bc72f",
+          "9999a43f-85b1-4bf9-8db8-01db77a768b6",
+          "a4e84f06-94eb-4b9b-b06c-8859381afcda"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "19f692c4-3a98-4c55-be9b-8e2fd31cf646",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l2",
+    "repeat": 1,
+    "kfp_run_id": "95913413-890f-4fc0-942b-55f9c745af06",
+    "valid": false,
+    "status": "invalid",
+    "allocation_verified": false,
+    "cuda_verified": false,
+    "claim_lifecycle_verified": false,
+    "cleanup_verified": false,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "cancel",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "464f731ee42c5ca1b2f73359553957dbadff64c4f829d3e13fa13383e818f302",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "69e8625ccaa4471aba4659b4d9a1c3606ea878c874bb0c4f2597a483670d7414",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:17:08.362797+00:00",
+    "submitted_at": "2026-10-11T06:17:54.830256+00:00",
+    "finished_at": "2026-10-11T06:19:27.859876+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "03eb2f2a-a4c9-4603-8be2-fd0bf81bb8d5"
+    ],
+    "claim_uids": [
+      "40ed1387-f3f9-469c-92c3-2f45ce69e83b"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "cd3e2b68744194b1b240dde36ae37eced3e2baebe993cfab8ca523af51ef3b99",
+    "path": "lifecycle/l2-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "03eb2f2a-a4c9-4603-8be2-fd0bf81bb8d5",
+        "pod_name": "e4b-kubeflow-dra-44wv6-metadata-0-3-retry-system-container-impl-onfailure-3226400701",
+        "node": "dra-a40",
+        "kfp_task_id": "0d0cc8c7-286a-4b29-a59d-a8e48a39b3c2",
+        "kfp_run_id": "95913413-890f-4fc0-942b-55f9c745af06",
+        "scenario": "cancel",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "40ed1387-f3f9-469c-92c3-2f45ce69e83b",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "30d8b1a9-e767-42c2-8434-38da68ad2569",
+          "40ed1387-f3f9-469c-92c3-2f45ce69e83b"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 143,
+        "intended_workload_exit_codes": [],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "f0e4c2c9-e471-463b-9508-62a4177f2594",
+        "kfp_pod_link_source": "KFP API Task ID + launcher + owner Workflow UID/node pod-spec-patch; API executor UID unavailable"
+      },
+      {
+        "valid": true,
+        "pod_uid": "f16747c0-8d0f-498c-93b4-64836e074cc3",
+        "pod_name": "e4b-kubeflow-dra-krqpn-metadata-0-3-retry-system-container-impl-onfailure-3141012744",
+        "node": "dra-a40",
+        "kfp_task_id": "fbeced8c-1e64-45d2-a644-e452bc66f264",
+        "kfp_run_id": "ad97f4fd-b665-47c6-94be-5967e1bfc33a",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "7034a9dd-7801-4fad-84b4-d4d55a2be5f4",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "39a27a8b-98ed-4c85-ac59-fbb2145fbf6c",
+          "7034a9dd-7801-4fad-84b4-d4d55a2be5f4",
+          "b32e34c1-fd0e-4841-a451-7a6d75bc897e"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "8cf5cff1-567a-4d51-abbb-3e2db41c3c72",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l2",
+    "repeat": 2,
+    "kfp_run_id": "d4412c25-7912-4b1a-b5ae-4afa6127a7c4",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "cancel",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "464f731ee42c5ca1b2f73359553957dbadff64c4f829d3e13fa13383e818f302",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "93d8900ef56283f7884830b8345b1fbe800cab94e9d2c1a736a42b4ef2572cb5",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:22:35.306040+00:00",
+    "submitted_at": "2026-10-11T06:23:22.606166+00:00",
+    "finished_at": "2026-10-11T06:24:53.590511+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "3b9749ae-3e25-4ff3-8c74-083a66e97516"
+    ],
+    "claim_uids": [
+      "80eebfb9-3c5e-46c6-a830-8a7a2d411285"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "629dd7e77fd30b487af61d21eb4455fc1a435d9f2d8fa13c53d17bb6ffa3b5f6",
+    "path": "lifecycle/l2-r2",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "3b9749ae-3e25-4ff3-8c74-083a66e97516",
+        "pod_name": "e4b-kubeflow-dra-jbxsw-metadata-0-3-retry-system-container-impl-onfailure-710427640",
+        "node": "dra-a40",
+        "kfp_task_id": "747b902c-5a51-440f-a069-5debd99c0c6c",
+        "kfp_run_id": "d4412c25-7912-4b1a-b5ae-4afa6127a7c4",
+        "scenario": "cancel",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "80eebfb9-3c5e-46c6-a830-8a7a2d411285",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "80eebfb9-3c5e-46c6-a830-8a7a2d411285",
+          "f563fb61-ca51-4a1a-8e1a-b16b81d33f9a"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 143,
+        "intended_workload_exit_codes": [],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "87d1e48a-ad7f-411b-b548-6fe78ea5c454",
+        "kfp_pod_link_source": "KFP API Task ID + launcher + owner Workflow UID/node pod-spec-patch; API executor UID unavailable"
+      },
+      {
+        "valid": true,
+        "pod_uid": "ac2a947f-a882-4aaa-8e2b-47ff1f478864",
+        "pod_name": "e4b-kubeflow-dra-lkkbc-metadata-0-3-retry-system-container-impl-onfailure-164248029",
+        "node": "dra-a40",
+        "kfp_task_id": "635dc4d5-3ac9-4bdc-8b53-2cd15da814cc",
+        "kfp_run_id": "a001ccd8-7673-46c1-a076-798640f77e8e",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "6d5252f1-05ea-4f6b-aaa9-4411131eb8cd",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "0a476f44-3d1b-431f-82fb-7ccac23c50dd",
+          "6d5252f1-05ea-4f6b-aaa9-4411131eb8cd"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "05ad288a-cdbb-4c63-98b2-549c41692255",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l2",
+    "repeat": 3,
+    "kfp_run_id": "aeb12969-6032-470b-9224-c3eccffdb182",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "cancel",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "464f731ee42c5ca1b2f73359553957dbadff64c4f829d3e13fa13383e818f302",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "7a17f6cab1c9d5207a1c11faaf803747263c180f63773cc97111d0b4aa22137a",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:25:55.273698+00:00",
+    "submitted_at": "2026-10-11T06:26:52.222809+00:00",
+    "finished_at": "2026-10-11T06:28:24.468556+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "4b913bde-e8e6-4df5-8795-04c5afa9d50e"
+    ],
+    "claim_uids": [
+      "ddc23536-2b8e-437f-ac8e-cd1d1f8a7000"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "45e8911a53616276ebba046414864f188c43703e4ea7d27433178705da6a7c59",
+    "path": "lifecycle/l2-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "4b913bde-e8e6-4df5-8795-04c5afa9d50e",
+        "pod_name": "e4b-kubeflow-dra-c7t2j-metadata-0-3-retry-system-container-impl-onfailure-79284304",
+        "node": "dra-a40",
+        "kfp_task_id": "e912c8a7-c9c7-4a37-8cf3-a25ae7a61b80",
+        "kfp_run_id": "aeb12969-6032-470b-9224-c3eccffdb182",
+        "scenario": "cancel",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "ddc23536-2b8e-437f-ac8e-cd1d1f8a7000",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "76a14ec2-1b39-401e-ac8c-6a7d6beee771",
+          "ddc23536-2b8e-437f-ac8e-cd1d1f8a7000",
+          "f1b0197d-17d6-4ce2-bbfa-96cdf33985cf"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 143,
+        "intended_workload_exit_codes": [],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "bc7d8a1d-693a-4475-b6b1-51f8747b8330",
+        "kfp_pod_link_source": "KFP API Task ID + launcher + owner Workflow UID/node pod-spec-patch; API executor UID unavailable"
+      },
+      {
+        "valid": true,
+        "pod_uid": "dc921c27-773d-487f-aa2e-a3da2f6cf561",
+        "pod_name": "e4b-kubeflow-dra-wbsxt-metadata-0-3-retry-system-container-impl-onfailure-2438459724",
+        "node": "dra-a40",
+        "kfp_task_id": "36c4ed5a-054b-4601-931d-639110ccedef",
+        "kfp_run_id": "6cfa027c-6398-4d85-b342-9211ed4da62a",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "5f9ffd7e-318c-486a-8f46-a00449ad5c36",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "5f9ffd7e-318c-486a-8f46-a00449ad5c36",
+          "e1a54f49-10d7-4f58-b788-289b5d04ec44"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "9ca2bb4a-4705-4e31-a68f-61ac46027112",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l2",
+    "repeat": 4,
+    "kfp_run_id": "b2f8885c-15e6-4e00-a688-ef90520a3018",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "cancel",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "464f731ee42c5ca1b2f73359553957dbadff64c4f829d3e13fa13383e818f302",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "2293ee48617b27f4fbc2e0f18c22fce9b327db95e47b80896bb1c0b987566ac5",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:29:26.441240+00:00",
+    "submitted_at": "2026-10-11T06:30:23.781046+00:00",
+    "finished_at": "2026-10-11T06:31:56.036281+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "22c7d07d-1014-4657-b18b-5d364539ff68"
+    ],
+    "claim_uids": [
+      "3d8d2962-f603-4a52-a3e6-07fdcc47579f"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "8bb17aa1ecaac255ffca2fc8100f341deba59320ce8921e087a00e8bef916c00",
+    "path": "lifecycle/l2-r4",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "22c7d07d-1014-4657-b18b-5d364539ff68",
+        "pod_name": "e4b-kubeflow-dra-vjhtd-metadata-0-3-retry-system-container-impl-onfailure-3518565310",
+        "node": "dra-a40",
+        "kfp_task_id": "35a2ff06-6f03-4082-836c-5acddf61f8c5",
+        "kfp_run_id": "b2f8885c-15e6-4e00-a688-ef90520a3018",
+        "scenario": "cancel",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "3d8d2962-f603-4a52-a3e6-07fdcc47579f",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "1a3aea92-98ee-4607-b8d8-f83c46a4bd8f",
+          "3d8d2962-f603-4a52-a3e6-07fdcc47579f"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 143,
+        "intended_workload_exit_codes": [],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "89c5d3c6-f474-4e6b-be5b-0200f06ed9eb",
+        "kfp_pod_link_source": "KFP API Task ID + launcher + owner Workflow UID/node pod-spec-patch; API executor UID unavailable"
+      },
+      {
+        "valid": true,
+        "pod_uid": "57ed65bf-bac7-4472-b979-4d252c59a8ba",
+        "pod_name": "e4b-kubeflow-dra-2r5hm-metadata-0-3-retry-system-container-impl-onfailure-2875480682",
+        "node": "dra-a40",
+        "kfp_task_id": "42b80f9b-d911-4d26-9e67-984dc716ba49",
+        "kfp_run_id": "f083bc37-0195-4549-825b-38e5d7407120",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "126247b4-9fc5-4d0a-96c3-6a838fa9d2a3",
+        "logical_task_id": "canary",
+        "all_generated_claim_uids": [
+          "0fc55e8c-f68d-4e4c-86b0-d64145dae7f4",
+          "126247b4-9fc5-4d0a-96c3-6a838fa9d2a3"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "5b9da50c-f77d-42cb-812b-f4b7ea58cbba",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l3",
+    "repeat": 1,
+    "kfp_run_id": "ba0264dc-d835-4374-9b0e-de10c26adbc3",
+    "valid": false,
+    "status": "invalid",
+    "allocation_verified": false,
+    "cuda_verified": false,
+    "claim_lifecycle_verified": false,
+    "cleanup_verified": false,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "retry",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "07a8a6a7b192cb0c7611a3b01e24bdb7e87fad84df0c0785665993afdc7c163c",
+      "workload_sha256": "a0826e51f1f09b1e64d676c24c1ca0c98217c9ed71be31cc2c1a0d87c7fe9aea",
+      "template_sha256": "018612d4a2f1d847927aa6f26f332f7abbf7b7c9946ecd1da2e9b2cadc454f25",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:33:29.608248+00:00",
+    "submitted_at": "2026-10-11T06:34:27.303701+00:00",
+    "finished_at": "2026-10-11T06:36:25.768831+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "0fd1fd4b-5baa-432c-859d-f12bb914a817",
+      "80666ee9-80ab-4003-8af6-f5befe8b6a99"
+    ],
+    "claim_uids": [
+      "20120406-5068-4ece-8cd7-e14eedd36e6d",
+      "bdb1ac87-09b8-4390-ad8f-9ac1b4972d0a"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "08fe58506a2ed1c2d26276afdcab141bfa1e5f9cc3a25b75451d77bee01b09e4",
+    "path": "lifecycle/l3-r1",
+    "offline_status": "invalid",
+    "offline_valid": false,
+    "offline_errors": [
+      "exact two genuine retry attempts not established",
+      "retry Run did not succeed",
+      "primary Run not succeeded"
+    ],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "0fd1fd4b-5baa-432c-859d-f12bb914a817",
+        "pod_name": "e4b-kubeflow-dra-9zk79-metadata-0-3-retry-system-container-impl-onfailure-1733542438",
+        "node": "dra-a40",
+        "kfp_task_id": "8200185e-eead-4912-8523-12a943f7cca5",
+        "kfp_run_id": "ba0264dc-d835-4374-9b0e-de10c26adbc3",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "20120406-5068-4ece-8cd7-e14eedd36e6d",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "20120406-5068-4ece-8cd7-e14eedd36e6d",
+          "7b1dfc48-ee7b-4c55-900e-60907b12fd30",
+          "80ed8db4-bee6-4143-90d7-a0c7218ef14c"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": 0,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "d09258c6-6dfd-4b6d-8980-86f6fc185c9a",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "80666ee9-80ab-4003-8af6-f5befe8b6a99",
+        "pod_name": "e4b-kubeflow-dra-9zk79-metadata-0-3-retry-system-container-impl-onfailure-2203168675",
+        "node": "dra-a40",
+        "kfp_task_id": "8200185e-eead-4912-8523-12a943f7cca5",
+        "kfp_run_id": "ba0264dc-d835-4374-9b0e-de10c26adbc3",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "bdb1ac87-09b8-4390-ad8f-9ac1b4972d0a",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "bdb1ac87-09b8-4390-ad8f-9ac1b4972d0a",
+          "ed6318bb-1a86-48eb-b5cf-2845a462eb46"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": 0,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "ccb3e439-9878-49b0-a5e8-fa90b3ca645d",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l3",
+    "repeat": 2,
+    "kfp_run_id": "9f3550e6-5e32-4da3-8f73-6844e696dbbe",
+    "valid": false,
+    "status": "invalid",
+    "allocation_verified": false,
+    "cuda_verified": false,
+    "claim_lifecycle_verified": false,
+    "cleanup_verified": false,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "retry",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "598698c76319b2f4824b17afa735a6bbcc8b171d28f64370d69295b3838ef509",
+      "workload_sha256": "f242d524f441d34e06bda23373565b0d6e628c812ccb6a7a02bd50c637636a32",
+      "template_sha256": "11946897c3828661da47861f2eaab392fa16e7be150d0c164b7e9687d7fd1132",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:40:00.482959+00:00",
+    "submitted_at": "2026-10-11T06:40:48.273049+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [],
+    "claim_uids": [],
+    "gpu_uuids": [],
+    "nodes": [],
+    "original_record_sha256": "951e1fc9bd9efd7693079415d73ee6515085b5af8ff5f432321185fe90e5b325",
+    "path": "lifecycle/l3-r2",
+    "offline_status": "invalid",
+    "offline_valid": false,
+    "offline_errors": [
+      "no actual GPU executor Pods",
+      "primary Run has no actual GPU attempts",
+      "primary attempt count/scenario differs from formal case",
+      "exact two genuine retry attempts not established",
+      "retry Task or Claim UID relationship invalid",
+      "retry Run did not succeed",
+      "Workflow retry controller evidence missing",
+      "primary Run not succeeded",
+      "missing/malformed raw evidence: [Errno 2] No such file or directory: '<source-lab>/results/experiment-4b/e4b-20261011t060100z/lifecycle/l3-r2/cleanup-verification.json'"
+    ],
+    "attempts": []
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l3",
+    "repeat": 3,
+    "kfp_run_id": "db743a17-0885-4cdb-b2ff-ce22a225529d",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "retry",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "f4599aebcaf41cdc901e1ad492cf85d8b5a18028815508109eaae0d7ac06f6fb",
+      "workload_sha256": "3fc3b021ffd003cc865e229a67ae776e165627c8b8f9bd7b02186f63de28b35b",
+      "template_sha256": "e6e916100c9caaa96a5a21d9e234f55507c100e3e770c7945d9ee6eeb6a58dda",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:45:38.762461+00:00",
+    "submitted_at": "2026-10-11T06:46:36.452804+00:00",
+    "finished_at": "2026-10-11T06:48:45.736125+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "17d6a9d3-dd73-4a99-9c70-4ab49cafd38c",
+      "d0284815-9c9d-41e8-93d8-5418724b38e8"
+    ],
+    "claim_uids": [
+      "0caf84ff-37e6-4b2e-aeab-fad9b3dc6593",
+      "604448b4-28a9-4f57-9fae-7d63baca83c5"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "c0b3cd01924d83e5d6db48e0ef2f73f552a7837daf8bd8867ace31c8c87efb98",
+    "path": "lifecycle/l3-r3",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "17d6a9d3-dd73-4a99-9c70-4ab49cafd38c",
+        "pod_name": "e4b-kubeflow-dra-55c5t-metadata-0-3-retry-system-container-impl-onfailure-846018568",
+        "node": "dra-a40",
+        "kfp_task_id": "6a65ed36-5a65-4a58-b7fb-9ce1105a07a8",
+        "kfp_run_id": "db743a17-0885-4cdb-b2ff-ce22a225529d",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "604448b4-28a9-4f57-9fae-7d63baca83c5",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "5eddc556-d5bf-4c95-9ec6-e6a253148088",
+          "604448b4-28a9-4f57-9fae-7d63baca83c5",
+          "67245e59-c7b3-4b1d-9577-3db8d7ea9efb"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": 0,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "123fc1a3-c0e9-4705-9d13-9bd05a3f350f",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "d0284815-9c9d-41e8-93d8-5418724b38e8",
+        "pod_name": "e4b-kubeflow-dra-55c5t-metadata-0-3-retry-system-container-impl-onfailure-1047202901",
+        "node": "dra-a40",
+        "kfp_task_id": "6a65ed36-5a65-4a58-b7fb-9ce1105a07a8",
+        "kfp_run_id": "db743a17-0885-4cdb-b2ff-ce22a225529d",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "0caf84ff-37e6-4b2e-aeab-fad9b3dc6593",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "0caf84ff-37e6-4b2e-aeab-fad9b3dc6593",
+          "e28a4eee-234c-45f7-a490-28714b168379"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": 1,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "4903de72-bb58-4db7-a614-d38c6663d718",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l3",
+    "repeat": 4,
+    "kfp_run_id": "92f65776-e13f-4e52-9f43-7e5609e6c572",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "retry",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "f4599aebcaf41cdc901e1ad492cf85d8b5a18028815508109eaae0d7ac06f6fb",
+      "workload_sha256": "3fc3b021ffd003cc865e229a67ae776e165627c8b8f9bd7b02186f63de28b35b",
+      "template_sha256": "e0cf9ff257e61d504c28dd28f6248aaeff8e0e97cf1b101eea30135efdd69804",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:49:48.214603+00:00",
+    "submitted_at": "2026-10-11T06:50:46.228993+00:00",
+    "finished_at": "2026-10-11T06:52:54.442973+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "4569d502-3774-43fc-a729-b1632c87a01e",
+      "4a27e899-56f2-456a-a181-06e518fde395"
+    ],
+    "claim_uids": [
+      "a3214bff-7626-4979-b288-f771d67bde5f",
+      "fd789d5b-9ae3-461e-b812-199b53c32e7e"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "11714f3f48e1556f17b184bd4729dbf205958501cea85345ca9203c74119eba2",
+    "path": "lifecycle/l3-r4",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "4569d502-3774-43fc-a729-b1632c87a01e",
+        "pod_name": "e4b-kubeflow-dra-sgw6z-metadata-0-3-retry-system-container-impl-onfailure-2399685127",
+        "node": "dra-a40",
+        "kfp_task_id": "c32b3a1b-59d3-4f5c-8f9d-48a09b3d8669",
+        "kfp_run_id": "92f65776-e13f-4e52-9f43-7e5609e6c572",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "fd789d5b-9ae3-461e-b812-199b53c32e7e",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "bfa96342-4f2f-418f-afd2-30fa1df7df35",
+          "e3b5512a-e424-4085-9d5c-4034aca81197",
+          "fd789d5b-9ae3-461e-b812-199b53c32e7e"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": 0,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "c31945ee-d376-4795-928e-298d3f561d97",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "4a27e899-56f2-456a-a181-06e518fde395",
+        "pod_name": "e4b-kubeflow-dra-sgw6z-metadata-0-3-retry-system-container-impl-onfailure-1930058890",
+        "node": "dra-a40",
+        "kfp_task_id": "c32b3a1b-59d3-4f5c-8f9d-48a09b3d8669",
+        "kfp_run_id": "92f65776-e13f-4e52-9f43-7e5609e6c572",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "a3214bff-7626-4979-b288-f771d67bde5f",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "3127fa5e-e93f-4719-a640-78a86c95c65f",
+          "a3214bff-7626-4979-b288-f771d67bde5f",
+          "a4213fee-4d17-46df-b269-7364dc0aa2b3"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": 1,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "e337e308-3377-4293-9f1d-b26166404a72",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "lifecycle",
+    "case": "l3",
+    "repeat": 5,
+    "kfp_run_id": "aa11f631-f651-4e46-9ea1-a14e1e8bd967",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "retry",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "f4599aebcaf41cdc901e1ad492cf85d8b5a18028815508109eaae0d7ac06f6fb",
+      "workload_sha256": "3fc3b021ffd003cc865e229a67ae776e165627c8b8f9bd7b02186f63de28b35b",
+      "template_sha256": "20833d49f77e6a203d47273fa6887cb1535f3bcb94cba2f54a285c407e8b8da9",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T06:53:49.929963+00:00",
+    "submitted_at": "2026-10-11T06:54:52.754957+00:00",
+    "finished_at": "2026-10-11T06:57:02.724283+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "1346c54f-feb7-4109-b656-72ae4baae788",
+      "a6194d46-454e-4a86-bb85-00cbb16a2b62"
+    ],
+    "claim_uids": [
+      "474a64c4-e442-42bd-8149-569f06b2f784",
+      "f95db0a2-bf10-4f4a-b63a-ed4865e80f4c"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "3e0c345cb1c3d9d2c3728c44b7872e4b4fef0ee2cd25904bdc2d0d5baf9a5949",
+    "path": "lifecycle/l3-r5",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "1346c54f-feb7-4109-b656-72ae4baae788",
+        "pod_name": "e4b-kubeflow-dra-fb894-metadata-0-3-retry-system-container-impl-onfailure-1401370117",
+        "node": "dra-a40",
+        "kfp_task_id": "21495d15-a745-412c-a63f-1df892b4d3f2",
+        "kfp_run_id": "aa11f631-f651-4e46-9ea1-a14e1e8bd967",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "474a64c4-e442-42bd-8149-569f06b2f784",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "1630cbbf-131c-476f-ae88-fd5178b7563b",
+          "2360dc66-78cc-4dd9-8fb8-145b5eefb29e",
+          "474a64c4-e442-42bd-8149-569f06b2f784"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 1,
+        "intended_workload_exit_codes": [
+          42
+        ],
+        "attempt_index": 0,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "22b1a130-1473-400e-8d53-b1f3ff7eae43",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      },
+      {
+        "valid": true,
+        "pod_uid": "a6194d46-454e-4a86-bb85-00cbb16a2b62",
+        "pod_name": "e4b-kubeflow-dra-fb894-metadata-0-3-retry-system-container-impl-onfailure-3347721016",
+        "node": "dra-a40",
+        "kfp_task_id": "21495d15-a745-412c-a63f-1df892b4d3f2",
+        "kfp_run_id": "aa11f631-f651-4e46-9ea1-a14e1e8bd967",
+        "scenario": "retry",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "f95db0a2-bf10-4f4a-b63a-ed4865e80f4c",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "e7fd53c9-c13c-46f9-9113-dea610395767",
+          "f95db0a2-bf10-4f4a-b63a-ed4865e80f4c"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": 1,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "b1c2f98b-f526-4269-95b9-59a97a7cba23",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  },
+  {
+    "stage": "reproduction",
+    "case": "repro",
+    "repeat": 1,
+    "kfp_run_id": "d9c2f15b-4fdf-4d1a-8b75-5f0c2e97113d",
+    "valid": true,
+    "status": "verified",
+    "allocation_verified": true,
+    "cuda_verified": true,
+    "claim_lifecycle_verified": true,
+    "cleanup_verified": true,
+    "requests": [
+      {
+        "task_id": "target",
+        "scenario": "success",
+        "template": "gpu-target",
+        "request_memory": "8Gi",
+        "request_cores": 25,
+        "uuid_selector": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      }
+    ],
+    "setup_holder_requests": [],
+    "pins": {
+      "pipeline_sha256": "57c3dd462b6f3397660b151b33d9c4d7d9f580127f6bc7d609986d0cac7701b3",
+      "workload_sha256": "c38f5e4501a9759a9fd1493fbfcfbd30a8e3a3f9c7ff6977429521c5296111f5",
+      "template_sha256": "6bf3452e58bb8414a6a5f0617fbd79cc058a0b50f34b16602d276285ae92f153",
+      "image": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755"
+    },
+    "started_at": "2026-10-11T07:50:41.644569+00:00",
+    "submitted_at": "2026-10-11T07:51:43.283980+00:00",
+    "finished_at": "2026-10-11T07:52:33.225305+00:00",
+    "requested_memory": "8Gi",
+    "pod_uids": [
+      "0fdb9524-bd16-4326-82c4-ef3e826a4294"
+    ],
+    "claim_uids": [
+      "e0c54622-7b97-43f4-91d2-ccc56237dfd5"
+    ],
+    "gpu_uuids": [
+      "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+    ],
+    "nodes": [
+      "dra-a40"
+    ],
+    "original_record_sha256": "c6eee67ed6346808d919036e83f0668e053929babcd5c7ce029b3ff2c31d241c",
+    "path": "reproduction/repro-r1",
+    "offline_status": "verified",
+    "offline_valid": true,
+    "offline_errors": [],
+    "attempts": [
+      {
+        "valid": true,
+        "pod_uid": "0fdb9524-bd16-4326-82c4-ef3e826a4294",
+        "pod_name": "e4b-kubeflow-dra-ml5sp-metadata-0-3-retry-system-container-impl-onfailure-1834469183",
+        "node": "dra-a40",
+        "kfp_task_id": "c57c0e74-a24b-4f29-be9e-f7d5324c13be",
+        "kfp_run_id": "d9c2f15b-4fdf-4d1a-8b75-5f0c2e97113d",
+        "scenario": "success",
+        "driver": "hami-core-gpu.project-hami.io",
+        "claim_uid": "e0c54622-7b97-43f4-91d2-ccc56237dfd5",
+        "logical_task_id": "target",
+        "all_generated_claim_uids": [
+          "52503c49-8e29-4315-8783-e5d10595e260",
+          "e0c54622-7b97-43f4-91d2-ccc56237dfd5",
+          "f91ad669-b569-42bb-9ba9-1db63ca48547"
+        ],
+        "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+        "actual_container_exit_code": 0,
+        "intended_workload_exit_codes": [
+          0
+        ],
+        "attempt_index": null,
+        "consumed_capacity": {
+          "cores": "25",
+          "memory": "8Gi"
+        },
+        "share_id": "e130146a-379c-4e61-8ff9-fb5cb0b8971a",
+        "kfp_pod_link_source": "KFP API EXECUTOR Pod UID"
+      }
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: prefer-4090-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: prefer-4090-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: prefer-4090-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        firstAvailable:
+        - name: rtx4090
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["gpu.nvidia.com"].productName == "NVIDIA GeForce RTX 4090"'
+        - name: a40
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 1
+          selectors:
+          - cel:
+              expression: 'device.attributes["gpu.nvidia.com"].productName == "NVIDIA A40"'

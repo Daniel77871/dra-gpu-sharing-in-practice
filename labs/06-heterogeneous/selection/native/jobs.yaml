@@ -1,0 +1,85 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: native-worker
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: native-worker
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: native-worker
+    spec:
+      restartPolicy: Never
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+      resourceClaims:
+      - name: gpu
+        resourceClaimTemplateName: native-any-gpu-gpu
+      containers:
+      - name: workload
+        image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - -u
+        - /opt/lab/native_workload.py
+        args:
+        - --task-id
+        - native-worker
+        - --run-id
+        - selection
+        - --control
+        - /opt/control/control.json
+        - --hold-timeout
+        - '900'
+        env:
+        - name: E4_POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        - name: E4_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: E4_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: E4_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            cpu: '1'
+            memory: 2Gi
+          limits:
+            cpu: '1'
+            memory: 2Gi
+          claims:
+          - name: gpu
+        volumeMounts:
+        - name: source
+          mountPath: /opt/lab
+          readOnly: true
+        - name: control
+          mountPath: /opt/control
+          readOnly: true
+      volumes:
+      - name: source
+        configMap:
+          name: selection-workload
+      - name: control
+        configMap:
+          name: selection-control

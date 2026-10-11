@@ -1,0 +1,118 @@
+components:
+  comp-gpu-task:
+    executorLabel: exec-gpu-task
+    inputDefinitions:
+      parameters:
+        scenario:
+          parameterType: STRING
+        study_id:
+          parameterType: STRING
+        task_id:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-gpu-task:
+      container:
+        args:
+        - --task-id
+        - '{{$.inputs.parameters[''task_id'']}}'
+        - --scenario
+        - '{{$.inputs.parameters[''scenario'']}}'
+        - --run-id
+        - '{{$.inputs.parameters[''study_id'']}}'
+        - --control
+        - /opt/control/control.json
+        - --hold-timeout
+        - '900'
+        command:
+        - python
+        - -u
+        - /opt/lab/gpu_workload.py
+        env:
+        - name: PYTORCH_NO_CUDA_MEMORY_CACHING
+          value: '1'
+        - name: KFP_RETRY_INDEX
+          value: '0'
+        image: docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755
+        resources:
+          cpuLimit: 1.0
+          cpuRequest: 1.0
+          memoryLimit: 2.147483648
+          memoryRequest: 2.147483648
+          resourceCpuLimit: '1'
+          resourceCpuRequest: '1'
+          resourceMemoryLimit: 2Gi
+          resourceMemoryRequest: 2Gi
+pipelineInfo:
+  name: dra-book-kubeflow-h2
+root:
+  dag:
+    tasks:
+      gpu-task:
+        cachingOptions: {}
+        componentRef:
+          name: comp-gpu-task
+        inputs:
+          parameters:
+            scenario:
+              runtimeValue:
+                constant: success
+            study_id:
+              runtimeValue:
+                constant: dra-book-kubeflow
+            task_id:
+              runtimeValue:
+                constant: target
+        retryPolicy:
+          backoffDuration: 60s
+          backoffFactor: 1.0
+          backoffMaxDuration: 120s
+          policy: POLICY_ON_FAILURE
+        taskInfo:
+          name: gpu-h2
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.0
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-gpu-task:
+          configMapAsVolume:
+          - configMapName: gpu-code
+            configMapNameParameter:
+              runtimeValue:
+                constant: gpu-code
+            mountPath: /opt/lab
+            optional: false
+          - configMapName: gpu-control
+            configMapNameParameter:
+              runtimeValue:
+                constant: gpu-control
+            mountPath: /opt/control
+            optional: false
+          fieldPathAsEnv:
+          - fieldPath: metadata.uid
+            name: E4_POD_UID
+          - fieldPath: metadata.name
+            name: E4_POD_NAME
+          - fieldPath: metadata.namespace
+            name: E4_NAMESPACE
+          - fieldPath: spec.nodeName
+            name: E4_NODE_NAME
+          podMetadata:
+            labels:
+              app.kubernetes.io/part-of: dra-book
+              app.kubernetes.io/component: gpu-h2
+              dra-book/run-id: dra-book-kubeflow
+              task-id: target
+          podResourceClaims:
+          - resourceClaimTemplateName: gpu-memory-large
+          securityContext:
+            runAsGroup: '0'
+            runAsNonRoot: false
+            runAsUser: '0'
+          tolerations:
+          - effect: NoSchedule
+            key: nvidia.com/gpu
+            operator: Exists

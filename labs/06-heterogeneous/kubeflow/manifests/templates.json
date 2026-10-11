@@ -1,0 +1,133 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    {
+      "apiVersion": "resource.k8s.io/v1",
+      "kind": "ResourceClaimTemplate",
+      "metadata": {
+        "name": "gpu-memory-small",
+        "namespace": "gpu-kubeflow-lab",
+        "labels": {
+          "app.kubernetes.io/part-of": "dra-book",
+          "app.kubernetes.io/component": "gpu-h1"
+        }
+      },
+      "spec": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/part-of": "dra-book",
+            "app.kubernetes.io/component": "gpu-h1"
+          }
+        },
+        "spec": {
+          "devices": {
+            "requests": [
+              {
+                "name": "gpu",
+                "exactly": {
+                  "deviceClassName": "gpu-kubeflow-capacity",
+                  "allocationMode": "ExactCount",
+                  "count": 1,
+                  "capacity": {
+                    "requests": {
+                      "memory": "8Gi",
+                      "cores": "25"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "resource.k8s.io/v1",
+      "kind": "ResourceClaimTemplate",
+      "metadata": {
+        "name": "gpu-memory-large",
+        "namespace": "gpu-kubeflow-lab",
+        "labels": {
+          "app.kubernetes.io/part-of": "dra-book",
+          "app.kubernetes.io/component": "gpu-h2"
+        }
+      },
+      "spec": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/part-of": "dra-book",
+            "app.kubernetes.io/component": "gpu-h2"
+          }
+        },
+        "spec": {
+          "devices": {
+            "requests": [
+              {
+                "name": "gpu",
+                "exactly": {
+                  "deviceClassName": "gpu-kubeflow-capacity",
+                  "allocationMode": "ExactCount",
+                  "count": 1,
+                  "capacity": {
+                    "requests": {
+                      "memory": "30Gi",
+                      "cores": "25"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "resource.k8s.io/v1",
+      "kind": "ResourceClaimTemplate",
+      "metadata": {
+        "name": "gpu-controlled-failure",
+        "namespace": "gpu-kubeflow-lab",
+        "labels": {
+          "app.kubernetes.io/part-of": "dra-book",
+          "app.kubernetes.io/component": "gpu-l1"
+        }
+      },
+      "spec": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/part-of": "dra-book",
+            "app.kubernetes.io/component": "gpu-l1"
+          }
+        },
+        "spec": {
+          "devices": {
+            "requests": [
+              {
+                "name": "gpu",
+                "exactly": {
+                  "deviceClassName": "gpu-kubeflow-capacity",
+                  "allocationMode": "ExactCount",
+                  "count": 1,
+                  "selectors": [
+                    {
+                      "cel": {
+                        "expression": "device.attributes[\"hami-core-gpu.project-hami.io\"].uuid == \"GPU-29ffee3e-bee4-e341-917a-fe7e43e977af\""
+                      }
+                    }
+                  ],
+                  "capacity": {
+                    "requests": {
+                      "memory": "8Gi",
+                      "cores": "25"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+# 資料來源
+
+以下為擷取器實際讀取的實驗室相對路徑。
+
+- `deliveries/experiment-4-e4-20261011t0035z/results-summary.json` L1–L121872
+- `results/experiment-4/e4-20261011t0035z/phase-acceptance.json` L1–L331
+- `results/experiment-4/e4-20261011t0035z/stage1/dynamic-r1/trial.json` L1–L1298
+- `results/experiment-4/e4-20261011t0035z/stage1/dynamic-r2/trial.json` L1–L1291
+- `results/experiment-4/e4-20261011t0035z/stage1/dynamic-r3/trial.json` L1–L1048
+- `results/experiment-4/e4-20261011t0035z/stage1/static-r1-attempt2/trial.json` L1–L59
+- `results/experiment-4/e4-20261011t0035z/stage1/static-r1-attempt3/trial.json` L1–L1118
+- `results/experiment-4/e4-20261011t0035z/stage1/static-r1/trial.json` L1–L51
+- `results/experiment-4/e4-20261011t0035z/stage1/static-r2/trial.json` L1–L1368
+- `results/experiment-4/e4-20261011t0035z/stage1/static-r3/trial.json` L1–L1294
+- `results/experiment-4/e4-20261011t0035z/stage2/4090-r1/trial.json` L1–L2070
+- `results/experiment-4/e4-20261011t0035z/stage2/4090-r2/trial.json` L1–L972
+- `results/experiment-4/e4-20261011t0035z/stage2/4090-r3/trial.json` L1–L972
+- `results/experiment-4/e4-20261011t0035z/stage2/4090/trial.json` L1–L10
+- `results/experiment-4/e4-20261011t0035z/stage2/a40-r1/trial.json` L1–L1197
+- `results/experiment-4/e4-20261011t0035z/stage2/a40-r2/trial.json` L1–L1035
+- `results/experiment-4/e4-20261011t0035z/stage2/a40-r3/trial.json` L1–L1197
+- `results/experiment-4/e4-20261011t0035z/stage2/any-both-r1/trial.json` L1–L909
+- `results/experiment-4/e4-20261011t0035z/stage2/any-both-r2/trial.json` L1–L960
+- `results/experiment-4/e4-20261011t0035z/stage2/any-both-r3/trial.json` L1–L1023
+- `results/experiment-4/e4-20261011t0035z/stage2/any-r1/trial.json` L1–L1117
+- `results/experiment-4/e4-20261011t0035z/stage2/any-r2/trial.json` L1–L960
+- `results/experiment-4/e4-20261011t0035z/stage2/any-r3/trial.json` L1–L953
+- `results/experiment-4/e4-20261011t0035z/stage2/attribute-r1/trial.json` L1–L953
+- `results/experiment-4/e4-20261011t0035z/stage2/attribute-r2/trial.json` L1–L958
+- `results/experiment-4/e4-20261011t0035z/stage2/attribute-r3/trial.json` L1–L1122
+- `results/experiment-4/e4-20261011t0035z/stage2/memory-30gi/trial.json` L1–L10
+- `results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r1/trial.json` L1–L83
+- `results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r2/trial.json` L1–L83
+- `results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r3/trial.json` L1–L83
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r1/trial.json` L1–L1062
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r2/trial.json` L1–L1073
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r3/trial.json` L1–L1073
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r1/trial.json` L1–L1047
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r2/trial.json` L1–L1061
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r3/trial.json` L1–L1054
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r1/trial.json` L1–L1106
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r2/trial.json` L1–L1087
+- `results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r3/trial.json` L1–L1179
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r1/trial.json` L1–L1718
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r2-attempt2/trial.json` L1–L1563
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r2/trial.json` L1–L1465
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r3/trial.json` L1–L1654
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r1/trial.json` L1–L1486
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r2/trial.json` L1–L1378
+- `results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r3/trial.json` L1–L1391

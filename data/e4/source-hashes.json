@@ -1,0 +1,232 @@
+{
+  "deliveries/experiment-4-e4-20261011t0035z/results-summary.json": {
+    "sha256": "7ea6cceddf974fc43d87c9b4ab700efaaa049622ff7354caa7c8aa7d778eb82f",
+    "lines": 121872,
+    "bytes": 4626985
+  },
+  "results/experiment-4/e4-20261011t0035z/phase-acceptance.json": {
+    "sha256": "8d86383236aac8590238ccbac64b457ded2b7f6943469b2cccae5ffd2105418b",
+    "lines": 331,
+    "bytes": 6961
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/dynamic-r1/trial.json": {
+    "sha256": "41fbb9ae215f516c6233961edef5b2c606fb058ccb3713ad6f221b895bb61698",
+    "lines": 1298,
+    "bytes": 48862
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/dynamic-r2/trial.json": {
+    "sha256": "fbff7ad863de2fddea33b36f2850f01f003051017ed809226b8ac180621c8b44",
+    "lines": 1291,
+    "bytes": 48639
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/dynamic-r3/trial.json": {
+    "sha256": "4243f2883c330b33be55f18a93ee750a25e869f4b1f0938e33343805c8cc35b3",
+    "lines": 1048,
+    "bytes": 39463
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/static-r1/trial.json": {
+    "sha256": "da46730bafe91501820b9a290569f67db7042df2e76fc831b8a56b33b1c3e638",
+    "lines": 51,
+    "bytes": 2608
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/static-r1-attempt2/trial.json": {
+    "sha256": "987b434413e4a0f9e711888f42f16f17b562229e5ca2b02fff28832afe462d51",
+    "lines": 59,
+    "bytes": 2198
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/static-r1-attempt3/trial.json": {
+    "sha256": "f3e7d174f7fa882d56793e1ec802d9e47a402c24dc220cb274cf46c547577350",
+    "lines": 1118,
+    "bytes": 42218
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/static-r2/trial.json": {
+    "sha256": "dd356531dd7d53c4fe71eadbecd7acd17eb5bb55118de45957a6de718afa08ff",
+    "lines": 1368,
+    "bytes": 51606
+  },
+  "results/experiment-4/e4-20261011t0035z/stage1/static-r3/trial.json": {
+    "sha256": "9d2c6ae817ed9982cf975e084f83f65aea57daa586180adb38ab99268752aa69",
+    "lines": 1294,
+    "bytes": 48781
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/4090/trial.json": {
+    "sha256": "4ba92902d1127e04f439e31e99d52010cfbb1803e8403be5028b1be42f635e68",
+    "lines": 10,
+    "bytes": 246
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/4090-r1/trial.json": {
+    "sha256": "3f8681b092d9c1a8286a12662c211f66e7449a70433b5f51acd5f3437352a3a3",
+    "lines": 2070,
+    "bytes": 77767
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/4090-r2/trial.json": {
+    "sha256": "456c15f443d1fc3d6bd3fea20f6227542215964b96514f232fdbf8cdda66dac8",
+    "lines": 972,
+    "bytes": 36353
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/4090-r3/trial.json": {
+    "sha256": "e206a01541f99ce32e79a53a725e5653743ac9796f8805b4f94b181c4fe86a5e",
+    "lines": 972,
+    "bytes": 36350
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/a40-r1/trial.json": {
+    "sha256": "85d0da921a28ddd7eb44aa5cd28c38768b722a17637e832260623351a28d152b",
+    "lines": 1197,
+    "bytes": 44847
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/a40-r2/trial.json": {
+    "sha256": "bcf82b693b3a97144d21078a4d48318c4925f009ef9f9d1dad92bf3d53aca366",
+    "lines": 1035,
+    "bytes": 38776
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/a40-r3/trial.json": {
+    "sha256": "d24854d56f66e8dddf52bae7e602beda8d8f872c5f1cdda555c1c6afeb919959",
+    "lines": 1197,
+    "bytes": 44860
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-both-r1/trial.json": {
+    "sha256": "5a14a7e378590a055f8b0ec397c365879ccdf8461d7b3b3258a1cb6c3bd94987",
+    "lines": 909,
+    "bytes": 34089
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-both-r2/trial.json": {
+    "sha256": "38570258c1eadef97d891f74dcddf5f056983d6f5e32d2e050d83f7e9365b2d2",
+    "lines": 960,
+    "bytes": 36067
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-both-r3/trial.json": {
+    "sha256": "cb868e983008d5f47ffbb26ecfb8ac52a44411687e32625fee0931721fc6f472",
+    "lines": 1023,
+    "bytes": 38649
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-r1/trial.json": {
+    "sha256": "e28cbbaebcd6efa1d2a0951575c1c389e1dd156ab1237abd7654dca663a01f98",
+    "lines": 1117,
+    "bytes": 41822
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-r2/trial.json": {
+    "sha256": "f43c77cdb41d31fdaab2cd526402462ef0faf66163b708eea2b1b8ba056370fe",
+    "lines": 960,
+    "bytes": 35903
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/any-r3/trial.json": {
+    "sha256": "113b7274d83b25a5fe5606ef3759d5e50b9a910865ea94459df4d311024d3467",
+    "lines": 953,
+    "bytes": 35665
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/attribute-r1/trial.json": {
+    "sha256": "1fb32c31f87194d10cab58f8ec098a05ddaa1c7b5318d32690a5aacfb1d8e95c",
+    "lines": 953,
+    "bytes": 35697
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/attribute-r2/trial.json": {
+    "sha256": "b1786f30ca8b6bbbacbf9d34a6a1c9b24b31ae73d423d551f6aa12cc4ef3753a",
+    "lines": 958,
+    "bytes": 35852
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/attribute-r3/trial.json": {
+    "sha256": "b16cff99f3e188659a1a2961454f825254d2c7d31590fa8ec485612cb49c0ce0",
+    "lines": 1122,
+    "bytes": 42004
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/memory-30gi/trial.json": {
+    "sha256": "97c2866a650376c97a7b8333227859ace12faf178422fb1d3d8f47d001bbdf8f",
+    "lines": 10,
+    "bytes": 272
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r1/trial.json": {
+    "sha256": "101ff7842bab39a0631e1be9d75eb28ed85a8556c2fa1e63d2b954d8510014ee",
+    "lines": 83,
+    "bytes": 2980
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r2/trial.json": {
+    "sha256": "ba84440e3074c00ad0f4f7a0ca353c3f08928ce359198c50c3ab6c9c97c6eaec",
+    "lines": 83,
+    "bytes": 2979
+  },
+  "results/experiment-4/e4-20261011t0035z/stage2/nonexistent-r3/trial.json": {
+    "sha256": "fd3195a0070a79b2c4cf7ecaec39eeac8366fb82a928a4a41c82b788b8558fe1",
+    "lines": 83,
+    "bytes": 2980
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r1/trial.json": {
+    "sha256": "cb4f0c078210b77a60a67425a075224460a4c786a74a4d89c45194abed04dd40",
+    "lines": 1062,
+    "bytes": 40568
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r2/trial.json": {
+    "sha256": "cb4c46322b780b4885427d18553ab14a192df697673964540e6d561af506d58d",
+    "lines": 1073,
+    "bytes": 40936
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-1-r3/trial.json": {
+    "sha256": "a374af6c34d09cb4a509b76e3b26d63a5066afc88b65dd2ef6a3dc9c1484ea92",
+    "lines": 1073,
+    "bytes": 40946
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r1/trial.json": {
+    "sha256": "b725f59bb31f27dcf37303e5ecaa2b31cf0ef114a9641e288e99226442b95fda",
+    "lines": 1047,
+    "bytes": 40223
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r2/trial.json": {
+    "sha256": "9bfe60bd7d7ae32a44497acc8f196f48923697da5bea2280ddac66af30b6e974",
+    "lines": 1061,
+    "bytes": 40684
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-2-r3/trial.json": {
+    "sha256": "a8a5ebacdcf91b61c491fe4f32f6ad036a00212f97efde2a0443f8d337c5de1d",
+    "lines": 1054,
+    "bytes": 40240
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r1/trial.json": {
+    "sha256": "60e3a86a0afe0a8db40308ba2444a918a288506978aeae5ebcaafc94daf0c3cf",
+    "lines": 1106,
+    "bytes": 42741
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r2/trial.json": {
+    "sha256": "2ed24126ef09d5f1c32b89b3ba22935b393bc8cc714795bf5f583b6746500db1",
+    "lines": 1087,
+    "bytes": 42149
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/concurrent-4-r3/trial.json": {
+    "sha256": "11389d30d214536f74b69cbaf9c65fa1d283c82fedb9bf2be31e515673210353",
+    "lines": 1179,
+    "bytes": 45497
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r1/trial.json": {
+    "sha256": "a134c392bde58f5909ee82792ee1545c0aefcdc32cd55b968fdb79c4b419f5a8",
+    "lines": 1718,
+    "bytes": 66719
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r2/trial.json": {
+    "sha256": "aa6dfc58d1bb99096f192c236c496072b65a9a27e69d7d1713e9919fee7a4fc2",
+    "lines": 1465,
+    "bytes": 56940
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r2-attempt2/trial.json": {
+    "sha256": "e13bcdf2232533b97afd5552669b95bbcd2c5cdc5e216375f98a7d900c83c813",
+    "lines": 1563,
+    "bytes": 61551
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-cores-r3/trial.json": {
+    "sha256": "c6fac4c52698e6fcd8968e2ead2b30c387cf9ed5b122ae2c3ead18ab1ca15258",
+    "lines": 1654,
+    "bytes": 64909
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r1/trial.json": {
+    "sha256": "58823b039deb36a917a856d30693114589cca251758cf521f61edcfdef529291",
+    "lines": 1486,
+    "bytes": 57414
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r2/trial.json": {
+    "sha256": "3fcedc961e17e6ec08fc74e64c926eab84d178494aec84a4016ae4743abec27a",
+    "lines": 1378,
+    "bytes": 53302
+  },
+  "results/experiment-4/e4-20261011t0035z/stage3/pending-memory-r3/trial.json": {
+    "sha256": "0707dbd4c36a25bd3708f7b94ae6ebccf92165cad6cb42fbac8b1f76dc7f7bdc",
+    "lines": 1391,
+    "bytes": 53775
+  }
+}

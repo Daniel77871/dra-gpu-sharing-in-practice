@@ -1,0 +1,51 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: capacity-8gi-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: capacity-8gi-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: capacity-8gi-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          capacity:
+            requests:
+              memory: 8Gi
+              cores: '25'
+---
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: capacity-30gi-gpu
+  namespace: gpu-heterogeneous-lab
+  labels:
+    app.kubernetes.io/part-of: dra-book
+    app.kubernetes.io/component: capacity-30gi-gpu
+spec:
+  metadata:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: capacity-30gi-gpu
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: hami-core-gpu.project-hami.io
+          allocationMode: ExactCount
+          count: 1
+          capacity:
+            requests:
+              memory: 30Gi
+              cores: '25'

@@ -1,0 +1,305 @@
+{
+  "valid": false,
+  "status": "incomplete",
+  "trial_count": 44,
+  "verified_positive_trials": 36,
+  "verified_negative_trials": 3,
+  "invalid_trials": 3,
+  "not_run_trials": 2,
+  "observed_cuda_trials": 38,
+  "case_acceptance": [
+    {
+      "stage": "stage1",
+      "case": "dynamic",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage1",
+      "case": "static",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 2,
+      "retained_statuses": [
+        "invalid"
+      ],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "4090",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 1,
+      "retained_statuses": [
+        "blocked"
+      ],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "a40",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "any",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "any-both",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "attribute",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "memory-30gi",
+      "mode": null,
+      "accepted_repeats": [],
+      "positive_trials": 0,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 1,
+      "retained_statuses": [
+        "unsupported"
+      ],
+      "status": "尚未驗收三輪"
+    },
+    {
+      "stage": "stage2",
+      "case": "nonexistent",
+      "mode": "native",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 0,
+      "negative_trials": 3,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage3",
+      "case": "concurrent-1",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage3",
+      "case": "concurrent-2",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage3",
+      "case": "concurrent-4",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage3",
+      "case": "pending-cores",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 1,
+      "retained_statuses": [
+        "invalid"
+      ],
+      "status": "已驗收三輪"
+    },
+    {
+      "stage": "stage3",
+      "case": "pending-memory",
+      "mode": "hami",
+      "accepted_repeats": [
+        1,
+        2,
+        3
+      ],
+      "positive_trials": 3,
+      "negative_trials": 0,
+      "retained_nonaccepted_trials": 0,
+      "retained_statuses": [],
+      "status": "已驗收三輪"
+    }
+  ],
+  "capacity_comparison": [
+    {
+      "node": "dra-4090",
+      "gpu_uuid": "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+      "allocation_mode": "exclusive allocation",
+      "matched_samples": 438,
+      "schedulable_remaining_range_bytes": null,
+      "physical_free_range_bytes": [
+        614465536.0,
+        25251807232.0
+      ],
+      "difference_range_bytes": null,
+      "maximum_match_gap_seconds": 4.249639987945557
+    },
+    {
+      "node": "dra-a40",
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "allocation_mode": "consumable capacity",
+      "matched_samples": 287,
+      "schedulable_remaining_range_bytes": [
+        13946060800,
+        48305799168
+      ],
+      "physical_free_range_bytes": [
+        45451575296.0,
+        47699722240.0
+      ],
+      "difference_range_bytes": [
+        -33753661440.0,
+        606076928.0
+      ],
+      "maximum_match_gap_seconds": 4.428816080093384
+    },
+    {
+      "node": "dra-a40",
+      "gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+      "allocation_mode": "exclusive allocation",
+      "matched_samples": 151,
+      "schedulable_remaining_range_bytes": null,
+      "physical_free_range_bytes": [
+        47135588352.0,
+        47699722240.0
+      ],
+      "difference_range_bytes": null,
+      "maximum_match_gap_seconds": 4.138803005218506
+    }
+  ],
+  "verified_backend_scopes": [
+    {
+      "mode": "hami",
+      "verified_trials": 21,
+      "nodes": [
+        "dra-a40"
+      ],
+      "gpu_uuids": [
+        "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      ]
+    },
+    {
+      "mode": "native",
+      "verified_trials": 15,
+      "nodes": [
+        "dra-4090",
+        "dra-a40"
+      ],
+      "gpu_uuids": [
+        "GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e",
+        "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af"
+      ]
+    }
+  ],
+  "phase_acceptance": {
+    "valid": true,
+    "current_matrix_passed": true,
+    "cleanup_verified": true,
+    "accepted_positive_runs": 36,
+    "accepted_cuda_tasks": 69,
+    "accepted_negative_runs": 3
+  }
+}

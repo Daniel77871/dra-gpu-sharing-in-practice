@@ -72,10 +72,17 @@ class HamiNodes:
         return self.kube.call("exec", pod["metadata"]["name"], "-n", NS, "-c", "hami-host-helper", "--", "python", "-c", (HAMI / "scripts/host.py").read_text(), json.dumps(payload), json_result=True)["result"]
 
     def stop_helpers(self):
+        failures = []
         for node, pod in list(self.helpers.items()):
-            self.kube.guarded_delete(pod)
-            self.kube.wait(lambda: not self.kube.get("pod", pod["metadata"]["name"], "-n", NS, "--ignore-not-found"), "host helper remains", 120)
-            del self.helpers[node]
+            try:
+                self.kube.guarded_delete(pod)
+                self.kube.wait(lambda: not self.kube.get("pod", pod["metadata"]["name"], "-n", NS, "--ignore-not-found"), "host helper remains", 120)
+                del self.helpers[node]
+            except Exception as error:
+                failures.append(node + "/" + pod["metadata"]["name"] + ": " + str(error))
+        if failures:
+            raise RuntimeError("Host helper cleanup failed: " + "; ".join(failures) +
+                               ". Snapshots retained; retry with the same provider run-id.")
 
     def render(self):
         (self.out / "provider-input.yaml").write_text(self.kube.call("kustomize", HAMI / "manifests/provider"))
@@ -248,9 +255,6 @@ class HamiNodes:
         if phase == "excluded":
             # Refuse replacement UIDs/specs before stopping any owned provider.
             self.owned_publications(self.kube.get("resourceslices"))
-        for node in self.nodes:
-            if not (self.out / node / "host-before.json").exists() or not (self.out / node / "host-installed.json").exists():
-                raise ValueError("host-before/host-installed evidence missing on " + node)
         # Stop every owned provider before removing any node-owned publication.
         for obj in current["items"]:
             if obj["kind"] == "DaemonSet":
@@ -265,21 +269,40 @@ class HamiNodes:
             for sl in selected:
                 self.kube.guarded_delete(sl)
             self.kube.wait(lambda: not any(sl["spec"].get("nodeName") in self.nodes for sl in self.kube.get("resourceslices")["items"]), "stale HAMi ResourceSlices remain", 120)
-        for node in self.nodes:
-            self.host_start(node)
-            checked = self.host(node, {"operation": "footprint"})
-            marker = self.out / node / "host-restored-clean.json"
-            if not marker.exists():
-                value = self.host(node, {"operation": "remove-hooks", "before": load(self.out / node / "host-before.json"),
-                                        "installed": load(self.out / node / "host-installed.json"), "checked": checked})
-                save(marker, value)
-            value = self.host(node, {"operation": "footprint"})
-            if any(value[root] for root in ("/usr/local/vgpu", "/var/lib/kubelet/plugins/" + DRIVER, "/tmp/vgpulock")):
-                raise ValueError("HAMi host artifacts remain on " + node)
+        # Restore and verify the native UID/full spec, strategy, plugins and
+        # publications before host cleanup can fail on any selected node.
+        self.native.restore()
+        failures = []
         for obj in self.existing()["items"]:
             if obj["kind"] != "DaemonSet":
-                self.kube.guarded_delete(obj)
-        self.native.restore()
+                try:
+                    self.kube.guarded_delete(obj)
+                except Exception as error:
+                    failures.append({"stage": "provider-object", "kind": obj["kind"],
+                                     "name": obj["metadata"]["name"], "error": str(error)})
+        for node in self.nodes:
+            try:
+                if not (self.out / node / "host-before.json").exists() or not (self.out / node / "host-installed.json").exists():
+                    raise ValueError("host-before/host-installed evidence missing on " + node)
+                self.host_start(node)
+                checked = self.host(node, {"operation": "footprint"})
+                marker = self.out / node / "host-restored-clean.json"
+                if not marker.exists():
+                    value = self.host(node, {"operation": "remove-hooks", "before": load(self.out / node / "host-before.json"),
+                                            "installed": load(self.out / node / "host-installed.json"), "checked": checked})
+                    save(marker, value)
+                value = self.host(node, {"operation": "footprint"})
+                if any(value[root] for root in ("/usr/local/vgpu", "/var/lib/kubelet/plugins/" + DRIVER, "/tmp/vgpulock")):
+                    raise ValueError("HAMi host artifacts remain on " + node)
+            except Exception as error:
+                failures.append({"stage": "host", "node": node, "error": str(error)})
+        save(self.out / "provider-nodes-cleanup.json", {"nodes": self.nodes, "run_id": self.run_id,
+             "native_uid_spec_match": True, "host_artifacts_absent": not any(item["stage"] == "host" for item in failures),
+             "failures": failures, "verified_at": utc()})
+        if failures:
+            detail = "; ".join((item.get("node") or item["kind"] + "/" + item["name"]) + ": " + item["error"] for item in failures)
+            raise RuntimeError("Original NVIDIA provider UID/spec and target plugins/ResourceSlices were restored and verified. "
+                               "HAMi cleanup failed: " + detail + ". Snapshots retained; retry uninstall with the same provider run-id.")
         save(self.out / "provider-nodes-restored.json", {"nodes": self.nodes, "run_id": self.run_id, "native_uid_spec_match": True, "host_artifacts_absent": True, "verified_at": utc()})
 
 
@@ -300,8 +323,14 @@ def main():
     try:
         getattr(session, args.action)()
     finally:
-        session.stop_helpers()
-        lock.rmdir()
+        try:
+            session.stop_helpers()
+        except Exception:
+            if args.action == "uninstall":
+                (out / "provider-nodes-restored.json").unlink(missing_ok=True)
+            raise
+        finally:
+            lock.rmdir()
 
 
 if __name__ == "__main__":

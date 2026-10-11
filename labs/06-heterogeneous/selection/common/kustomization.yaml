@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-heterogeneous-lab
+resources:
+- namespace.yaml
+configMapGenerator:
+- name: selection-workload
+  files:
+  - gpu_primitives.py=../../workload/gpu_primitives.py
+  - gpu_workload.py=../../workload/gpu_workload.py
+  - native_workload.py=../../workload/native_workload.py
+  options:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: selection-workload
+- name: selection-control
+  files:
+  - control.json
+  options:
+    labels:
+      app.kubernetes.io/part-of: dra-book
+      app.kubernetes.io/component: selection-control
+generatorOptions:
+  disableNameSuffixHash: true
