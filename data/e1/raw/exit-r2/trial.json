@@ -1,0 +1,22 @@
+{
+  "mode": "exit",
+  "repeat": 2,
+  "complete": true,
+  "expected_gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "started_utc": "2026-10-06T06:30:04.297880+00:00",
+  "baseline_seconds": 60,
+  "recovery_seconds": 60,
+  "baseline_observed_seconds": 60.00009698304348,
+  "b_finished_utc": "2026-10-06T06:31:45Z",
+  "recovery_started_utc": "2026-10-06T06:31:48.333817+00:00",
+  "recovery_observed_seconds": 60.0000896868296,
+  "a_exit_code": 0,
+  "a_reason": "Completed",
+  "a_restarts": 0,
+  "b_exit_code": 1,
+  "b_reason": "Error",
+  "b_restarts": 0,
+  "finished_utc": "2026-10-06T06:32:49.844100+00:00",
+  "validated": true,
+  "validation_errors": ""
+}

@@ -1,0 +1,22 @@
+{
+  "mode": "hold",
+  "repeat": 3,
+  "complete": true,
+  "expected_gpu_uuid": "GPU-29ffee3e-bee4-e341-917a-fe7e43e977af",
+  "started_utc": "2026-10-06T06:42:11.800614+00:00",
+  "baseline_seconds": 60,
+  "recovery_seconds": 60,
+  "baseline_observed_seconds": 60.00007740291767,
+  "b_finished_utc": "2026-10-06T06:44:22Z",
+  "recovery_started_utc": "2026-10-06T06:44:25.218328+00:00",
+  "recovery_observed_seconds": 60.000079087913036,
+  "a_exit_code": 0,
+  "a_reason": "Completed",
+  "a_restarts": 0,
+  "b_exit_code": 1,
+  "b_reason": "Error",
+  "b_restarts": 0,
+  "finished_utc": "2026-10-06T06:45:27.779612+00:00",
+  "validated": true,
+  "validation_errors": ""
+}

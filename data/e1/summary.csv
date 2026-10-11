@@ -1,0 +1,7 @@
+mode,repeat,complete,incomplete_reason,gpu_uuid,b_tensor_mib_at_oom,baseline_samples,baseline_latency_p95_ms,hold_samples,hold_latency_p95_ms,hold_probe_oom,hold_probe_ok,allocation_recovery_seconds,compute_errors,a_exit_code,b_exit_code,hold_latency_ratio,trial
+exit,1,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,7.856179028749466,0,,,,1.825922966003418,0,0,1,,exit-r1
+exit,2,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,7.847632048651576,0,,,,2.4737958908081055,0,0,1,,exit-r2
+exit,3,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,7.881745928898454,0,,,,2.744180202484131,0,0,1,,exit-r3
+hold,1,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,7.888935972005129,30,7.83358805347234,30,0,0.5254819393157959,0,0,1,0.9929841085376789,hold-r1
+hold,2,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,8.143448969349265,30,7.827321102377027,30,0,0.7414441108703613,0,0,1,0.9611801009422302,hold-r2
+hold,3,True,,GPU-29ffee3e-bee4-e341-917a-fe7e43e977af,43776.0,61,7.923736935481429,29,7.938611367717385,29,0,0.8355488777160645,0,0,1,1.001877199149476,hold-r3

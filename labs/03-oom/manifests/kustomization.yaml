@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpu-oom-lab
+resources:
+  - 00-namespace.yaml
+  - 01-claim.yaml
+  - 02-steady-service.yaml
+  - 03-greedy-batch.yaml
+configMapGenerator:
+  - name: gpu-oom-workload
+    files:
+      - workload.py=../workload/workload.py
+    options:
+      labels:
+        app.kubernetes.io/part-of: dra-book
+        app.kubernetes.io/component: workload-code
+generatorOptions:
+  disableNameSuffixHash: true

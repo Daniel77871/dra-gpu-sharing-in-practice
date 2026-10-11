@@ -1,3 +1,4 @@
+import re
 import subprocess
 import sys
 
@@ -50,8 +51,8 @@ def test_figure_registry_routes_data_and_output(tmp_path, monkeypatch):
     assert output.read_bytes() == before
 
 
-def test_empty_registry_cli_and_unknown_chapter():
+def test_registry_cli_and_unknown_chapter():
     command = [sys.executable, str(ROOT / "tools/make_figures.py")]
     result = subprocess.run(command, text=True, capture_output=True)
-    assert result.returncode == 0 and "0 figure" in result.stdout
+    assert result.returncode == 0 and re.search(r"Rendered \d+ figure", result.stdout)
     assert subprocess.run(command + ["--only", "missing"], capture_output=True).returncode == 1

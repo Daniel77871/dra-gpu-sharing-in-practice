@@ -1,0 +1,27 @@
+{
+  "metadata": {
+    "name": "pressure"
+  },
+  "spec": {
+    "nodeName": "dra-a40"
+  },
+  "status": {
+    "phase": "Failed",
+    "containerStatuses": [
+      {
+        "name": "workload",
+        "image": "docker.io/pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime",
+        "imageID": "docker.io/pytorch/pytorch@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "exitCode": 1,
+            "finishedAt": "2026-10-06T06:31:45Z",
+            "reason": "Error",
+            "startedAt": "2026-10-06T06:31:08Z"
+          }
+        }
+      }
+    ]
+  }
+}
