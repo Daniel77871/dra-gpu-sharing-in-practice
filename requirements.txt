@@ -1,0 +1,5 @@
+# Python 3.12; analysis scripts under labs/ use only the standard library.
+matplotlib==3.11.2
+numpy==2.5.4
+PyYAML==6.0.3
+pytest==9.1.1

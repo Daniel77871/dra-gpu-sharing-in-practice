@@ -1,0 +1,2 @@
+# One reviewed regex per line; match only a documented public example, never real credentials.
+# Empty by default. Comment each future exception with its purpose and source.

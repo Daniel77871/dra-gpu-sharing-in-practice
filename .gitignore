@@ -1,0 +1,10 @@
+# local tooling and private work files
+.venv/
+.work/
+AGENTS.md
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# lab run outputs (each run writes to labs/<lab>/out/<run-id>/)
+labs/**/out/
