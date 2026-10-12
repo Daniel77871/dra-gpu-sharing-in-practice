@@ -190,7 +190,7 @@ def test_book_table_and_full_yaml_match_shipped_lab():
     assert sum(path.stat().st_size for path in DATA.rglob('*') if path.is_file()) < 2_000_000
 
 
-def test_timeline_separates_vram_and_probes_with_distinct_outcome_legend():
+def test_timeline_separates_vram_and_probes_with_direct_outcome_labels(tmp_path):
     from matplotlib.axes import Axes
     from matplotlib.colors import to_hex
     from tools.figures import style
@@ -198,6 +198,7 @@ def test_timeline_separates_vram_and_probes_with_distinct_outcome_legend():
 
     fig = hold_timeline(ROOT / 'data')
     try:
+        style.save_svg(fig, tmp_path / 'timeline.svg')
         fig.canvas.draw()
         top = fig.axes[0]
         panels = fig.findobj(Axes)
@@ -205,13 +206,27 @@ def test_timeline_separates_vram_and_probes_with_distinct_outcome_legend():
         probes = next(panel for panel in panels if panel is not top)
         assert top.get_shared_x_axes().joined(top, probes)
         assert probes.get_position().y1 < top.get_position().y0
+        assert top.get_position().y0 - probes.get_position().y1 < 0.12, 'the two panels stay close together'
         assert top.get_ylim()[0] == 0
-        assert top.get_ylabel() == '整張 GPU 已用 VRAM（MiB）'
+        assert top.get_title('left') == '整張 GPU 已用 VRAM'
+        assert any(text.get_text() == 'GiB' for text in top.texts)
+        assert {'B 成長', 'B 保留', 'B 釋放後', 't = 0'} <= {text.get_text() for text in top.texts}
+        analyze = module('analyze')
+        gpu = analyze.rows(DATA / 'raw/hold-r1/gpu.jsonl')
+        assert list(top.lines[0].get_ydata()) == pytest.approx([float(row['used_mib']) / 1024 for row in gpu])
+        # Outcomes are event bars at their measured times, named directly on the left (no floating legend).
+        assert probes.get_legend() is None
+        assert [text.get_text() for text in probes.get_yticklabels()] == ['OOM', 'OK']
+        a = analyze.rows(DATA / 'raw/hold-r1/a.jsonl')
+        b = analyze.rows(DATA / 'raw/hold-r1/b.jsonl')
+        start = analyze.timestamp(next(row['utc'] for row in b if row.get('event') == 'B_GROW'))
         series = {artist.get_label(): artist for artist in probes.collections}
-        assert to_hex(series['OK'].get_facecolor()[0]) == style.COLORS['steady']
-        assert to_hex(series['OOM'].get_edgecolor()[0]) == style.COLORS['pressure']
+        assert to_hex(series['OK'].get_edgecolor()[0]) == style.COLORS['ok']
+        assert to_hex(series['OOM'].get_edgecolor()[0]) == style.COLORS['oom']
+        for label, event in (('OK', 'A_PROBE_OK'), ('OOM', 'A_PROBE_OOM')):
+            expected = [analyze.timestamp(row['utc']) - start for row in a if row.get('event') == event]
+            assert sorted(series[label].get_offsets()[:, 0].tolist()) == pytest.approx(sorted(expected))
         assert len(series['OOM'].get_offsets()) == 30
-        assert {text.get_text() for text in probes.get_legend().get_texts()} == {'OK', 'OOM'}
     finally:
         style.plt.close(fig)
 

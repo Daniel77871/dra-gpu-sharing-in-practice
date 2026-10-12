@@ -25,12 +25,14 @@ def test_kubeconfig_key_does_not_match_suffix_of_ordinary_key():
     assert scan_text("example.json", '"session-' + 'to' + 'ken": 12') == []
 
 
-def test_style_rejects_prohibited_adjacent_entities_and_dual_axes(tmp_path):
+def test_style_keeps_entity_colors_distinct_and_rejects_dual_axes(tmp_path):
     import pytest
     from tools.figures import style
-    fig, ax = style.new_chart("合成測試", "批次（次）", "耗時（秒）")
-    with pytest.raises(ValueError, match="adjacent"):
-        style.bars(ax, ["a", "b"], [1, 2], ["consumable-shares", "mps"])
+    shared = ["timeslicing", "mps", "hami", "consumable-shares"]
+    assert len({style.COLORS[name] for name in shared}) == len(shared)
+    assert all(name in style.LABELS for name in shared)
+    fig, ax = style.figure("合成測試", subtitle="耗時（秒）")
+    style.bars(ax, [0, 1], [1, 2], [style.COLORS["consumable-shares"], style.COLORS["mps"]])
     ax.twinx()
     with pytest.raises(ValueError, match="one 2D axis"):
         style.save_svg(fig, tmp_path / "bad.svg")

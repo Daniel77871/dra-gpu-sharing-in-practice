@@ -47,7 +47,7 @@ Workload 固定使用 FP32 矩陣、單一 CPU thread 與關閉 TF32 的 CUDA �
 
 在 stage2 中，`attribute` 使用 `architecture == "Ampere"`，`any` 不加 Claim selector，`any-both` 同時提交兩個獨立 Task。`nonexistent` 要求不存在的 UUID，結果是未配置的 Pending；stage3 則在 A40 上依序驗證不同並行數與 cores／memory 不足後的釋放。
 
-![E4 驗收與保留未通過紀錄](../images/06-heterogeneous/e4-acceptance.svg)
+![E4 的 13 個情境各驗收三輪；保留未通過紀錄仍可見](../images/06-heterogeneous/e4-acceptance.svg)
 
 | 階段 | 案例 | Provider | 已驗收輪次 | 正向 | 合理 Pending | 保留未通過 | 結果 |
 |---|---|---|---|---|---|---|---|
@@ -72,7 +72,7 @@ Workload 固定使用 FP32 矩陣、單一 CPU thread 與關閉 TF32 的 CUDA �
 
 ### E4 的容量帳本與實體空閒
 
-![E4 各 provider 的容量與實體空閒範圍](../images/06-heterogeneous/e4-capacity-ranges.svg)
+![獨占 provider 沒有 DRA 剩餘量，不能用實體 free 代替](../images/06-heterogeneous/e4-capacity-ranges.svg)
 
 | 節點 | Provider 模型 | 配對樣本 | DRA remaining GiB | physical free GiB | DRA 減 physical GiB | 最大配對時間差 s |
 |---|---|---|---|---|---|---|
@@ -88,7 +88,7 @@ GiB 範圍依報告保留三位小數，最大配對時間差保留資料中的�
 
 正式 H1 的 live ResourceSlice 公布 A40 memory 46068 MiB、RTX 4090 memory 24564 MiB，兩者 cores 都是 100。這是該次 provider 的公布值，換卡、換 driver 或重建 Slice 後應重新盤點。[正式請求與容量樣本](../../data/e4b/capacity-samples.csv)
 
-![H1 與 H2 的選卡矩陣](../images/06-heterogeneous/placements.svg)
+![H1 落在兩種 GPU；30Gi 的 H2 三輪都落在 A40](../images/06-heterogeneous/placements.svg)
 
 | 案例 | 需求 | r1 | r2 | r3 |
 |---|---|---|---|---|
@@ -101,7 +101,7 @@ H1 每輪兩張卡都符合 `8Gi` 需求，落點依序是 A40、RTX 4090、A40�
 
 H3 的 holder 占住 A40 容量，使剩餘 memory 不足以滿足通用 `30Gi` 請求；RTX 4090 的總 memory 也不夠。H4 釋放 holder 後，原 Pending Pod 與原 Claim 配置成功，並未刪掉 Task 重新提交。
 
-![同一工作在釋放後取得配置](../images/06-heterogeneous/pending-release.svg)
+![H3–H4 觀測到 34.0 秒 Pending，釋放後原 Claim 配置成功](../images/06-heterogeneous/pending-release.svg)
 
 | 輪次 | 確認 Pending 至 release s | release 相對時間 s | allocation 相對時間 s | Pod UID 相同 | Claim UID 相同 |
 |---|---|---|---|---|---|
@@ -148,7 +148,7 @@ E4B 的正式驗收是 23 輪，原 invalid 保留 5 輪；修正後驗證器可
 
 下表採用報告中的代表樣本：每個案例與節點先取最高 reservation，若相同再取最高 physical used。只列 HAMi consumable capacity，排除生命週期階段另一張卡仍在原生獨占模式的樣本；完整取樣窗與讀取區間保留於 CSV。
 
-![DRA remaining 與 NVML physical free 是不同的量](../images/06-heterogeneous/capacity-physical.svg)
+![DRA 剩餘額度與實體 free 不同；H5 剩餘額度為 0](../images/06-heterogeneous/capacity-physical.svg)
 
 | 案例 | 節點 | reserved MiB | remaining MiB | cores 預留／剩餘 | physical used／free MiB | free 減 remaining MiB | NVML offset s |
 |---|---|---|---|---|---|---|---|

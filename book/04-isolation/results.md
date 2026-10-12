@@ -37,7 +37,7 @@ flowchart LR
 
 下表保留每輪精確值。MPS 的配額是**每個 client**，HAMi-DRA 的 E2 dual-process 則測同一 container 內的共享紀錄；兩種 dual-process 都以每個 child 的有限目標測範圍，不把「達到目標」誤當成找到了最終配置邊界。
 
-![三種方法的成功 tensor 與配額](../images/04-isolation/e2-tensor-comparison.svg)
+![排程記帳量與 CUDA 配額的範圍不同](../images/04-isolation/e2-tensor-comparison.svg)
 
 | 方法與 B 條件 | 宣告 GiB | r1 tensor GiB | r2 tensor GiB | r3 tensor GiB | 每輪 CUDA OOM | 停止原因 |
 |---|---:|---:|---:|---:|---:|---|
@@ -54,7 +54,7 @@ ConsumableShares 三輪的 `B_EXIT.outcome` 都是 `limit_not_enforced`。MPS �
 
 HAMi 的 host PID 能對應到 Pod／container 身分，因此可以加總 B 的實體 process 用量。以下是共同保留時的 **B process 快照**，不包含 A，也不是每個瞬間的峰值；8 GiB 配額等於 8,192 MiB。在 dual-process 的前兩輪，實體用量各超出配額 100 MiB，成功 tensor 仍只有 7.5 GiB，足以否證這兩輪的嚴格 Pod 實體上限。[HAMi 實體用量證據](../../data/e2/hami/SOURCES.md)
 
-![HAMi B 實體 process 合計與 8192 MiB](../images/04-isolation/hami-runtime-physical.svg)
+![HAMi-DRA dual-process 有兩輪實體用量超過配額](../images/04-isolation/hami-runtime-physical.svg)
 
 | 方案與 B 條件 | r1 B process 實體 MiB | r2 B process 實體 MiB | r3 B process 實體 MiB | 配額 MiB 與範圍 |
 |---|---:|---:|---:|---:|
@@ -67,15 +67,15 @@ HAMi 的 host PID 能對應到 Pod／container 身分，因此可以加總 B 的
 
 MPS 的 single-process 8 GiB 第一輪快照也能以 control 清單識別 B 的 7,986 MiB，但第四章沒有替所有 MPS 輪次建立完整的 Pod 實體帳本。ConsumableShares 的 `gpu-during.txt` 已在 B 退出後取得，也不能當作 B 的實體快照。這些缺口保留為缺口，不以整卡量減去推測的 A 用量補值。[MPS 身分與原始快照](mps.md#nvml-process-列表要和-mps-身分對照)、[ConsumableShares 取樣窗口](consumable-shares.md#b-活躍期間的整卡-nvml-峰值)
 
-整卡取樣另回答「配額 OOM 時裝置是否已耗盡」。下圖使用從最早 `B_GROW` 到最早 `B_EXIT` 的有效樣本，包含 A、B 與其他負擔；精確逐輪值見兩份 runtime CSV。MPS 8 GiB single-process 的整卡峰值為 10,379 MiB、最小 free 為 35,112 MiB，和 B 自己的 7,986 MiB 是不同範圍。
+整卡取樣另回答「配額 OOM 時裝置是否已耗盡」。下圖左欄是 B 活躍期間的整卡取樣峰值，右欄是同一窗口的最少可用量；每列三點為 r1–r3。兩者都使用從最早 `B_GROW` 到最早 `B_EXIT` 的有效樣本，包含 A、B 與其他負擔；精確逐輪值見兩份 runtime CSV。MPS 8 GiB single-process 的整卡峰值為 10,379 MiB、最小 free 為 35,112 MiB，和 B 自己的 7,986 MiB 是不同範圍。
 
-![B 活躍期間的整卡 NVML 用量](../images/04-isolation/e2-physical-comparison.svg)
+![整卡 NVML 含 A 與其他開銷，不能直接判定 B 的配額](../images/04-isolation/e2-physical-comparison.svg)
 
 ### A 在有限壓力中仍可配置與運算
 
-MPS 與 HAMi 統計 B 已停止增長但仍保留 tensor 的共同保留窗口。ConsumableShares 在成功超額後立即退出，沒有 hold，所以統計整段有限壓力階段。圖與表不以次數高低排名隔離強度，也不把不同窗口合併成同一個成功率。
+MPS 與 HAMi 統計 B 已停止增長但仍保留 tensor 的共同保留窗口。ConsumableShares 在成功超額後立即退出，沒有 hold，所以統計整段有限壓力階段。圖與表不以次數高低排名隔離強度；圖上每列直接標出統計窗口，也不把不同窗口合併成同一個成功率。
 
-![A 的 probe 結果與不同觀察窗口](../images/04-isolation/e2-stability.svg)
+![有限壓力下 A 都沒有配置 OOM，但統計窗口不同](../images/04-isolation/e2-stability.svg)
 
 | 方案 | 觀察窗口 | 輪數 | A 配置成功 | A 配置 OOM | A 運算錯誤 | A／B exit code |
 |---|---|---:|---:|---:|---:|---|
@@ -89,7 +89,7 @@ HAMi 的 179 次來自 single-process 每輪 30 次，以及 dual-process 的 30
 
 三輪記帳均使用 16 GiB、24 GiB、8 GiB 的獨立 Claim；sleeper 沒有建立 CUDA context。前兩份請求已記帳 40,960 MiB，第三份需要 8,192 MiB，但帳本只剩 5,108 MiB；此時實體 free 卻為 45,490 MiB。釋放 24 GiB 後，第三份配置成功，兩種 capacity 方法的 memory 帳本變化相同。[ConsumableShares 原始記帳](../../data/e2/accounting.csv)、[HAMi 原始記帳](../../data/e2/hami/accounting.csv)
 
-![容量帳本與實體空閒量](../images/04-isolation/e2-accounting-comparison.svg)
+![記帳餘額不等於實體 free；cores 已全數記帳](../images/04-isolation/e2-accounting-comparison.svg)
 
 | 方法與時點 | 公布 MiB | 已記帳 MiB | memory 餘額 MiB | 實體 free MiB | cores 已記帳 | cores 餘額 |
 |---|---:|---:|---:|---:|---:|---:|

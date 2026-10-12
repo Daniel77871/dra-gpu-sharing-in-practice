@@ -655,7 +655,7 @@ Runner 先確認兩份 allocation 與 A、B 日誌的 CUDA UUID 相符，完成 
 
 以下由[共用分析程式](../../labs/04-isolation/common/analysis/analyze.py)對三輪原始 API 與 GPU 快照重算，精確值見 [accounting.csv](../../data/e2/accounting.csv)。46,068 − 40,960 = 5,108 MiB，不足第三份 8 GiB；釋放 24 GiB 後只剩 16 + 8 GiB 已配置，帳本餘額變成 21,492 MiB。
 
-![ConsumableShares 記帳餘額與實體空閒量](../images/04-isolation/accounting-balance.svg)
+![排程記帳只剩 5,108 MiB，整卡實體仍空閒 45,490 MiB](../images/04-isolation/accounting-balance.svg)
 
 | 輪次 | 公布 MiB | 釋放前記帳 MiB | 記帳餘額 MiB | 同時實體空閒 MiB | 釋放後記帳 MiB | 釋放後餘額 MiB | 第三份 Claim |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -679,7 +679,7 @@ Runner 先確認兩份 allocation 與 A、B 日誌的 CUDA UUID 相符，完成 
 
 取樣窗口從最早的 `B_GROW` 到最早的 `B_EXIT`，僅保留查詢開始與完成都落在窗口內的 GPU 樣本。NVML 是整卡觀察，包含 A、B 與 driver 負擔，不能標成 B Pod 的實體量。原始 `gpu-during.txt` 已在 B 退出後取得，只剩 A，故峰值必須由 `gpu-metrics.jsonl` 時間序列重算。
 
-![ConsumableShares B 活躍期間整卡取樣峰值](../images/04-isolation/consumable-nvml.svg)
+![ConsumableShares 超額後立即退出，取樣可能漏掉峰值](../images/04-isolation/consumable-nvml.svg)
 
 | 輪次 | 取樣峰值用量 MiB | 取樣最小空閒 MiB | 落在窗口內的樣本 |
 |---|---:|---:|---:|

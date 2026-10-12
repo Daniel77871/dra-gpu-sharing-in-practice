@@ -157,6 +157,15 @@ def test_run_output_discovers_kfp_case_directories_from_shared_run_root(tmp_path
     assert result['placements'][0]['claim_uid'] == 'claim'
 
 
+CHAPTER_DIRECT_LABELS = {
+    'e4-acceptance': '驗收需要 3 輪',
+    'e4-capacity-ranges': 'DRA remaining 不適用',
+    'placements': 'RTX 4090',
+    'pending-release': '釋放到觀測到配置',
+    'capacity-physical': 'H5 · dra-4090',
+}
+
+
 @pytest.mark.parametrize('name', ['e4-acceptance', 'e4-capacity-ranges', 'placements',
                                   'pending-release', 'capacity-physical'])
 def test_chapter_figures_render_reproducibly_as_paths(tmp_path, name):
@@ -172,25 +181,56 @@ def test_chapter_figures_render_reproducibly_as_paths(tmp_path, name):
         outputs.append(path.read_bytes())
     assert outputs[0] == outputs[1]
     assert b'<text' not in outputs[0] and b'dc:date' not in outputs[0]
+    # Direct labels are written as SVG comments beside their glyph paths, so the reader-facing text stays checkable.
+    assert f'<!-- {CHAPTER_DIRECT_LABELS[name]} -->'.encode() in outputs[0]
 
 
 def test_figure_placement_points_match_actual_allocations():
+    from matplotlib.colors import to_hex
     from tools.figures import ch06, style
+    gpu_by_node = {'dra-a40': 'NVIDIA A40', 'dra-4090': 'RTX 4090'}
+    rows = [r for r in analysis_module().analyze(E4, E4B)['e4b_placements'] if r['case'] in ('h1', 'h2')]
     fig = ch06.placement_chart(ROOT / 'data')
-    points = fig.axes[0].collections[0].get_offsets().tolist()
-    assert points == [[0.0, 1.0], [1.0, 0.0], [2.0, 1.0],
-                      [3.0, 1.0], [4.0, 1.0], [5.0, 1.0]]
-    style.plt.close(fig)
+    try:
+        ax = fig.axes[0]
+        assert len(ax.patches) == len(rows) == 6
+        # Each cell sits at (column = repeat - 1, row = case) and carries the GPU that the run actually allocated.
+        cells = {(round(p.get_x() + p.get_width() / 2), round(p.get_y() + p.get_height() / 2)): p
+                 for p in ax.patches}
+        texts = {(round(t.get_position()[0]), round(t.get_position()[1])): t.get_text() for t in ax.texts}
+        assert [t.get_text() for t in ax.get_yticklabels()] == [
+            f"{case.upper()} · {next(r['requested_memory'] for r in rows if r['case'] == case)}"
+            for case in ('h1', 'h2')]
+        for row in rows:
+            cell = (row['repeat'] - 1, ('h1', 'h2').index(row['case']))
+            gpu = gpu_by_node[row['node']]
+            assert to_hex(cells[cell].get_facecolor()) == style.COLORS[gpu], row
+            assert texts[cell] == style.LABELS[gpu], row
+    finally:
+        style.plt.close(fig)
 
 
-def test_pending_chart_legend_does_not_cover_measured_timeline(tmp_path):
+def test_pending_direct_labels_do_not_cover_measured_timeline(tmp_path):
     from tools.figures import ch06, style
     fig = ch06.pending_chart(ROOT / 'data')
-    style.save_svg(fig, tmp_path / 'pending.svg')
-    fig.canvas.draw()
-    legends = fig.legends + ([fig.axes[0].get_legend()] if fig.axes[0].get_legend() else [])
-    assert legends
-    assert all(not legend.get_window_extent().overlaps(fig.axes[0].get_window_extent()) for legend in legends)
+    try:
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        ax = fig.axes[0]
+        labels = {text.get_text(): text for text in ax.texts if text.get_text()}
+        assert {'釋放到觀測到配置', 'Pending 34.0 秒'} <= set(labels)
+        # The stage names are direct labels, so no legend can sit over the measured bars.
+        legends = fig.legends + ([ax.get_legend()] if ax.get_legend() else [])
+        for legend in legends:
+            assert not legend.get_window_extent(renderer).overlaps(ax.get_window_extent(renderer))
+        timeline = list(ax.patches) + list(ax.lines) + list(ax.collections)
+        for text in labels.values():
+            box = text.get_window_extent(renderer)
+            for artist in timeline:
+                assert not box.overlaps(artist.get_window_extent(renderer)), (text.get_text(), artist)
+        style.save_svg(fig, tmp_path / 'pending.svg')
+    finally:
+        style.plt.close(fig)
 
 
 @pytest.mark.parametrize('folder', sorted(path.parent.relative_to(LAB)

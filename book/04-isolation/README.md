@@ -142,7 +142,7 @@ Single-process 邊界測試的安全規則以該 CUDA client 成功保留的 ten
 
 容量帳本與配置配額各自通過不同的測試。ConsumableShares 的第三份 Claim 會等待，但它沒有擋住 B 的 8.25 GiB 成功 tensor；MPS 的單一 process 會遇到配置 OOM，同一 Pod 的 dual-process 卻能各保留 5 GiB。這些結果由[共用分析程式](../../labs/04-isolation/common/analysis/analyze.py)重算原始日誌、API 與 GPU 取樣得到。
 
-![記帳餘額與實體空閒 VRAM](../images/04-isolation/accounting-balance.svg)
+![排程記帳只剩 5,108 MiB，整卡實體仍空閒 45,490 MiB](../images/04-isolation/accounting-balance.svg)
 
 | 觀察 | 原實驗結果 | 所回答的層次 |
 |---|---|---|
@@ -151,7 +151,7 @@ Single-process 邊界測試的安全規則以該 CUDA client 成功保留的 ten
 | MPS 每個 client 8 GiB | single-process 7.5 GiB 後配置 OOM。 | 每個 client 的 runtime 配額。 |
 | MPS 同 Pod 兩個 client | 各 5 GiB，合計 10 GiB。 | 不能推成整個 Pod 的 8 GiB 上限。 |
 
-![MPS 每個 client 配額與 B 的成功 tensor](../images/04-isolation/mps-quota.svg)
+![MPS 上限套在每個 client：兩個 client 合計可達 10 GiB](../images/04-isolation/mps-quota.svg)
 
 記帳與 runtime 的精確逐輪表分別見 [ConsumableShares 結果](consumable-shares.md#結果)及 [MPS 結果](mps.md#驗證與結果)。整卡 NVML 只用於觀察共同裝置，Pod 的實體上限必須以已識別的 process 量另算；HAMi-DRA 的共享 cache 與實體用量比較見[第 4.4 節](hami-vs-mps.md)。
 

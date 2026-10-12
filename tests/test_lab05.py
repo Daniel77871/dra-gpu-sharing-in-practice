@@ -118,26 +118,41 @@ def test_all_chapter_tables_equal_the_report_from_summary_only():
         assert f"{group['p95_task_latency']:.3f}" == f"{condition['task_latency']['p95']:.3f}"
 
 
+def visible_text(fig):
+    """Every text a reader sees: direct labels, panel titles, tick labels and legend entries."""
+    found = [text.get_text() for text in fig.texts]
+    for ax in fig.axes:
+        found += [ax.get_title(loc='left')] + [text.get_text() for text in ax.texts]
+        found += [tick.get_text() for tick in ax.get_xticklabels() + ax.get_yticklabels() if tick.get_visible()]
+    for legend in fig.legends:
+        found += [text.get_text() for text in legend.get_texts()]
+    return set(found)
+
+
 @pytest.mark.parametrize('name', ['speedup', 'tradeoff'])
 def test_small_multiples_keep_shared_scale_and_visible_mode_and_count_legends(tmp_path, name):
+    from matplotlib.lines import Line2D
     from tools.figures import ch05, style
+    modes = [style.LABELS[mode] for mode in ch05.SHARED]
     outputs = []
     for repeat in range(2):
         fig = getattr(ch05, name)(ROOT / 'data')
-        assert [ax.get_title() for ax in fig.axes] == list(ch05.analysis.WORKLOADS)
+        assert [ax.get_title(loc='left') for ax in fig.axes] == [
+            ch05.WORKLOAD_NAMES[workload] for workload in ch05.analysis.WORKLOADS]
         assert all(fig.axes[0].get_shared_y_axes().joined(fig.axes[0], ax) for ax in fig.axes)
-        modes, counts = fig.legends
-        assert [text.get_text() for text in modes.get_texts()] == [
-            'Exclusive', 'Sequential', 'TimeSlicing', 'MPS', 'HAMi']
-        assert [text.get_text() for text in counts.get_texts()] == ['N=1', 'N=2', 'N=4']
-        assert counts.get_texts()[0].get_fontsize() < modes.get_texts()[0].get_fontsize()
+        assert all(ax.get_ylim() == fig.axes[0].get_ylim() for ax in fig.axes)
         fig.canvas.draw()
-        assert not modes.get_window_extent().overlaps(counts.get_window_extent())
+        visible = visible_text(fig)
+        assert set(modes) <= visible  # each shared mode is named by a direct label on its line
+        assert {'N=1', 'N=2', 'N=4'} <= visible  # N stays readable from the tick labels or point labels
+        if name == 'speedup':
+            baseline = [artist for artist in fig.artists if isinstance(artist, Line2D)]
+            assert len(baseline) == 1 and '基準' in visible  # the 1.0 baseline is drawn once and labelled once
         path = tmp_path / f'{name}-{repeat}.svg'
         style.save_svg(fig, path)
         outputs.append(path.read_bytes())
         assert b'<text' not in outputs[-1]
-        assert all(label.encode() in outputs[-1] for label in ('Exclusive', 'Sequential', 'TimeSlicing', 'MPS', 'HAMi'))
+        assert all(label.encode() in outputs[-1] for label in [*modes, 'N=1', 'N=2', 'N=4'])
     assert outputs[0] == outputs[1]
 
 

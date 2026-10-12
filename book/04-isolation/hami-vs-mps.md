@@ -55,7 +55,7 @@ MPS 使用原 NVIDIA provider、`MPSSupport` 與 Claim 的 `GpuConfig`，A、B �
 
 上述記憶體範圍可與實測 tensor 邊界對照；圖中的 MPS 配額是每個 client，不能把 dual-process 合計當成同一個 Pod 上限。
 
-![MPS 與 HAMi 的實測 tensor 邊界](../images/04-isolation/e2-tensor-comparison.svg)
+![排程記帳量與 CUDA 配額的範圍不同](../images/04-isolation/e2-tensor-comparison.svg)
 
 ### 從工作形態選擇驗證路徑
 

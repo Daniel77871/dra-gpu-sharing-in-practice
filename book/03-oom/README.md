@@ -552,11 +552,11 @@ Exit 的「未測」表示沒有穩定的 hold 壓力窗口，不是 OOM 次數�
 
 ### 一輪中的成長與釋放
 
-![hold-r1 的 GPU 用量與 A probe 事件](../images/03-oom/hold-timeline.svg)
+![B 保留 VRAM 時，A 的新配置 30 次全部 OOM](../images/03-oom/hold-timeline.svg)
 
-圖中採用 `hold-r1`：取樣沒有錯誤列，成長、hold、釋放與恢復都有資料，且 hold 有完整的 30 個 probe 事件。陰影邊界取自 B 的 `B_GROW`、`B_HOLD`、`B_EXIT`，橫軸以 B 開始成長為零；負值部分是成長前的基準。上圖顯示整張 GPU 已用 VRAM，下方短圖共用時間軸，呈現 A 的 512 MiB probe；綠色實心點為 OK，紅色叉號為 OOM，兩種結果都有圖例。
+圖中採用 `hold-r1`：取樣沒有錯誤列，成長、hold、釋放與恢復都有資料，且 hold 有完整的 30 個 probe 事件。淺色區段的界線取自 B 的 `B_GROW`、`B_HOLD`、`B_EXIT`，橫軸以 B 開始成長為零；負值部分是成長前的基準。上圖以 GiB 顯示整張 GPU 已用 VRAM，下方事件條共用時間軸，呈現 A 的 512 MiB probe；綠色為 OK、紅色為 OOM，直接標在左側，不另設圖例。
 
-B 成長時 VRAM 用量上升，A 的 probe 已關閉，所以沒有 probe 標記。進入 hold 後，用量維持高位，A 的新配置全部 OOM；B_EXIT 後 GPU 用量下降，A 的 OK probe 重新出現。這條時間線把「OOM 被捕捉」「記憶體仍被保留」「真正退出後恢復」分成不同事件。
+B 成長時 VRAM 用量上升，A 的 probe 已關閉，所以下方事件條在這段沒有記錄。進入 hold 後，用量維持高位，A 的新配置全部 OOM；B_EXIT 後 GPU 用量下降，A 的 OK probe 重新出現。這條時間線把「OOM 被捕捉」「記憶體仍被保留」「真正退出後恢復」分成不同事件。
 
 以下兩列來自 [hold-r1/a.jsonl](../../data/e1/raw/hold-r1/a.jsonl)，顯示同一 hold 迴圈先完成既有運算，再記錄新配置 OOM；後續列以 `...` 省略。
 
@@ -568,7 +568,7 @@ B 成長時 VRAM 用量上升，A 的 probe 已關閉，所以沒有 probe 標�
 
 ### 六輪的恢復觀察
 
-![按模式分組的配置恢復秒數](../images/03-oom/allocation-recovery.svg)
+![六輪都在 3 秒內觀察到 A 的新配置成功](../images/03-oom/allocation-recovery.svg)
 
 Exit 三輪首次觀察到成功的時間為 1.826、2.474、2.744 秒，hold 為 0.525、0.741、0.836 秒。兩組控制路徑不同：hold 在 B 退出前已啟用 A probe，exit 則在偵測退出後才重新啟用，因此不能從圖上推論 hold 讓 driver 釋放得更快。這些值回答的是「多久觀察到新的配置成功」，不是釋放本身花多久。
 

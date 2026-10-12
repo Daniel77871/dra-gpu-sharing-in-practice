@@ -45,7 +45,7 @@ Workload 做小量固定矩陣運算並檢查正確性。`30Gi` 是 DRA 預留�
 
 ## 結果
 
-![H1 與 H2 每輪的實際選卡](../images/06-heterogeneous/placements.svg)
+![H1 落在兩種 GPU；30Gi 的 H2 三輪都落在 A40](../images/06-heterogeneous/placements.svg)
 
 | 需求或情境 | 原始實驗結果 |
 |---|---|

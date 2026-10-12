@@ -96,14 +96,14 @@ MPS 適合單一 process 不足以填滿 GPU 的工作，例如 grid 的 block �
 
 V100 的另外兩個案例則展示應用程式吞吐量：Fastvideo SDK 做 JPEG 縮放，TensorRT 做 ResNet-50 推論。以下表格與圖形是**講者的歷史結果**，沒有納入本書 A40 的隔離測試，也不代表本書 workload 會得到相同倍數。[分享第 31 至第 35 頁](https://www.nvidia.cn/content/dam/en-zz/zh_cn/assets/webinars/31oct2019c/20191031_MPS_davidwu.pdf#page=31)
 
-![2019 年分享中 JPEG 與 ResNet-50 的吞吐量倍數](../images/04-isolation/mps-talk.svg)
+![講者的 V100 案例：啟用 MPS 後吞吐量為 2.61 至 3.53 倍](../images/04-isolation/mps-talk.svg)
 
 | 講者案例 | GPU 與工作 | process 數 | 關閉 MPS | 啟用 MPS | 投影片吞吐量倍數 |
 | --- | --- | ---: | ---: | ---: | ---: |
 | JPEG 縮放 | V100 16GB，1920×1080 縮成 480×270 | 18 | 1009 FPS | 3558 FPS | 3.53× |
 | TensorRT ResNet-50 | V100 16GB，batch 1、FP16 | 8 | 588 張／秒 | 1538 張／秒 | 2.61× |
 
-ResNet-50 同一組比較的單次推論延遲從 13.6 ms 降至 5.2 ms。圖的長度按吞吐量相除，標示保留投影片所列倍數；ResNet-50 表列整數相除為 1538 ÷ 588 ≈ 2.62，與投影片的 2.61 略有差異。這裡保留來源的兩種數值，不把它們當成相同的四捨五入結果；不同工具、GPU 與工作型態的絕對值，也不能直接合併比較。
+ResNet-50 同一組比較的單次推論延遲從 13.6 ms 降至 5.2 ms。條長是啟用 MPS 與未啟用 MPS 的吞吐量相除結果，虛線是未啟用 MPS 的 1× 基準，條末保留投影片所列倍數；ResNet-50 表列整數相除為 1538 ÷ 588 ≈ 2.62，與投影片的 2.61 略有差異。這裡保留來源的兩種數值，不把它們當成相同的四捨五入結果；不同工具、GPU 與工作型態的絕對值，也不能直接合併比較。
 
 ## 部署與設定
 
@@ -550,7 +550,7 @@ Dual-process 第一輪另核對了 host PID 與 container PID namespace：A 只�
 
 下表的 B tensor 量來自成功配置事件，不包含 CUDA 內部記憶體；A 的 probe 只統計 B 保留 tensor、壓力已穩定的共同窗口。NVML 的峰值與最小剩餘量則取 **B 開始成長至第一個 client 回報退出** 之間的整卡取樣，含 A、B 與 MPS 的用量；兩組欄位不能當成同一個計量範圍。逐輪重算值保存在 [runtime.csv](../../data/e2/runtime.csv)，分析只納入開始與完成時間都落在這段窗口內的 GPU 樣本。
 
-![MPS 每個 process 配額與 B 成功 tensor 量的比較](../images/04-isolation/mps-quota.svg)
+![MPS 上限套在每個 client：兩個 client 合計可達 10 GiB](../images/04-isolation/mps-quota.svg)
 
 | 輪次 | 每個 process 配額 GiB | B 成功 tensor GiB | B 結果 | A probe OK／OOM | A 運算錯誤 | NVML 峰值 MiB | NVML 最小剩餘 MiB | A／B exit code |
 | --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | --- |
@@ -568,7 +568,7 @@ Dual-process 第一輪另核對了 host PID 與 container PID namespace：A 只�
 
 ### 配額 OOM 時整張 GPU 並未耗盡
 
-![MPS 測試中 B 存活期間的整卡 NVML 用量](../images/04-isolation/mps-nvml.svg)
+![配額 OOM 時整張 A40 仍有大量 VRAM](../images/04-isolation/mps-nvml.svg)
 
 8 GiB single-process B 的配置已被拒絕時，整張 A40 仍有大量 VRAM，取樣的最小剩餘量為 35,112 MiB。這和[第 3 章](../03-oom/README.md)耗盡整張卡的無配額基線不同，符合「失敗來自 client 上限」的解讀。Tensor 邊界低於宣告配額，符合 MPS 將 CUDA 內部配置也計入上限的規則；但 256 MiB 的步長沒有量出這些內部配置的精確大小。[NVIDIA 的記憶體限制規則](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html#mps-device-memory-limit)
 

@@ -312,19 +312,22 @@ def test_shared_consumable_and_mps_kustomizations_render_with_pinned_binary(dire
     assert result.stdout.strip(), f'No resources rendered from {directory}'
 
 
-@pytest.mark.parametrize('builder,title,legend', [
-    ('accounting_balance', '排程餘額與實體空閒量回答不同問題', '第三份 Claim 申請 8 GiB（8192 MiB）'),
-    ('mps_quota', 'MPS 上限套在各 process，dual-process tensor 合計可超過 8 GiB', '每個 client 的設定上限'),
+@pytest.mark.parametrize('builder,title,labels', [
+    ('accounting_balance', '排程記帳只剩 5,108 MiB，整卡實體仍空閒 45,490 MiB',
+     ['第三份 Claim 申請 8 GiB（8,192 MiB）']),
+    ('mps_quota', 'MPS 上限套在每個 client：兩個 client 合計可達 10 GiB',
+     ['7.5（上限 8）', 'client 1：5（上限 8）']),
 ])
-def test_isolation_chart_thresholds_have_unambiguous_rendered_legends(tmp_path, builder, title, legend):
+def test_isolation_chart_thresholds_have_unambiguous_rendered_labels(tmp_path, builder, title, labels):
+    """The reference values are explained by direct labels that appear as text in the SVG; the title is the finding."""
     from tools.figures import ch04, style
     fig = getattr(ch04, builder)(ROOT / 'data')
-    ax = fig.axes[0]
-    assert ax.get_title() == title
+    assert fig.texts[0].get_text() == title
     output = tmp_path / f'{builder}.svg'
     style.save_svg(fig, output)
-    assert legend in [text.get_text() for text in ax.get_legend().get_texts()]
-    assert f'<!-- {legend} -->' in output.read_text()
+    rendered = re.findall(r'<!-- (.*?) -->', output.read_text())
+    for label in labels:
+        assert any(label in text for text in rendered), f'threshold label not rendered: {label}'
 
 
 def test_isolation_figure_command_omits_redundant_runtime_and_stability_charts(tmp_path):

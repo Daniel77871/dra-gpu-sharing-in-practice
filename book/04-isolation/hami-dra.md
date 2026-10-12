@@ -956,7 +956,7 @@ single-r1: allocation_oom; complete=True
 
 原始 A40 的 ResourceSlice 公布 46,068 MiB 與 100 cores。記帳測試的前兩份 Claim 消耗 40,960 MiB／20 cores，留下 5,108 MiB／80 cores；第三份的 8,192 MiB 不足以排入。釋放 24 GiB 後，16 GiB 與 8 GiB 合計 24,576 MiB，餘額成為 21,492 MiB；兩份各 10 cores，所以 cores 仍是已用 20、剩餘 80。[記帳原始摘要](../../data/e2/hami/accounting.csv)
 
-![HAMi 與 ConsumableShares 的容量記帳](../images/04-isolation/e2-accounting-comparison.svg)
+![記帳餘額不等於實體 free；cores 已全數記帳](../images/04-isolation/e2-accounting-comparison.svg)
 
 | 時點 | memory 已記帳 MiB | memory 餘額 MiB | cores 已記帳 | cores 餘額 | 實體 free MiB |
 |---|---:|---:|---:|---:|---:|
@@ -970,7 +970,7 @@ Runtime 使用不同參數：A、B 各消耗 50 cores，已把 100 cores 全數�
 
 Single-process 在成功保留 7.5 GiB tensor 後，下一個區塊回傳 CUDA OOM；共同保留窗口的 B 實體 process 用量為 7,986 MiB。Dual-process 的成功 tensor 合計為 7.5、7.5、7.25 GiB，兩個 child 各自 OOM；前兩輪 B 的實體合計各為 8,292 MiB，超過 8,192 MiB 配額，第三輪為 8,036 MiB。這些結果佐證本次同一 container 內路徑的共享配置計量，卻已否證前兩輪的嚴格 Pod 實體上限。[逐輪 runtime 摘要](../../data/e2/hami/runtime.csv)
 
-![HAMi E2 tensor 邊界](../images/04-isolation/hami-runtime-boundary.svg)
+![HAMi-DRA 成功保留的 tensor 合計都低於 8 GiB 配額](../images/04-isolation/hami-runtime-boundary.svg)
 
 | B 條件與輪次 | client 0 GiB | client 1 GiB | tensor 合計 GiB | CUDA OOM 次數 | A hold 成功 probe |
 |---|---:|---:|---:|---:|---:|
@@ -981,7 +981,7 @@ Single-process 在成功保留 7.5 GiB tensor 後，下一個區塊回傳 CUDA O
 | dual-process r2 | 3.75 | 3.75 | 7.5 | 2 | 30 |
 | dual-process r3 | 3.5 | 3.75 | 7.25 | 2 | 29 |
 
-![HAMi E2 實體 process 用量](../images/04-isolation/hami-runtime-physical.svg)
+![HAMi-DRA dual-process 有兩輪實體用量超過配額](../images/04-isolation/hami-runtime-physical.svg)
 
 | B 條件與輪次 | B NVML process 合計 MiB | 配額 MiB | 整卡有效樣本峰值 MiB | 整卡最小 free MiB |
 |---|---:|---:|---:|---:|
@@ -1000,7 +1000,7 @@ A 在六輪共同保留窗口合計 179 次成功 probe，沒有配置 OOM 或�
 
 E2B 的兩個 client 都以 6 GiB 為目標。Case3 的三輪在 tensor 合計 7.25 GiB 後各自 OOM；case4a 的兩個完整輪次卻到 9.75 GiB，只有另一個 client 配置 OOM。Case4b 各自到達 6 GiB 目標，合計 12 GiB，沒有 OOM；它證明這個目標內的獨立路徑，不是已找到各 Claim 的 8 GiB 上限。[E2B 逐輪摘要](../../data/e2b/summary.csv)
 
-![HAMi E2B container 與 Pod 範圍](../images/04-isolation/hami-scope.svg)
+![兩個 Pod 共用 Claim 時，成功 tensor 合計達 9.75 GiB](../images/04-isolation/hami-scope.svg)
 
 | 條件與輪次 | client 0 GiB | client 1 GiB | tensor 合計 GiB | CUDA OOM 次數 | NVML process 合計 MiB | 狀態 |
 |---|---:|---:|---:|---:|---:|---|
@@ -1014,7 +1014,7 @@ E2B 的兩個 client 都以 6 GiB 為目標。Case3 的三輪在 tensor 合計 7
 | case4b 兩個 Pod 獨立 Claim r2 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
 | case4b 兩個 Pod 獨立 Claim r3 | 6 | 6 | 12 | 0 | 12,900 | 到達目標 |
 
-＊停滯輪次只列最後完整 barrier，**不是最終配額結果**，也不納入已完成輪次的邊界統計。後續 worker 0 有更晚的日誌，但缺少另一個 client 與完整 NVML barrier，不能拼成同步測值；圖以不同記號標示最後完整 barrier。
+＊停滯輪次只列最後完整 barrier，**不是最終配額結果**，也不納入已完成輪次的邊界統計。後續 worker 0 有更晚的日誌，但缺少另一個 client 與完整 NVML barrier，不能拼成同步測值；圖中停滯輪次以空心點標示最後完整 barrier，並直接標註「停滯：最後完整 barrier」。
 
 Case3 與 case4a 都核對到兩個 client 的 cache 路徑、device／inode 相同，且 maps 載入同一 hash 的 `libvgpu.so`。Case4b 的 Claim UID、cache 路徑與 inode 則不同。因此「相同 cache 檔案必然形成可靠的跨 Pod 總額上限」已不符合 case4a 的量測；**造成超額的內部機制尚未證明，第三輪停滯也未解釋**。[cache 身分與 library 檢查](../../data/e2b/summary.json)
 

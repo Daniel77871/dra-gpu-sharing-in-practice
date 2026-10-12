@@ -38,13 +38,13 @@ flowchart TD
 
 配額與實體用量的差異，可直接由第四章的圖比較；它們也提醒讀者，同一個「限制」名稱可能作用於不同身分與範圍。[完整隔離比較](04-isolation/results.md)
 
-![MPS 成功 tensor 與宣告配額](images/04-isolation/mps-quota.svg)
+![MPS 上限套在每個 client：兩個 client 合計可達 10 GiB](images/04-isolation/mps-quota.svg)
 
-![HAMi-DRA 實體用量與配額](images/04-isolation/hami-runtime-physical.svg)
+![HAMi-DRA dual-process 有兩輪實體用量超過配額](images/04-isolation/hami-runtime-physical.svg)
 
 間歇工作的吞吐量收益則必須與相同工作量的逐個執行基準比較。第五章保留各工作形態的精確值與延遲，而非只提供一個最佳倍數。[效能結果](05-performance/README.md#結果)
 
-![不同工作形態的共用吞吐量](images/05-performance/speedup.svg)
+![共用只在間歇工作提高吞吐量，持續工作仍接近或低於基準](images/05-performance/speedup.svg)
 
 ## 解讀
 

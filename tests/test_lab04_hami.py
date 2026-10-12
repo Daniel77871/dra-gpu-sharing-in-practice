@@ -714,11 +714,14 @@ def test_e2_csv_splits_keep_accounting_and_runtime_fields_in_their_own_tables():
 def test_hami_physical_figure_uses_per_b_usage_and_the_exact_8192_mib_quota():
     from tools.figures import ch04
     assert hasattr(ch04, 'hami_runtime_physical'), 'HAMi physical figure has not been implemented'
+    from matplotlib.collections import PathCollection
     figure = ch04.hami_runtime_physical(ROOT / 'data')
     axis = figure.axes[0]
-    assert [p.get_height() for p in axis.patches] == [7986, 7986, 7986, 8292, 8292, 8036]
-    assert any(list(line.get_ydata()) == [8192, 8192] for line in axis.lines)
-    assert 'B' in axis.get_ylabel() and 'MiB' in axis.get_ylabel()
+    dots = [float(c.get_offsets()[0][0]) for c in axis.collections if isinstance(c, PathCollection)]
+    assert dots == [7986, 7986, 7986, 8292, 8292, 8036]
+    assert any(list(line.get_xdata()) == [8192, 8192] for line in axis.lines)
+    header = ' '.join(text.get_text() for text in figure.texts)
+    assert 'B process' in header and 'MiB' in header
 
 
 def test_runtime_joins_generated_job_pod_names_to_cuda_ready_identity(tmp_path):
@@ -1392,9 +1395,9 @@ def test_book_groups_contain_every_complete_hami_manifest():
 
 
 @pytest.mark.parametrize('builder_name,labels', [
-    ('e2_tensor_comparison', ['Claim 或每 client 設定上限']),
-    ('hami_scope', ['共用 Claim 配額 8 GiB（8192 MiB）', '兩份獨立 Claim 配額合計 16 GiB（16384 MiB）',
-                    '停滯輪次的最後完整 barrier', '完成輪次']),
+    ('e2_tensor_comparison', ['配額：Claim 或每個 client', '8.25，超過配額', '10（兩個 client 各 5）']),
+    ('hami_scope', ['共用 Claim 配額 8 GiB', '兩份獨立 Claim 合計 16 GiB',
+                    '停滯：最後完整 barrier', '9.75，超過配額']),
 ])
 def test_hami_reference_marks_have_rendered_legends(tmp_path, builder_name, labels):
     """A lone labeled tick was previously lost by the shared SVG legend policy."""

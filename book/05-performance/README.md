@@ -718,15 +718,15 @@ Pod 建立、image 下載、container 啟動、warmup、數值驗證與清理都
 
 ## 結果
 
-以下四張表由 [summary.csv](../../data/e3/summary.csv) 經[標準 library 分析器](../../labs/05-performance/analysis/analyze.py) 重建，與原報告逐列相同。圖上的點是五個 block 的平均，Speedup 鬚線是五個配對值的最小至最大，沒有把它當成信賴區間。吞吐量與延遲圖用相同模式顏色，圓、三角、方分別代表 N=1、N=2、N=4。
+以下四張表由 [summary.csv](../../data/e3/summary.csv) 經[標準 library 分析器](../../labs/05-performance/analysis/analyze.py) 重建，與原報告逐列相同。圖上的點是五個 block 的平均，各 block 的配對值保留在 [summary.csv](../../data/e3/summary.csv)。吞吐量與延遲圖以模式顏色連線，N 直接標在點旁，模式名稱標在線尾。
 
-![三種工作下的配對 Speedup，點為五個 block 平均，鬚為最小至最大](../images/05-performance/speedup.svg)
+![共用只在間歇工作提高吞吐量，持續工作仍接近或低於基準（三種工作下的配對 Speedup）](../images/05-performance/speedup.svg)
 
-![三種工作下的吞吐量與平均 Task 延遲](../images/05-performance/tradeoff.svg)
+![增加 N 會拉長 Task 延遲；間歇工作可換得較高吞吐量（三種工作下的吞吐量與平均 Task 延遲）](../images/05-performance/tradeoff.svg)
 
-Speedup 的三個面板共用縱軸，方便比較不同工作形狀；同一個 N 的模式稍微水平錯開，以免點互相遮住。吞吐量與延遲圖也共用縱軸，橫軸範圍依工作調整，線只連接同一模式。兩圖都附上五種模式的名稱圖例，以及較小的 N 形狀圖例。
+Speedup 的三個面板共用縱軸，方便比較不同工作形狀；N=1、2、4 等距排列，基準 1.0 只畫一條線並標示「基準」，模式名稱直接標在線尾。同一個 N 的點不水平錯開，因此 TimeSlicing 與 HAMi-DRA 的 N=2 點幾乎重疊，錯開間歇工作中三個模式的 N=2 點也幾乎重疊。吞吐量與延遲圖也共用縱軸，橫軸範圍依工作調整，線只連接同一模式，模式名稱與 N 直接標在圖上，不使用圖例。
 
-結果表保留分析輸出的模式代號：`timeslicing` 對應 TimeSlicing、`mps` 對應 MPS、`hami` 對應 HAMi-DRA。圖例的 Time-Slicing 與 HAMi 也分別指本章的 TimeSlicing 與 HAMi-DRA 路徑，沒有另外測試 classic HAMi 部署。
+結果表保留分析輸出的模式代號：`timeslicing` 對應 TimeSlicing、`mps` 對應 MPS、`hami` 對應 HAMi-DRA。圖中的名稱與此對應，HAMi-DRA 指本章測試的路徑，沒有另外測試 classic HAMi 部署。
 
 <!-- results:start -->
 ### 持續工作
@@ -782,7 +782,7 @@ Speedup 的三個面板共用縱軸，方便比較不同工作形狀；同一個
 
 ### MPS 與 time-slicing 的配對比值
 
-![同 block 的吞吐量比值](../images/05-performance/mps-timeslicing-ratio.svg)
+![同步間歇的 N=2，MPS 吞吐量是 TimeSlicing 的 1.454 倍（同一 block 配對的 MPS / TimeSlicing 比值）](../images/05-performance/mps-timeslicing-ratio.svg)
 
 | 工作 | N | MPS / Time-Slicing |
 |---|---:|---:|
