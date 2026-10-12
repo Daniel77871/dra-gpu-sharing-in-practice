@@ -1394,7 +1394,7 @@ def test_book_groups_contain_every_complete_hami_manifest():
 @pytest.mark.parametrize('builder_name,labels', [
     ('e2_tensor_comparison', ['Claim 或每 client 設定上限']),
     ('hami_scope', ['共用 Claim 配額 8 GiB（8192 MiB）', '兩份獨立 Claim 配額合計 16 GiB（16384 MiB）',
-                    '停滯輪次的最後完整屏障', '完成輪次']),
+                    '停滯輪次的最後完整 barrier', '完成輪次']),
 ])
 def test_hami_reference_marks_have_rendered_legends(tmp_path, builder_name, labels):
     """A lone labeled tick was previously lost by the shared SVG legend policy."""

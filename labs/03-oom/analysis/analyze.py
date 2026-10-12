@@ -159,7 +159,7 @@ def load_summaries(root):
 
 
 def book_table(summaries):
-    lines = ['| 輪次 | B 張量 MiB | hold 探測 OOM | hold 探測 OK | 恢復秒數 | A 運算錯誤 | A 退出碼 | B 退出碼 | hold p95 倍率 |',
+    lines = ['| 輪次 | B tensor MiB | hold probe OOM | hold probe OK | 恢復秒數 | A 運算錯誤 | A exit code | B exit code | hold p95 倍率 |',
              '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
     for row in summaries:
         def value(key, precision=None):

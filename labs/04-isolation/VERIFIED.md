@@ -19,14 +19,14 @@ $ SMOKE=1 bash labs/04-isolation/mps/scripts/run.sh mps-smoke-20261012-r2
 $ bash labs/04-isolation/mps/scripts/cleanup.sh mps-smoke-20261012-r2
 ```
 
-| 案例 | B 的結果 | B 成功張量 | A 在共同保留期的探測 | 整卡 NVML 峰值 |
+| 案例 | B 的結果 | B 成功 tensor | A 在共同保留期的 probe | 整卡 NVML 峰值 |
 | --- | --- | --- | --- | --- |
-| 單行程，每 client 8 GiB | CUDA 配置 OOM | 7.5 GiB | 成功 30、OOM 0 | 10,379 MiB |
-| 同 Pod 雙行程，每 client 8 GiB | 兩個 client 各達 5 GiB 目標 | 合計 10.0 GiB | 成功 30、OOM 0 | 13,246 MiB |
+| single-process，每 client 8 GiB | CUDA 配置 OOM | 7.5 GiB | 成功 30、OOM 0 | 10,379 MiB |
+| 同一 Pod 內的 dual-process，每 client 8 GiB | 兩個 client 各達 5 GiB 目標 | 合計 10.0 GiB | 成功 30、OOM 0 | 13,246 MiB |
 
-結果與原始實驗一致：MPS 的上限套用在每個 CUDA client，單一行程在 8 GiB 之前就配置失敗，但同一個 Pod 的兩個行程合計保留了 10 GiB；A 在 B 保留期間持續可以配置與運算。兩個案例的 NVML 峰值也與原始實驗相同。
+結果與原始實驗一致：MPS 的上限套用在每個 CUDA client，單一 process 在 8 GiB 之前就配置失敗，但同一個 Pod 的兩個 process 合計保留了 10 GiB；A 在 B 保留期間持續可以配置與運算。兩個案例的 NVML 峰值也與原始實驗相同。
 
-第一次執行（`mps-smoke-20261012`）時，雙行程案例因為行程身分對照的程式錯誤而中止；修正後的套件即上表的結果。
+第一次執行（`mps-smoke-20261012`）時，dual-process 案例因為 process 身分對照的程式錯誤而中止；修正後的套件即上表的結果。
 
 ## ConsumableShares（provider 切換窗）
 
@@ -46,9 +46,9 @@ $ bash labs/04-isolation/consumable-shares/scripts/uninstall-provider.sh capacit
   ```
 
   釋放 24 GiB 的工作後，第三份 Claim 取得配置。
-- 執行期：B 的 Claim 申請 8 GiB，但 CUDA 成功保留到 8.25 GiB，工具依安全規則停止（`limit_not_enforced`），期間整卡 NVML 峰值為 10,866 MiB。A 在壓力期間 10 次探測全部成功。這重現了「ConsumableShares 只做排程記帳，沒有執行期配額」的結論。
+- Runtime：B 的 Claim 申請 8 GiB，但 CUDA 成功保留到 8.25 GiB，工具依安全規則停止（`limit_not_enforced`），期間整卡 NVML 峰值為 10,866 MiB。A 在壓力期間 10 次 probe 全部成功。這重現了「ConsumableShares 只做排程記帳，沒有 runtime 配額」的結論。
 
-### provider 切換與還原
+### Provider 切換與還原
 
 切換前後都以獨立快照比對原生 DaemonSet（`nvidia-dra-driver-gpu/dra-driver-nvidia-gpu-kubelet-plugin`）：UID、`updateStrategy: RollingUpdate`、`FEATURE_GATES`、5 個 node affinity terms 與 spec 雜湊在還原後都和切換前相同；4090 的 plugin Pod 全程沒有重建，A40 的 ResourceSlice 重新公布。
 
@@ -70,9 +70,9 @@ $ bash scripts/uninstall-provider.sh hami-provider-20261012-r2
 | 案例 | 本次結果 | 原始實驗 |
 | --- | --- | --- |
 | 記帳（memory 與 cores） | 第三份 Claim Pending，scheduler 事件與原始相同；公布 100 cores，已保留 20、可排程 80 | 相同 |
-| 單行程，Claim 8 GiB | 7.5 GiB 後 CUDA OOM；B 的 NVML 實體量 7,986 MiB；A 共同保留期成功 30、OOM 0 | 7.5 GiB；7,986 MiB |
-| 同容器雙行程，Claim 8 GiB | 兩個行程各 3.75 GiB（合計 7.5 GiB），2 次 CUDA OOM；B 的 NVML 合計 8,292 MiB，超過 8,192 MiB | 7.25–7.5 GiB；8,292 MiB |
-| 兩個 Pod 共用同一 Claim（E2B case4a） | 6.0 + 3.75 = 9.75 GiB，超過 8 GiB；NVML 合計 10,596 MiB；兩個行程使用同一個 cache | 9.75 GiB；10,596 MiB |
+| single-process，Claim 8 GiB | 7.5 GiB 後 CUDA OOM；B 的 NVML 實體量 7,986 MiB；A 共同保留期成功 30、OOM 0 | 7.5 GiB；7,986 MiB |
+| 同一 container 內的 dual-process，Claim 8 GiB | 兩個 process 各 3.75 GiB（合計 7.5 GiB），2 次 CUDA OOM；B 的 NVML 合計 8,292 MiB，超過 8,192 MiB | 7.25–7.5 GiB；8,292 MiB |
+| 兩個 Pod 共用同一 Claim（E2B case4a） | 6.0 + 3.75 = 9.75 GiB，超過 8 GiB；NVML 合計 10,596 MiB；兩個 process 使用同一個 cache | 9.75 GiB；10,596 MiB |
 
 這重現了第 4.3 節的兩個關鍵結論：HAMi-DRA 的配額在共用 cache 的配置路徑上生效，但實體用量仍可能超過申請量；兩個 Pod 共用同一份 Claim 時，合計配置可以超過配額。
 

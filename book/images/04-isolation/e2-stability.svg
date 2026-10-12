@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="646.56pt" height="364.499687pt" viewBox="0 0 646.56 364.499687" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="646.555156pt" height="364.499687pt" viewBox="0 0 646.555156 364.499687" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -21,18 +21,18 @@
  <g id="figure_1">
   <g id="patch_1">
    <path d="M 0 364.499687 
-L 646.56 364.499687 
-L 646.56 0 
+L 646.555156 364.499687 
+L 646.555156 0 
 L 0 0 
 z
 " style="fill: #fcfcfb"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 47.2 289.84 
-L 639.36 289.84 
-L 639.36 23.52 
-L 47.2 23.52 
+    <path d="M 47.837656 289.84 
+L 639.355156 289.84 
+L 639.355156 23.52 
+L 47.837656 23.52 
 z
 " style="fill: #fcfcfb"/>
    </g>
@@ -45,12 +45,12 @@ L 0 3.5
 " style="stroke: #898781; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#m148de9be2c" x="151.02026" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#m148de9be2c" x="151.54527" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- ConsumableShares 壓力期 3輪 -->
-      <g style="fill: #898781" transform="translate(80.190572 305.44) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(80.715582 305.44) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-26" d="M 2432 4659 
 C 1728 4659 1178 4422 794 3936 
@@ -705,12 +705,12 @@ z
     <g id="xtick_2">
      <g id="line2d_2">
       <g>
-       <use xlink:href="#m148de9be2c" x="343.28" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#m148de9be2c" x="343.596406" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- HAMi hold 6輪 -->
-      <g style="fill: #898781" transform="translate(309.56125 305.44) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(309.877656 305.44) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-2b" d="M 461 4570 
 L 461 0 
@@ -854,12 +854,12 @@ z
     <g id="xtick_3">
      <g id="line2d_3">
       <g>
-       <use xlink:href="#m148de9be2c" x="535.53974" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#m148de9be2c" x="535.647543" y="289.84" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- MPS hold 9輪 -->
-      <g style="fill: #898781" transform="translate(503.615522 305.44) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(503.723324 305.44) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-33" d="M 461 4570 
 L 461 0 
@@ -927,7 +927,7 @@ z
     </g>
     <g id="text_4">
      <!-- 方案與統計窗口 -->
-     <g style="fill: #52514e" transform="translate(304.78 320.3) scale(0.11 -0.11)">
+     <g style="fill: #52514e" transform="translate(305.096406 320.3) scale(0.11 -0.11)">
       <defs>
        <path id="PingFangTC-Regular-ddc" d="M 416 4282 
 L 416 3840 
@@ -1339,12 +1339,12 @@ L -3.5 0
 " style="stroke: #898781; stroke-width: 0.8"/>
       </defs>
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="283.717701" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="283.717701" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
       <!-- 0 -->
-      <g style="fill: #898781" transform="translate(34.2 288.017701) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(34.837656 288.017701) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-13" d="M 1920 4659 
 C 1370 4659 960 4422 685 3936 
@@ -1375,12 +1375,12 @@ z
     <g id="ytick_2">
      <g id="line2d_5">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="245.453333" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="245.453333" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
       <!-- 50 -->
-      <g style="fill: #898781" transform="translate(28.2 249.753333) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(28.837656 249.753333) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-18" d="M 672 4570 
 L 429 2048 
@@ -1418,12 +1418,12 @@ z
     <g id="ytick_3">
      <g id="line2d_6">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="207.188966" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="207.188966" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
       <!-- 100 -->
-      <g style="fill: #898781" transform="translate(24.190625 211.488966) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(24.828281 211.488966) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-14" d="M 1472 4570 
 C 1318 4397 1139 4243 922 4102 
@@ -1446,12 +1446,12 @@ z
     <g id="ytick_4">
      <g id="line2d_7">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="168.924598" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="168.924598" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
       <!-- 150 -->
-      <g style="fill: #898781" transform="translate(24.190625 173.224598) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(24.828281 173.224598) scale(0.1 -0.1)">
        <use xlink:href="#PingFangTC-Regular-14"/>
        <use xlink:href="#PingFangTC-Regular-18" transform="translate(40.09375 0)"/>
        <use xlink:href="#PingFangTC-Regular-13" transform="translate(100.09375 0)"/>
@@ -1461,12 +1461,12 @@ z
     <g id="ytick_5">
      <g id="line2d_8">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="130.66023" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="130.66023" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
       <!-- 200 -->
-      <g style="fill: #898781" transform="translate(22.2 134.96023) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(22.837656 134.96023) scale(0.1 -0.1)">
        <defs>
         <path id="PingFangTC-Regular-15" d="M 1984 4659 
 C 1523 4659 1146 4506 864 4198 
@@ -1500,12 +1500,12 @@ z
     <g id="ytick_6">
      <g id="line2d_9">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="92.395862" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="92.395862" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_10">
       <!-- 250 -->
-      <g style="fill: #898781" transform="translate(22.2 96.695862) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(22.837656 96.695862) scale(0.1 -0.1)">
        <use xlink:href="#PingFangTC-Regular-15"/>
        <use xlink:href="#PingFangTC-Regular-18" transform="translate(60 0)"/>
        <use xlink:href="#PingFangTC-Regular-13" transform="translate(120 0)"/>
@@ -1515,12 +1515,12 @@ z
     <g id="ytick_7">
      <g id="line2d_10">
       <g>
-       <use xlink:href="#mcb49a4a89d" x="47.2" y="54.131494" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
+       <use xlink:href="#mcb49a4a89d" x="47.837656" y="54.131494" style="fill: #898781; stroke: #898781; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
       <!-- 300 -->
-      <g style="fill: #898781" transform="translate(22.2 58.431494) scale(0.1 -0.1)">
+      <g style="fill: #898781" transform="translate(22.837656 58.431494) scale(0.1 -0.1)">
        <use xlink:href="#PingFangTC-Regular-16"/>
        <use xlink:href="#PingFangTC-Regular-13" transform="translate(60 0)"/>
        <use xlink:href="#PingFangTC-Regular-13" transform="translate(120 0)"/>
@@ -1528,8 +1528,8 @@ z
      </g>
     </g>
     <g id="text_12">
-     <!-- A 配置探測次數 -->
-     <g style="fill: #52514e" transform="translate(16.66 195.125) rotate(-90) scale(0.11 -0.11)">
+     <!-- A 配置 probe 次數 -->
+     <g style="fill: #52514e" transform="translate(16.66 202.515625) rotate(-90) scale(0.11 -0.11)">
       <defs>
        <path id="PingFangTC-Regular-87f4" d="M 365 4966 
 L 365 4544 
@@ -1673,152 +1673,29 @@ L 2278 4646
 L 2278 4115 
 z
 " transform="scale(0.015625)"/>
-       <path id="PingFangTC-Regular-77d0" d="M 3482 1734 
-C 3168 1082 2669 544 1990 122 
-L 2221 -269 
-C 2963 256 3494 922 3814 1734 
-L 3904 1734 
-L 3904 -614 
-L 4346 -614 
-L 4346 1734 
-L 4416 1734 
-C 4685 1018 5165 371 5843 -211 
-L 6131 154 
-C 5485 621 5024 1146 4749 1734 
-L 5926 1734 
-L 5926 2150 
-L 4346 2150 
-L 4346 2867 
-L 3904 2867 
-L 3904 2150 
-L 2336 2150 
-L 2336 1734 
-L 3482 1734 
+       <path id="PingFangTC-Regular-53" d="M 1978 3398 
+C 1478 3398 1114 3187 877 2765 
+L 877 3309 
+L 397 3309 
+L 397 -1267 
+L 909 -1267 
+L 909 602 
+C 1165 141 1530 -90 2003 -90 
+C 2477 -90 2842 90 3110 435 
+C 3354 755 3482 1158 3482 1645 
+C 3482 2144 3354 2547 3104 2867 
+C 2829 3226 2451 3398 1978 3398 
 z
-M 1069 -614 
-C 1421 -614 1600 -429 1600 -70 
-L 1600 1856 
-C 1798 1946 1997 2035 2189 2138 
-L 2189 2598 
-C 1997 2496 1798 2400 1600 2310 
-L 1600 3558 
-L 2195 3558 
-L 2195 4000 
-L 1600 4000 
-L 1600 5210 
-L 1139 5210 
-L 1139 4000 
-L 378 4000 
-L 378 3558 
-L 1139 3558 
-L 1139 2125 
-C 851 2022 563 1933 269 1862 
-L 384 1402 
-C 640 1478 890 1568 1139 1664 
-L 1139 45 
-C 1139 -122 1062 -205 909 -205 
-C 742 -205 576 -192 397 -173 
-L 493 -614 
-L 1069 -614 
-z
-M 5818 4973 
-L 2413 4973 
-L 2413 3744 
-L 2848 3744 
-L 2848 4557 
-L 5382 4557 
-L 5382 3770 
-L 5818 3770 
-L 5818 4973 
-z
-M 3475 4262 
-C 3450 3866 3354 3584 3187 3405 
-C 3021 3226 2739 3066 2342 2931 
-L 2618 2592 
-C 3059 2765 3379 2970 3571 3200 
-C 3750 3430 3853 3782 3885 4262 
-L 3475 4262 
-z
-M 4384 4269 
-L 4384 3290 
-C 4384 3027 4518 2893 4800 2893 
-L 5869 2893 
-L 5869 3290 
-L 5005 3290 
-C 4870 3290 4806 3354 4806 3475 
-L 4806 4269 
-L 4384 4269 
-z
-" transform="scale(0.015625)"/>
-       <path id="PingFangTC-Regular-4ecb" d="M 698 5082 
-L 390 4787 
-C 774 4480 1082 4186 1299 3917 
-L 1613 4230 
-C 1370 4512 1062 4800 698 5082 
-z
-M 614 3507 
-L 307 3213 
-C 666 2899 954 2605 1165 2323 
-L 1478 2630 
-C 1248 2925 960 3219 614 3507 
-z
-M 1158 1773 
-C 928 1043 659 326 352 -378 
-L 768 -550 
-C 1050 128 1312 851 1549 1626 
-L 1158 1773 
-z
-M 1830 4986 
-L 1830 1075 
-L 3853 1075 
-L 3853 4986 
-L 1830 4986 
-z
-M 3405 1498 
-L 2278 1498 
-L 2278 2310 
-L 3405 2310 
-L 3405 1498 
-z
-M 2278 2714 
-L 2278 3462 
-L 3405 3462 
-L 3405 2714 
-L 2278 2714 
-z
-M 2278 3872 
-L 2278 4563 
-L 3405 4563 
-L 3405 3872 
-L 2278 3872 
-z
-M 3386 864 
-L 3046 653 
-C 3328 218 3558 -179 3725 -538 
-L 4083 -288 
-C 3917 45 3686 429 3386 864 
-z
-M 2234 845 
-C 2048 422 1798 0 1478 -429 
-L 1869 -634 
-C 2176 -211 2426 218 2618 666 
-L 2234 845 
-z
-M 4397 4659 
-L 4397 678 
-L 4832 678 
-L 4832 4659 
-L 4397 4659 
-z
-M 5408 -550 
-C 5754 -550 5926 -358 5926 19 
-L 5926 5210 
-L 5491 5210 
-L 5491 134 
-C 5491 -45 5408 -141 5248 -141 
-C 5043 -141 4832 -128 4614 -115 
-L 4717 -550 
-L 5408 -550 
+M 1914 2976 
+C 2266 2976 2534 2848 2720 2579 
+C 2874 2349 2957 2035 2957 1645 
+C 2957 1248 2874 934 2707 704 
+C 2522 461 2253 333 1894 333 
+C 1587 333 1350 454 1171 685 
+C 979 922 890 1229 890 1613 
+L 890 1677 
+C 890 2048 973 2355 1139 2586 
+C 1318 2848 1581 2976 1914 2976 
 z
 " transform="scale(0.015625)"/>
        <path id="PingFangTC-Regular-7a1e" d="M 3130 3827 
@@ -1975,36 +1852,41 @@ z
       <use xlink:href="#PingFangTC-Regular-3" transform="translate(65.703125 0)"/>
       <use xlink:href="#PingFangTC-Regular-87f4" transform="translate(99 0)"/>
       <use xlink:href="#PingFangTC-Regular-15dd" transform="translate(199 0)"/>
-      <use xlink:href="#PingFangTC-Regular-77d0" transform="translate(299 0)"/>
-      <use xlink:href="#PingFangTC-Regular-4ecb" transform="translate(399 0)"/>
-      <use xlink:href="#PingFangTC-Regular-7a1e" transform="translate(499 0)"/>
-      <use xlink:href="#PingFangTC-Regular-788d" transform="translate(599 0)"/>
+      <use xlink:href="#PingFangTC-Regular-3" transform="translate(299 0)"/>
+      <use xlink:href="#PingFangTC-Regular-53" transform="translate(332.296875 0)"/>
+      <use xlink:href="#PingFangTC-Regular-55" transform="translate(390.890625 0)"/>
+      <use xlink:href="#PingFangTC-Regular-52" transform="translate(427.390625 0)"/>
+      <use xlink:href="#PingFangTC-Regular-45" transform="translate(485.984375 0)"/>
+      <use xlink:href="#PingFangTC-Regular-48" transform="translate(544.578125 0)"/>
+      <use xlink:href="#PingFangTC-Regular-3" transform="translate(600.078125 0)"/>
+      <use xlink:href="#PingFangTC-Regular-7a1e" transform="translate(633.375 0)"/>
+      <use xlink:href="#PingFangTC-Regular-788d" transform="translate(733.375 0)"/>
      </g>
     </g>
    </g>
    <g id="patch_3">
-    <path d="M 74.116364 283.717701 
-L 227.924156 283.717701 
-L 227.924156 262.289655 
-L 74.116364 262.289655 
+    <path d="M 74.724815 283.717701 
+L 228.365724 283.717701 
+L 228.365724 262.289655 
+L 74.724815 262.289655 
 z
-" clip-path="url(#p1d0dd3a749)" style="fill: #eda100; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p1f2773dba1)" style="fill: #eda100; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 266.376104 283.717701 
-L 420.183896 283.717701 
-L 420.183896 146.731264 
-L 266.376104 146.731264 
+    <path d="M 266.775952 283.717701 
+L 420.416861 283.717701 
+L 420.416861 146.731264 
+L 266.775952 146.731264 
 z
-" clip-path="url(#p1d0dd3a749)" style="fill: #1baf7a; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p1f2773dba1)" style="fill: #1baf7a; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 458.635844 283.717701 
-L 612.443636 283.717701 
-L 612.443636 77.090115 
-L 458.635844 77.090115 
+    <path d="M 458.827088 283.717701 
+L 612.467997 283.717701 
+L 612.467997 77.090115 
+L 458.827088 77.090115 
 z
-" clip-path="url(#p1d0dd3a749)" style="fill: #eb6834; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p1f2773dba1)" style="fill: #eb6834; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="PathCollection_1">
     <defs>
@@ -2014,25 +1896,25 @@ M -3.354102 -3.354102
 L 3.354102 3.354102 
 " style="stroke: #e34948; stroke-width: 1.5"/>
     </defs>
-    <g clip-path="url(#p1d0dd3a749)">
-     <use xlink:href="#m023bfa0fc0" x="151.02026" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
-     <use xlink:href="#m023bfa0fc0" x="343.28" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
-     <use xlink:href="#m023bfa0fc0" x="535.53974" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
+    <g clip-path="url(#p1f2773dba1)">
+     <use xlink:href="#m023bfa0fc0" x="151.54527" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
+     <use xlink:href="#m023bfa0fc0" x="343.596406" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
+     <use xlink:href="#m023bfa0fc0" x="535.647543" y="283.717701" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="patch_6">
-    <path d="M 47.2 289.84 
-L 47.2 23.52 
+    <path d="M 47.837656 289.84 
+L 47.837656 23.52 
 " style="fill: none; stroke: #c3c2b7; stroke-width: 0.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="patch_7">
-    <path d="M 47.2 289.84 
-L 639.36 289.84 
+    <path d="M 47.837656 289.84 
+L 639.355156 289.84 
 " style="fill: none; stroke: #c3c2b7; stroke-width: 0.6; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_13">
     <!-- 28 -->
-    <g style="fill: #0b0b0b" transform="translate(145.02026 257.889655) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(145.54527 257.889655) scale(0.1 -0.1)">
      <defs>
       <path id="PingFangTC-Regular-1b" d="M 1920 4659 
 C 1440 4659 1069 4538 800 4288 
@@ -2082,7 +1964,7 @@ z
    </g>
    <g id="text_14">
     <!-- 179 -->
-    <g style="fill: #0b0b0b" transform="translate(335.540156 142.331264) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(335.856562 142.331264) scale(0.1 -0.1)">
      <defs>
       <path id="PingFangTC-Regular-1a" d="M 218 4570 
 L 218 4090 
@@ -2102,7 +1984,7 @@ z
    </g>
    <g id="text_15">
     <!-- 270 -->
-    <g style="fill: #0b0b0b" transform="translate(526.804584 72.690115) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(526.912386 72.690115) scale(0.1 -0.1)">
      <use xlink:href="#PingFangTC-Regular-15"/>
      <use xlink:href="#PingFangTC-Regular-1a" transform="translate(60 0)"/>
      <use xlink:href="#PingFangTC-Regular-13" transform="translate(114.703125 0)"/>
@@ -2110,7 +1992,7 @@ z
    </g>
    <g id="text_16">
     <!-- 次數不構成強度排名；ConsumableShares 沒有共同 hold 窗口 -->
-    <g style="fill: #52514e" transform="translate(59.0432 47.4888) scale(0.09 -0.09)">
+    <g style="fill: #52514e" transform="translate(59.668006 47.4888) scale(0.09 -0.09)">
      <defs>
       <path id="PingFangTC-Regular-728b" d="M 461 4890 
 L 461 4442 
@@ -2752,7 +2634,7 @@ z
    </g>
    <g id="text_17">
     <!-- 有限壓力下 A 都沒有配置 OOM；觀察窗口不同 -->
-    <g style="fill: #0b0b0b" transform="translate(216.847812 17.52) scale(0.12 -0.12)">
+    <g style="fill: #0b0b0b" transform="translate(217.164219 17.52) scale(0.12 -0.12)">
      <defs>
       <path id="PingFangTC-Regular-8916" d="M 538 4973 
 L 538 -646 
@@ -3147,16 +3029,16 @@ z
   </g>
   <g id="legend_1">
    <g id="patch_8">
-    <path d="M 147.050156 351.32 
-L 167.050156 351.32 
-L 167.050156 344.32 
-L 147.050156 344.32 
+    <path d="M 147.045312 351.32 
+L 167.045312 351.32 
+L 167.045312 344.32 
+L 147.045312 344.32 
 z
 " style="fill: #eda100; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_18">
     <!-- consumable-shares -->
-    <g style="fill: #0b0b0b" transform="translate(175.050156 351.32) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(175.045312 351.32) scale(0.1 -0.1)">
      <defs>
       <path id="PingFangTC-Regular-46" d="M 1824 3398 
 C 1331 3398 941 3226 659 2874 
@@ -3206,16 +3088,16 @@ z
     </g>
    </g>
    <g id="patch_9">
-    <path d="M 287.020469 351.32 
-L 307.020469 351.32 
-L 307.020469 344.32 
-L 287.020469 344.32 
+    <path d="M 287.015625 351.32 
+L 307.015625 351.32 
+L 307.015625 344.32 
+L 287.015625 344.32 
 z
 " style="fill: #1baf7a; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_19">
     <!-- hami -->
-    <g style="fill: #0b0b0b" transform="translate(315.020469 351.32) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(315.015625 351.32) scale(0.1 -0.1)">
      <use xlink:href="#PingFangTC-Regular-4b"/>
      <use xlink:href="#PingFangTC-Regular-44" transform="translate(55.59375 0)"/>
      <use xlink:href="#PingFangTC-Regular-50" transform="translate(111.5 0)"/>
@@ -3223,43 +3105,16 @@ z
     </g>
    </g>
    <g id="patch_10">
-    <path d="M 357.279844 351.32 
-L 377.279844 351.32 
-L 377.279844 344.32 
-L 357.279844 344.32 
+    <path d="M 357.275 351.32 
+L 377.275 351.32 
+L 377.275 344.32 
+L 357.275 344.32 
 z
 " style="fill: #eb6834; stroke: #fcfcfb; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_20">
     <!-- mps -->
-    <g style="fill: #0b0b0b" transform="translate(385.279844 351.32) scale(0.1 -0.1)">
-     <defs>
-      <path id="PingFangTC-Regular-53" d="M 1978 3398 
-C 1478 3398 1114 3187 877 2765 
-L 877 3309 
-L 397 3309 
-L 397 -1267 
-L 909 -1267 
-L 909 602 
-C 1165 141 1530 -90 2003 -90 
-C 2477 -90 2842 90 3110 435 
-C 3354 755 3482 1158 3482 1645 
-C 3482 2144 3354 2547 3104 2867 
-C 2829 3226 2451 3398 1978 3398 
-z
-M 1914 2976 
-C 2266 2976 2534 2848 2720 2579 
-C 2874 2349 2957 2035 2957 1645 
-C 2957 1248 2874 934 2707 704 
-C 2522 461 2253 333 1894 333 
-C 1587 333 1350 454 1171 685 
-C 979 922 890 1229 890 1613 
-L 890 1677 
-C 890 2048 973 2355 1139 2586 
-C 1318 2848 1581 2976 1914 2976 
-z
-" transform="scale(0.015625)"/>
-     </defs>
+    <g style="fill: #0b0b0b" transform="translate(385.275 351.32) scale(0.1 -0.1)">
      <use xlink:href="#PingFangTC-Regular-50"/>
      <use xlink:href="#PingFangTC-Regular-53" transform="translate(85.5 0)"/>
      <use xlink:href="#PingFangTC-Regular-56" transform="translate(144.09375 0)"/>
@@ -3267,12 +3122,12 @@ z
    </g>
    <g id="PathCollection_2">
     <g>
-     <use xlink:href="#m023bfa0fc0" x="434.739219" y="348.695" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
+     <use xlink:href="#m023bfa0fc0" x="434.734375" y="348.695" style="fill: #e34948; stroke: #e34948; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="text_21">
     <!-- 配置 OOM -->
-    <g style="fill: #0b0b0b" transform="translate(452.739219 351.32) scale(0.1 -0.1)">
+    <g style="fill: #0b0b0b" transform="translate(452.734375 351.32) scale(0.1 -0.1)">
      <use xlink:href="#PingFangTC-Regular-87f4"/>
      <use xlink:href="#PingFangTC-Regular-15dd" transform="translate(100 0)"/>
      <use xlink:href="#PingFangTC-Regular-3" transform="translate(200 0)"/>
@@ -3284,8 +3139,8 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p1d0dd3a749">
-   <rect x="47.2" y="23.52" width="592.16" height="266.32"/>
+  <clipPath id="p1f2773dba1">
+   <rect x="47.837656" y="23.52" width="591.5175" height="266.32"/>
   </clipPath>
  </defs>
 </svg>

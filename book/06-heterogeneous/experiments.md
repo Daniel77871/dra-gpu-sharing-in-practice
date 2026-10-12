@@ -14,16 +14,16 @@ flowchart LR
     C["E4 HAMi 容量"] --> D["只驗證 A40 共用"]
     E["E4B 統一 HAMi 容量"] --> F["兩張卡核對 memory 與 cores"]
     F --> G["選卡與容量不足等待"]
-    F --> H["失敗取消重試的 Claim 回收"]
+    F --> H["失敗、取消與重試後的 Claim 回收"]
 ```
 
-`memory` 是 Claim 預留的 GPU 記憶體額度，`cores` 是 HAMi 公布的運算額度；兩者都不等於這次 CUDA 工作的實際用量。其隔離語意沿用[第 4 章](../04-isolation/hami-dra.md)，本頁只把帳本與執行期觀測並列。
+`memory` 是 Claim 預留的 GPU 記憶體額度，`cores` 是 HAMi 公布的運算額度；兩者都不等於這次 CUDA 工作的實際用量。其隔離語意沿用[第 4 章](../04-isolation/hami-dra.md)，本頁只把帳本與 runtime 觀測並列。
 
 ## 部署與設定
 
-原始環境使用 Kubernetes v1.37.0、NVIDIA DRA driver v0.5.0 與 HAMi-DRA v0.1.0。原生 GPU provider 的部署見[第 2 章](../02-deploy/dra-driver.md)，本章的需求 manifests 見 [6.1](selection.md)，KFP 的固定來源、映像檔與 standalone 設定見 [6.2](kubeflow.md)。[請求資料](../../data/e4b/trials.json)
+原始環境使用 Kubernetes v1.37.0、NVIDIA DRA driver v0.5.0 與 HAMi-DRA v0.1.0。原生 GPU provider 的部署見[第 2 章](../02-deploy/dra-driver.md)，本章的需求 manifests 見 [6.1](selection.md)，KFP 的固定來源、image 與 standalone 設定見 [6.2](kubeflow.md)。[請求資料](../../data/e4b/trials.json)
 
-原生選卡的 Task 沒有固定 Pod 節點。E4 的 `a40`、`4090` 在型號 DeviceClass 之外還使用該卡 UUID，復現套件依案例名稱改用 `productName` CEL；在各型號只有一張卡的原環境中落點相同，多張同型號卡的叢集則會接受任何符合型號的裝置。
+原生選卡的 Task 沒有固定 Pod 節點。E4 的 `a40`、`4090` 在型號 DeviceClass 之外還指定該卡 UUID，重現套件依案例名稱改用 `productName` CEL；在各型號只有一張卡的原環境中落點相同，多張同型號卡的叢集則會接受任何符合型號的裝置。
 
 | 原始名稱或識別 | 套件中的角色名稱 | 意義 |
 |---|---|---|
@@ -33,19 +33,19 @@ flowchart LR
 | E4B `gpu-target` Template | `capacity-8gi-gpu` 或 `capacity-30gi-gpu` | 通用容量需求 |
 | E4B `target`、`left`、`right` Task | `capacity-h1-worker`、`capacity-pending-worker`、`capacity-parallel-primary`、`capacity-parallel-secondary` | Task 名稱與 Claim UID 分開保存 |
 
-### 工作負載與驗收方法
+### Workload 與驗收方法
 
-工作負載固定使用 FP32 矩陣、單一 CPU 執行緒與關閉 TF32 的 CUDA 計算；原始參數包含矩陣邊長 4096、seed 20261010、5 次 warmup、20 次計時 GEMM 與 8 個正確性檢查點。請求 `30Gi` 不會把張量變成 30 GiB，因此以下結果沒有 GPU 效能比較的意義。[工作負載來源](../../labs/06-heterogeneous/workload/gpu_primitives.py)
+Workload 固定使用 FP32 矩陣、單一 CPU thread 與關閉 TF32 的 CUDA 計算；原始參數包含矩陣邊長 4096、seed 20261010、5 次 warmup、20 次計時 GEMM 與 8 個正確性檢查點。請求 `30Gi` 不會把 tensor 變成 30 GiB，因此下列結果不適合用來比較 GPU 效能。[workload 來源](../../labs/06-heterogeneous/workload/gpu_primitives.py)
 
-正向驗收同時核對 KFP Run／Task、實際 executor Pod、CUDA 記錄、Claim 配置與自然刪除。不存在裝置的案例則核對未配置、排程事件、持續 Pending 與清理；「合理 Pending」不算 CUDA 成功。原始資料由[標準函式庫分析程式](../../labs/06-heterogeneous/analysis/analyze.py)整理成以下表格，擷取路徑與雜湊見 [E4](../../data/e4/SOURCES.md)、[E4B](../../data/e4b/SOURCES.md)。
+正向驗收同時核對 KFP Run／Task、實際 executor Pod、CUDA 記錄、Claim 配置與自然刪除。不存在裝置的案例則核對未配置、排程事件、持續 Pending 與清理；「合理 Pending」不算 CUDA 成功。原始資料由[標準 library 分析程式](../../labs/06-heterogeneous/analysis/analyze.py)整理成以下表格，擷取路徑與雜湊見 [E4](../../data/e4/SOURCES.md)、[E4B](../../data/e4b/SOURCES.md)。
 
 ## 結果
 
 ### E4 的階段驗收
 
-stage1 的 static 與 dynamic 都引用 ResourceClaimTemplate。static 把 Template 名稱寫在編譯產物，dynamic 以 Pipeline 輸入 JSON 傳入；兩者都由 Kubernetes 為各 Pod 建立 Claim，這裡的 static 不是多人共用一份預先建立的 ResourceClaim。[原始請求與驗收摘要](../../data/e4/trials.json)
+在 stage1 中，static 與 dynamic 都引用 ResourceClaimTemplate。Static 把 Template 名稱寫在編譯產物，dynamic 以 Pipeline 輸入 JSON 傳入；兩者都由 Kubernetes 為各 Pod 建立 Claim，這裡的 static 不是多人共用一份預先建立的 ResourceClaim。[原始請求與驗收摘要](../../data/e4/trials.json)
 
-stage2 的 `attribute` 使用 `architecture == "Ampere"`，`any` 不加 Claim selector，`any-both` 同時提交兩個獨立 Task。`nonexistent` 要求不存在的 UUID，結果是未配置的 Pending；stage3 則在 A40 上依序驗證不同並行數與 cores／memory 不足後的釋放。
+在 stage2 中，`attribute` 使用 `architecture == "Ampere"`，`any` 不加 Claim selector，`any-both` 同時提交兩個獨立 Task。`nonexistent` 要求不存在的 UUID，結果是未配置的 Pending；stage3 則在 A40 上依序驗證不同並行數與 cores／memory 不足後的釋放。
 
 ![E4 驗收與保留未通過紀錄](../images/06-heterogeneous/e4-acceptance.svg)
 
@@ -86,7 +86,7 @@ GiB 範圍依報告保留三位小數，最大配對時間差保留資料中的�
 
 ### E4B 的統一容量與選卡
 
-正式 H1 的 live ResourceSlice 公布 A40 memory 46068 MiB、RTX 4090 memory 24564 MiB，兩者 cores 都是 100。這是該次 provider 的公布值，換卡、換驅動或重建 Slice 後應重新盤點。[正式請求與容量樣本](../../data/e4b/capacity-samples.csv)
+正式 H1 的 live ResourceSlice 公布 A40 memory 46068 MiB、RTX 4090 memory 24564 MiB，兩者 cores 都是 100。這是該次 provider 的公布值，換卡、換 driver 或重建 Slice 後應重新盤點。[正式請求與容量樣本](../../data/e4b/capacity-samples.csv)
 
 ![H1 與 H2 的選卡矩陣](../images/06-heterogeneous/placements.svg)
 
@@ -121,11 +121,11 @@ H5 的受控 holder 在每張 GPU 留下一個 `8Gi` 空位，再同時提交兩
 
 | 情境 | 原始 Run／Task 狀態 | Claim 釋放證據 |
 |---|---|---|
-| L1 CUDA 正確後受控退出 42 | Run FAILED；Task FAILED | 原 Claim 與後續短暫 Claim 均有刪除觀測 |
+| L1 CUDA 正確後以 exit code 42 結束 | Run FAILED；Task FAILED | 原 Claim 與後續短暫 Claim 均有刪除觀測 |
 | L2 執行中呼叫 cancel API | Run FAILED；Task API 仍 RUNNING | executor Pod 已終止，Claim 均刪除 |
-| L3 首次失敗後控制器重試 | Run 與 Task 最終 SUCCEEDED | 兩次 attempt 各自配置，全部 Claim 均刪除 |
+| L3 首次失敗後 controller 重試 | Run 與 Task 最終 SUCCEEDED | 兩次 attempt 各自配置，全部 Claim 均刪除 |
 
-L1 的應用程式退出碼是 42，但 KFP launcher 主容器的退出碼是 1，兩者需要分別記錄。L2 的 Task API 沒有 executor UID，也可能沒有 completion 時間；驗證時用 Task ID、launcher、owner Workflow UID 與 Workflow node patch 串回 Pod，不能僅憑 RUNNING 判定 GPU 仍被占用。[生命週期證據](../../data/e4b/lifecycle.json)
+L1 的應用程式 exit code 是 42，但 KFP launcher 主 container 的 exit code 是 1，兩者需要分別記錄。L2 的 Task API 沒有 executor UID，也可能沒有完成時間；驗證時用 Task ID、launcher、owner Workflow UID 與 Workflow node patch 串回 Pod，不能僅憑 RUNNING 判定 GPU 仍被占用。[生命週期證據](../../data/e4b/lifecycle.json)
 
 L3 核對了兩次實際 attempt 的 executor Pod UID、Claim UID 與 shareID，首次失敗後再成功，沒有用「正常成功工作」替代重試證據。完成後短暫新增的 Claim 也納入完整 UID 與 DELETED 事件追蹤；名稱變化的內部原因仍未釐清，不能直接推論資源洩漏。
 
@@ -142,11 +142,11 @@ L3 核對了兩次實際 attempt 的 executor Pod UID、Claim UID 與 shareID，
 | 全新 Python 環境重現 | VERIFIED |
 | 原 provider 與服務狀態還原 | VERIFIED |
 
-E4B 的正式驗收是 23 輪，原 invalid 保留 5 輪；修正後驗證器可核對 25 輪證據，但重新讀懂的歷史 invalid 不補進正式次數，全目錄仍為 incomplete。全新環境的結果使用重建 SDK wheel 與新的 Python 環境，驗證範圍是 macOS arm64／Python 3.12，沒有宣稱全新 Kubernetes 叢集。[能力與正式次數](../../data/e4b/acceptance.json)
+E4B 的正式驗收是 23 輪，原 invalid 保留 5 輪；修正後驗證器可核對 25 輪證據，但重新判讀的歷史 invalid 紀錄不補進正式次數，全目錄仍為 incomplete。全新環境的結果使用重建 SDK wheel 與新的 Python 環境，驗證範圍是 macOS arm64／Python 3.12，沒有宣稱全新 Kubernetes 叢集。[能力與正式次數](../../data/e4b/acceptance.json)
 
 ### E4B 的兩種剩餘量
 
-下表採報告的代表樣本：每個案例與節點先取最高 reservation，若相同再取最高 physical used。只列 HAMi consumable capacity，排除生命週期階段另一張卡仍在原生獨占模式的樣本；完整取樣窗與讀取區間保留於 CSV。
+下表採用報告中的代表樣本：每個案例與節點先取最高 reservation，若相同再取最高 physical used。只列 HAMi consumable capacity，排除生命週期階段另一張卡仍在原生獨占模式的樣本；完整取樣窗與讀取區間保留於 CSV。
 
 ![DRA remaining 與 NVML physical free 是不同的量](../images/06-heterogeneous/capacity-physical.svg)
 
@@ -164,13 +164,13 @@ E4B 的正式驗收是 23 輪，原 invalid 保留 5 輪；修正後驗證器可
 
 這張表的差值方向改為 **physical free 減 DRA remaining**，與前面的 E4 範圍表相反，欄名已明列。NVML offset 是 physical 樣本時間減 DRA 觀測時間，正負號都保留，配對在附近五秒內而非同時發生。
 
-H2 的 A40 預留 30Gi，卻仍有大量實體空閒，正好說明需求帳本與 tensor 用量不同。H5 的 remaining 可以是零，physical free 卻很大；排程器依 Claim reservation 判斷容量，不會因此把新的 Task 塞進已預留滿的裝置。NVML 的 `memory.reserved` 另指驅動與韌體保留量，所以 physical used 加 free 也可能小於 total。
+H2 的 A40 預留 30Gi，卻仍有大量實體空閒，正好說明需求帳本與 tensor 用量不同。H5 的 remaining 可以是零，physical free 卻很大；scheduler 依 Claim reservation 判斷容量，不會因此把新的 Task 塞進已預留滿的裝置。NVML 的 `memory.reserved` 另指 driver 與韌體保留量，所以 physical used 加 free 也可能小於 total。
 
 ## 重點整理
 
 E4 驗證原生獨占選卡與單卡共用，E4B 驗證兩卡統一容量、同一工作在釋放後繼續，以及失敗、取消與重試後回收。選卡成功只證明需求被滿足；最快 GPU、隨機策略與配額以外的實體硬上限，都不在本實驗的結論中。
 
-讀結果時同時看正式驗收、原始負面紀錄、工作 UID 與容量時間差。回到[本章的限制與復現入口](README.md#限制)，再選擇要重現的 provider 與 KFP 範圍。
+讀結果時同時看正式驗收、原始負面紀錄、工作 UID 與容量時間差。回到[本章的限制與重現入口](README.md#限制)，再選擇要重現的 provider 與 KFP 範圍。
 
 <!-- nav:start -->
 [← 上一頁：6.2 與 Kubeflow Pipelines 整合](kubeflow.md) ｜ [目錄](../README.md) ｜ [下一頁：第 7 章　結論與實務建議 →](../07-conclusion.md)

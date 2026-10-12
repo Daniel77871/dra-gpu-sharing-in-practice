@@ -1,6 +1,6 @@
 # 共用 GPU 的 OOM 結果
 
-| 輪次 | B 張量 MiB | hold 探測 OOM | hold 探測 OK | 恢復秒數 | A 運算錯誤 | A 退出碼 | B 退出碼 | hold p95 倍率 |
+| 輪次 | B tensor MiB | hold probe OOM | hold probe OK | 恢復秒數 | A 運算錯誤 | A exit code | B exit code | hold p95 倍率 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | exit-r1 | 43776 | 未測 | 未測 | 1.826 | 0 | 0 | 1 | 未測 |
 | exit-r2 | 43776 | 未測 | 未測 | 2.474 | 0 | 0 | 1 | 未測 |

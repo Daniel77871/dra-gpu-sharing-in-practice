@@ -74,9 +74,9 @@ PYTORCH_CUDA_OK NVIDIA GeForce RTX 4090
 
 ## Claim 生命週期的實際觀察
 
-- 生成的 claim 名稱是 `gpu-smoke-a40-v5p7w-gpu-5rnbh`，也就是「Pod 名稱 + Pod 內的 claim 引用名 `gpu` + 隨機尾碼」。claim 帶有 `resource.kubernetes.io/delete-protection` finalizer，`ownerReferences` 指向該 Pod。
+- 產生的 claim 名稱是 `gpu-smoke-a40-v5p7w-gpu-5rnbh`，也就是「Pod 名稱 + Pod 內的 claim 引用名 `gpu` + 隨機 suffix」。Claim 帶有 `resource.kubernetes.io/delete-protection` finalizer，`ownerReferences` 指向該 Pod。
 - 配置結果是 `driver: gpu.nvidia.com`、`pool: dra-a40`、`device: gpu-0`。`nodeSelector` 以 `metadata.name In [dra-a40]` 限定節點，`reservedFor` 只列出該 Pod。
-- Job 完成後、刪除 Job 之前，兩份生成的 claim 已經不存在（`claim_absent_before_job_deletion: true`）。這和 Kubernetes v1.37.0 的行為一致：Pod 終止後，ResourceClaim 控制器移除 reservation 並刪除該 Pod 產生的 claim，不必等 Pod 物件被刪除。
+- Job 完成後、刪除 Job 之前，兩份產生的 claim 已經不存在（`claim_absent_before_job_deletion: true`）。這和 Kubernetes v1.37.0 的行為一致：Pod 終止後，ResourceClaim controller 移除 reservation 並刪除該 Pod 產生的 claim，不必等 Pod 物件被刪除。
 
 ## 清理
 
@@ -84,8 +84,8 @@ PYTORCH_CUDA_OK NVIDIA GeForce RTX 4090
 
 ## 結論
 
-通過。部署狀態與文件一致；A40 與 RTX 4090 都能透過 ResourceClaimTemplate 取得整卡並執行 CUDA；claim 的建立、配置與回收和第 2.4 節的說明相符。
+通過。部署狀態與第 2 章的說明一致；A40 與 RTX 4090 都能透過 ResourceClaimTemplate 取得整卡並執行 CUDA；claim 的建立、配置與回收和第 2.4 節的說明相符。
 
 ## 以最終版 manifests 重跑
 
-CEL 條件改寫成單行引號字串後（語意不變），同日以 `SMOKE=1 bash labs/02-setup/scripts/run.sh smoke-20261011-r2` 再跑一次。結果相同：兩張 GPU 都配置成功、PyTorch CUDA 檢查通過，生成的 claim 在刪除 Job 前已回收；`cleanup.sh` 後沒有殘留 ResourceClaim。
+CEL 條件改寫成單行引號字串後（語意不變），同日以 `SMOKE=1 bash labs/02-setup/scripts/run.sh smoke-20261011-r2` 再跑一次。結果相同：兩張 GPU 都配置成功、PyTorch CUDA 檢查通過，產生的 claim 在刪除 Job 前已回收；`cleanup.sh` 後沒有殘留 ResourceClaim。

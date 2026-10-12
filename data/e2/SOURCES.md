@@ -149,4 +149,4 @@
 - `results/experiment-2-isolation/mps-20261006T092100Z/scope-8g-r3/trial.json`
 - `results/experiment-2-isolation/mps-20261006T092100Z/versions.json`
 
-`fixtures/mps-scope-20261012/` 保存 2026-10-12 縮短版雙行程案例的 `/proc`、MPS 與 NVML 原始身分資料；Pod 快照只保留名稱、UID 和容器 ID，日誌只保留 READY 事件。逐檔原始路徑、SHA-256 和裁切規則見 `fixtures/mps-scope-20261012/sources.json`。這組資料供身分對照回歸測試，不混入原始九輪的量測摘要。
+`fixtures/mps-scope-20261012/` 保存 2026-10-12 縮短版 dual-process 案例的 `/proc`、MPS 與 NVML 原始身分資料；Pod 快照只保留名稱、UID 和 container ID，日誌只保留 READY 事件。逐檔原始路徑、SHA-256 和裁切規則見 `fixtures/mps-scope-20261012/sources.json`。這組資料供身分對照回歸測試，不混入原始九輪的量測摘要。

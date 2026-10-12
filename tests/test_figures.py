@@ -12,8 +12,8 @@ def test_chart_render_is_byte_identical_and_text_is_paths(tmp_path):
     outputs = []
     for name in ("first.svg", "second.svg"):
         fig, ax = style.new_chart("共用機制的合成測試", "時間（秒）", "GPU 記憶體（MiB）")
-        style.line(ax, [0, 1, 2], [1, 2, 3], "steady", label="穩定行程")
-        style.line(ax, [0, 1, 2], [3, 2, 1], "pressure", label="壓力行程")
+        style.line(ax, [0, 1, 2], [1, 2, 3], "steady", label="穩定 process")
+        style.line(ax, [0, 1, 2], [3, 2, 1], "pressure", label="壓力 process")
         path = tmp_path / name
         style.save_svg(fig, path)
         outputs.append(path.read_bytes())

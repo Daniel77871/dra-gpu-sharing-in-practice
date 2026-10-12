@@ -49,15 +49,15 @@ $ bash scripts/restore-native-settings.sh native-perf-20261012-r4
 
 ## 過程中修正的問題
 
-前三次嘗試分別暴露三個問題：本機只同步了 `labs/`，缺少 `data/e3/benchmark-config.json`（本 lab 需在完整 clone 中執行）；sequential 與 HAMi 的 kustomize overlay 無法渲染；MPS 批次的身分檢查誤以為 `nvidia-smi` 只會列出 MPS server（Volta 之後也會列出各 client 行程）。修正後即上表的結果。
+前三次嘗試分別暴露三個問題：本機只同步了 `labs/`，缺少 `data/e3/benchmark-config.json`（本 lab 需在完整 clone 中執行）；sequential 與 HAMi 的 kustomize overlay 無法渲染；MPS 批次的身分檢查誤以為 `nvidia-smi` 只會列出 MPS server（Volta 之後也會列出各 client process）。修正後即上表的結果。
 
-## provider 設定與還原
+## Provider 設定與還原
 
 每次執行都以 `install-native-settings.sh` 暫時開啟 `TimeSlicingSettings`，只重啟 A40 的 plugin Pod，最後以 `restore-native-settings.sh` 還原。還原後以獨立快照比對原生 DaemonSet：UID、`RollingUpdate`、`FEATURE_GATES=MPSSupport=true,`、node affinity 與 spec 雜湊都和執行前相同，4090 的 plugin 全程沒有重建。
 
 ## HAMi 模式
 
-HAMi 批次需要把 A40 切換給 HAMi-DRA，本 lab 使用第 4 章的 `labs/04-isolation/hami-dra/scripts/install-provider.sh` 與 `uninstall-provider.sh`。runner 會在 provider 邊界停下（退出碼 78），切換後以**相同 run-id** 重跑：
+HAMi 批次需要把 A40 切換給 HAMi-DRA，本 lab 使用第 4 章的 `labs/04-isolation/hami-dra/scripts/install-provider.sh` 與 `uninstall-provider.sh`。Runner 會在 provider 邊界停下（exit code 78），切換後以**相同 run-id** 重跑：
 
 ```console
 $ cd labs/05-performance

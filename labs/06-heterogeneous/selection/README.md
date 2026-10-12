@@ -17,10 +17,10 @@
 | `capacity/holders.yaml` | 三個 holder 的 ResourceClaimTemplate |
 | `capacity/jobs.yaml` | Capacity worker 與 holder 的共同 Job 範本 |
 
-`kustomization.yaml` 都可獨立 render；執行情境由 `PART` 與 `CASES` 選擇，再分步提交，避免一次啟動全部工作。單純 `kubectl apply -k` 只會啟動檔案中的代表 Job，無法完成 holder 控制、Pending 檢查與 UID 比較，請用總說明的 run 腳本。
+`kustomization.yaml` 都可獨立渲染；執行情境由 `PART` 與 `CASES` 選擇，再分步提交，避免一次啟動全部工作。單純 `kubectl apply -k` 只會啟動檔案中的代表 Job，無法完成 holder 控制、Pending 檢查與 UID 比較，請用總說明的 run 腳本。
 
 ## 優先替代清單與延伸範例
 
-`prefer-4090` 先在兩張 GPU 空閒時提交工作，再使用普通獨占 Template 建立 RTX 4090 holder，於 holder 持有配置時以相同優先 Template 提交工作。兩步分別驗收 `gpu/rtx4090`、`gpu/a40`，worker Pod 沒有固定節點；holder 在第二步完成後釋放。完整輸入與配置子請求保存於每個 case 的 phase 子目錄及 `trial.json`，實際結果待實機驗證紀錄。
+`prefer-4090` 先在兩張 GPU 空閒時提交工作，再使用普通獨占 Template 建立 RTX 4090 holder，於 holder 持有配置時以相同優先 Template 提交工作。兩步分別驗收 `gpu/rtx4090`、`gpu/a40`，worker Pod 沒有固定節點；holder 在第二步完成後釋放。完整輸入與配置子請求保存於每個 case 的 phase 子目錄及 `trial.json`；原叢集的實測結果見[實機驗證紀錄](../VERIFIED.md#原生選卡不切換-provider)。
 
 `examples/attribute-requirements.yaml` 示範型號、memory 與 CUDA compute capability 的交集，沒有納入執行情境。多屬性 CEL 與 `firstAvailable` 都未在原 E4／E4B 執行；適用版本、feature gate 與型別說明見[需求表示方式](../../../book/06-heterogeneous/selection.md)。

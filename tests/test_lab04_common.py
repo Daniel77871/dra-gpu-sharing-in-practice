@@ -314,7 +314,7 @@ def test_shared_consumable_and_mps_kustomizations_render_with_pinned_binary(dire
 
 @pytest.mark.parametrize('builder,title,legend', [
     ('accounting_balance', '排程餘額與實體空閒量回答不同問題', '第三份 Claim 申請 8 GiB（8192 MiB）'),
-    ('mps_quota', 'MPS 上限套在各行程，雙行程張量合計可超過 8 GiB', '每個 client 的設定上限'),
+    ('mps_quota', 'MPS 上限套在各 process，dual-process tensor 合計可超過 8 GiB', '每個 client 的設定上限'),
 ])
 def test_isolation_chart_thresholds_have_unambiguous_rendered_legends(tmp_path, builder, title, legend):
     from tools.figures import ch04, style

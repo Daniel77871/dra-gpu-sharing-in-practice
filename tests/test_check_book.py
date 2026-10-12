@@ -42,6 +42,14 @@ def test_lint_prose_mermaid_inline_code_and_opt_out():
     assert not set("干后于里云台面斗余制范系松征朴只器組件据存").intersection(SIMPLIFIED_ONLY)
 
 
+def test_translated_technical_terms_must_use_english():
+    from tools.check_book import lint_text
+    issues = lint_text("容器裡的行程使用時間切片。\n`容器` 與執行期間、執行程式。\n", "page.md")
+    assert [(i.line, i.rule, i.message) for i in issues] == [
+        (1, "en-term", "時間切片 → time-slicing"), (1, "en-term", "容器 → container"),
+        (1, "en-term", "行程 → process")]
+
+
 def test_quote_warnings_do_not_fail_and_allowed_terms_suppress_simplified():
     from tools.check_book import lint_text
     issues = lint_text('「性能」與「支持」。\n显存 <!-- zh-lint: allow 显存 -->\n', "page.md")

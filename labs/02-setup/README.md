@@ -12,9 +12,9 @@
 | GPU 元件 | GPU Operator v26.7.0、driver 595.91.07、DRA Driver 0.5.0 |
 | 命令列 | Bash、kubectl、Helm、python3；Python 分析只用 stdlib |
 | 權限 | 讀 Node、元件 Pod、DeviceClass、ResourceSlice、Helm release；管理 gpu-setup-lab 及 exec 自己的 workload |
-| 映像檔 | `pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755` |
+| image | `pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755` |
 
-兩台 GPU 已使用相同 digest，`IfNotPresent` 可重用快取；快取被移除時仍可能拉取相同映像檔。lab 不修改 host 套件、kernel、initramfs 或開機方式。
+兩台 GPU 已使用相同 digest，`IfNotPresent` 可重用 cache；cache 被移除時仍可能拉取相同 image。Lab 不修改 host 套件、kernel、initramfs 或開機方式。
 
 ## 既有叢集執行順序
 
@@ -60,7 +60,7 @@ GPU 0: NVIDIA GeForce RTX 4090 (UUID: GPU-0c6a9ee3-89b0-d48f-de2c-758c2cedcd1e)
 PYTORCH_CUDA_OK NVIDIA GeForce RTX 4090
 ```
 
-summary.json 經 summarize.py 輸出的實際表格：
+以下是 summary.json 經 summarize.py 輸出的實際表格：
 
 ```text
 node | GPU | claim allocated | claim deleted after Pod deletion | pytorch CUDA ok
@@ -69,16 +69,16 @@ dra-a40 | NVIDIA A40 | yes | earlier | yes
 dra-4090 | NVIDIA GeForce RTX 4090 | yes | earlier | yes
 ```
 
-兩份 claim 都在刪除 Job 前已消失（`claim_absent_before_job_deletion: true`），因此摘要為 `earlier`，符合 Kubernetes v1.37.0 在 Pod 終止後回收生成 claim 的行為。[完整 claim YAML 與生命週期解釋](../../book/02-deploy/verify.md#觀察-claim-生命週期)保存了 allocation、nodeSelector 與 reservedFor 的讀法。
+兩份 claim 都在刪除 Job 前已消失（`claim_absent_before_job_deletion: true`），因此摘要為 `earlier`，符合 Kubernetes v1.37.0 在 Pod 終止後回收產生 claim 的行為。[完整 claim YAML 與生命週期解釋](../../book/02-deploy/verify.md#觀察-claim-生命週期)說明了 allocation、nodeSelector 與 reservedFor 的讀法。
 
 ## 新叢集安裝與還原
 
-> **警告：install.sh 只供全新的 GPU 部署，會改變節點標籤、叢集層級 DeviceClass、CRD 與 GPU 元件。已有 GPU Operator 或 DRA Driver 的叢集不要執行；不要用它切換 provider 或升級既有驅動。**
+> **警告：install.sh 只供全新的 GPU 部署，會改變節點 label、叢集層級 DeviceClass、CRD 與 GPU 元件。已有 GPU Operator 或 DRA Driver 的叢集不要執行；不要用它切換 provider 或升級既有 driver。**
 
 - 安裝前要求元件 Namespace、release、NVIDIA DeviceClass 與 ResourceSlice 不存在，先備份 Node、release 與所有原有 DaemonSet；先安裝 GPU Operator 並等待 driver、nvidia-smi 與服務就緒，再安裝 DRA。
-- [GPU Operator values](values/gpu-operator.yaml) 與 [DRA values](values/dra-driver.yaml) 精確對應原指南的 `--set`。原步驟未設定 eviction 所需的 DRA nodeSelector，驅動升級的驅逐與恢復仍未驗證，見[安裝限制](../../book/02-deploy/dra-driver.md#限制)。
-- 還原前先清理 GPU 工作並保留安裝備份；restore.sh 比對原有與本次 DaemonSet 的 UID/spec，拒絕仍有已分配 claim、外來物件或查詢錯誤的狀態。它依 DRA、Operator 順序移除元件，再恢復手動標籤。
-- 還原只處理本次 Kubernetes 部署，不能代替 VM 快照，也不回退 kernel、host 套件、runtime 設定、NFD 自動標籤或已載入的 driver 模組。這次實機紀錄未執行 install.sh 或 restore.sh。
+- [GPU Operator values](values/gpu-operator.yaml) 與 [DRA values](values/dra-driver.yaml) 精確對應原指南的 `--set`。原步驟未設定 eviction 所需的 DRA nodeSelector，driver 升級的驅逐與恢復仍未驗證，見[安裝限制](../../book/02-deploy/dra-driver.md#限制)。
+- 還原前先清理 GPU 工作並保留安裝備份；restore.sh 比對原有與本次 DaemonSet 的 UID/spec，拒絕仍有已分配 claim、外來物件或查詢錯誤的狀態。它依 DRA、Operator 順序移除元件，再恢復手動 label。
+- 還原只處理本次 Kubernetes 部署，不能代替 VM 快照，也不回退 kernel、host 套件、runtime 設定、NFD 自動 label 或已載入的 driver 模組。這次實機紀錄未執行 install.sh 或 restore.sh。
 
 ```console
 $ FRESH_CLUSTER=1 bash labs/02-setup/scripts/install.sh setup-install
@@ -93,7 +93,7 @@ $ bash labs/02-setup/scripts/restore.sh setup-install
 
 | 檔案 | 內容 |
 | --- | --- |
-| `run.json`、`commands.log` | run-id、模式、開始時間、kubectl 命令及結束碼 |
+| `run.json`、`commands.log` | run-id、模式、開始時間、kubectl 命令及 exit code |
 | `idle-dra-a40/`、`idle-dra-4090/` | 各節點的 GPU 空閒檢查 |
 | `<role>-claim-allocated.yaml`、`.json` | 放行前的 allocation 與 reservedFor |
 | `<role>-claim-completed.yaml`、`.json` | 完成後的 claim；不存在時 YAML 為空、JSON 為 `{}` |

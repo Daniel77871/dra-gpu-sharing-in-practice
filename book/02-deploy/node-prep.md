@@ -2,18 +2,18 @@
 
 ## 本頁要回答的問題
 
-GPU 已直通進 VM，為什麼驅動容器仍可能啟動失敗？本頁把硬體可見、核心模組綁定和可取得的 kernel headers 分開檢查，讓 GPU Operator 啟動時有完整的編譯條件。以下主機命令只在 `dra-a40`、`dra-4090` 執行；`kubectl drain` 與 `uncordon` 則在能管理叢集的命令列執行。
+GPU 已直通進 VM，為什麼 driver container 仍可能啟動失敗？本頁把硬體可見、kernel module 綁定和可取得的 kernel headers 分開檢查，讓 GPU Operator 啟動時有完整的編譯條件。以下主機命令只在 `dra-a40`、`dra-4090` 執行；`kubectl drain` 與 `uncordon` 則在能管理叢集的命令列執行。
 
 ## 背景原理
 
-GPU Operator 以容器安裝本次的 NVIDIA 驅動，並把驅動模組載入節點正在使用的 kernel。容器自己的檔案系統無法取代 host 的 kernel；因此它要取得與 `uname -r` 完全一致的 headers，才能編譯相符模組。這是本次一般驅動容器的條件；不要把它延伸成所有預先編譯驅動映像檔都會現場編譯。[一般與預先編譯驅動容器](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/precompiled-drivers.html)
+GPU Operator 以 container 安裝本次的 NVIDIA driver，並把 driver 模組載入節點正在使用的 kernel。Container 自己的檔案系統無法取代主機的 kernel；因此它要取得與 `uname -r` 完全一致的 headers，才能編譯相符模組。這是本次一般 driver container 的條件；不要把它延伸成所有預先編譯 driver image 都會現場編譯。[一般與預先編譯 driver container](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/precompiled-drivers.html)
 
 ```mermaid
 flowchart LR
     PCI["PCI passthrough"] --> Seen["lspci 看見 GPU"]
     Seen --> Free["nouveau 未綁定"]
-    Kernel["正在使用的 kernel"] --> Headers["同 ABI 的 headers"]
-    Free --> Build["驅動容器編譯"]
+    Kernel["正在使用的 kernel"] --> Headers["相同 ABI 的 headers"]
+    Free --> Build["driver container 編譯"]
     Headers --> Build
     Build --> Module["載入 nvidia 模組"]
     Module --> Root["填入 /run/nvidia/driver"]
@@ -23,7 +23,7 @@ flowchart LR
 
 ### 確認硬體可見
 
-先檢查 4090 的顯示與音訊功能，以及 A40 的 3D controller。以下是原環境的實際輸出；VM 內看到的 PCI bus 編號由直通後的虛擬 PCI 拓撲決定，不必與實體 host 相同。
+先檢查 4090 的顯示與音訊功能，以及 A40 的 3D controller。以下是原環境的實際輸出；VM 內看到的 PCI bus 編號由直通後的虛擬 PCI 拓撲決定，不必與實體主機相同。
 
 ```console
 # 在 dra-4090 上執行
@@ -50,11 +50,11 @@ $ lspci -nnk | grep -A3 -i nvidia
 | `VGA compatible controller` 與 `Audio device` | 4090 的 GPU 與音訊 PCI function | 本次兩個功能一起直通 |
 | `3D controller` | A40 的 GPU function | 沒有桌面顯示功能仍可做 CUDA 運算 |
 
-這兩段沒有 `Kernel driver in use:`，表示這次檢查時尚無 driver 綁定 GPU。`Kernel modules: nvidiafb` 只列候選模組，不能據此說 NVIDIA CUDA 驅動已載入；本次沒有列出 `nouveau`。[lspci 選項](https://manpages.ubuntu.com/manpages/noble/man8/lspci.8.html)
+這兩段沒有 `Kernel driver in use:`，表示這次檢查時尚無 driver 綁定 GPU。`Kernel modules: nvidiafb` 只列候選模組，不能據此說 NVIDIA CUDA driver 已載入；本次沒有列出 `nouveau`。[lspci 選項](https://manpages.ubuntu.com/manpages/noble/man8/lspci.8.html)
 
 ### 停用 nouveau
 
-`nouveau` 和 NVIDIA 驅動可能競爭同一張 PCI 裝置。即使目前沒有載入，後續 kernel 套件可能把它帶進來，所以先建立 blacklist，再更新 initramfs。這是本次指南已使用的 host 設定；驅動尚未裝好前，先完成兩台 GPU 節點。
+`nouveau` 和 NVIDIA driver 可能競爭同一張 PCI 裝置。即使目前沒有載入，後續 kernel 套件可能把它帶進來，所以先建立 blacklist，再更新 initramfs。這是本次指南已使用的主機設定；driver 尚未裝好前，先完成兩台 GPU 節點。
 
 ```console
 $ sudo tee /etc/modprobe.d/blacklist-nouveau.conf > /dev/null <<'EOF'
@@ -73,7 +73,7 @@ NVIDIA 的疑難排解也把已載入 nouveau 列為阻礙 driver 就緒的原�
 
 ### 核對 headers 是否仍可下載
 
-先更新套件索引，再檢查正在使用的 kernel。以下實際輸出中的 `Installed` 與 `Candidate` 看似相同，卻只列 `/var/lib/dpkg/status`；那只是 host 已安裝套件的紀錄，不能證明驅動容器可以從 archive 下載同一 ABI 的 headers。
+先更新套件索引，再檢查正在使用的 kernel。以下實際輸出中的 `Installed` 與 `Candidate` 看似相同，卻只列 `/var/lib/dpkg/status`；那只是主機已安裝套件的紀錄，不能證明 driver container 可以從 archive 下載同一 ABI 的 headers。
 
 ```console
 $ sudo apt update
@@ -89,7 +89,7 @@ linux-headers-6.8.0-90-generic:
 | 參數 | 意義 | 為什麼這樣設 |
 | --- | --- | --- |
 | `sudo apt update` | 更新可用套件索引 | 避免用舊索引判斷可下載版本 |
-| `linux-headers-$(uname -r)` | 目前 kernel 的完整版本與 flavor | 編譯目標必須與 host kernel 相同 |
+| `linux-headers-$(uname -r)` | 目前 kernel 的完整版本與 flavor | 編譯目標必須與主機 kernel 相同 |
 | `apt-cache policy` | 顯示已安裝與可下載來源 | 要看到 archive 來源，不能只看到本地狀態 |
 
 在這次舊 kernel 的情況下，查到的新 headers 如下。這是當時的索引快照，不代表以後永遠只有這幾個 ABI；應以你自己的套件來源為準。
@@ -177,7 +177,7 @@ $ apt-cache policy linux-headers-$(uname -r)
 $ lsmod | grep nouveau
 ```
 
-`lsmod | grep nouveau` 沒有輸出是這裡希望看到的結果；此時 grep 的非零結束碼表示沒有符合項目，不是安裝失敗。確認節點回到 `Ready`，再恢復排程。
+`lsmod | grep nouveau` 沒有輸出是這裡希望看到的結果；此時 grep 的非零 exit code 表示沒有符合項目，不是安裝失敗。確認節點回到 `Ready`，再恢復排程。
 
 ```console
 # 在 dra-m1 上執行
@@ -198,14 +198,14 @@ $ kubectl uncordon dra-a40
 
 本次 GPU 節點後來的實機快照是 `6.8.0-142-generic`，仍屬 GA 6.8 系列；它不是讀者應永久釘住的最新 ABI。原環境使用 Cilium netkit，需 kernel 至少 6.8；可對照 [Cilium netkit 條件](https://docs.cilium.io/en/stable/operations/performance/tuning/#netkit-mode)。
 
-在 host 已裝 headers，與驅動容器能下載 headers，是不同條件。這次失敗的重點正是 kernel 仍停留在舊 ABI，而新啟動的驅動容器只能使用當下的套件索引；升級後必須真正重新開機，`apt install` 本身不會替換正在使用的 kernel。
+在主機已裝 headers，與 driver container 能下載 headers，是不同條件。這次失敗的重點正是 kernel 仍停留在舊 ABI，而新啟動的 driver container 只能使用當下的套件索引；升級後必須真正重新開機，`apt install` 本身不會替換正在使用的 kernel。
 
 之後 unattended-upgrades 若安裝新 kernel，仍要安排重新開機與上述驗證；舊 kernel 對應 headers 何時停止提供，取決於當下的 archive 或鏡站。先在兩台 GPU 節點完成本頁，再依 [GPU Operator](gpu-operator.md) 的順序安裝；headers 找不到的原始錯誤見[疑難排解](troubleshooting.md#找不到-kernel-headers)。
 
 ## 重點整理
 
-- 先確認 PCI 裝置，再檢查 driver 綁定，最後才是容器內的驅動工具。
-- headers 的 ABI 與 flavor 必須匹配正在使用的 kernel，並且可以從 archive 取得。
+- 先確認 PCI 裝置，再檢查 driver 綁定，最後才是 container 內的 driver 工具。
+- Headers 的 ABI 與 flavor 必須匹配正在使用的 kernel，並且可以從 archive 取得。
 - 沿用原有 kernel meta 套件，hold kube 套件，更新 initramfs 後逐台 drain、重新開機、驗證、uncordon。
 
 <!-- nav:start -->

@@ -61,7 +61,7 @@ pages:
     unit: U4
     parent: book/04-isolation/README.md
   - path: book/04-isolation/mps.md
-    title: 4.2 MPS：每個行程的 VRAM 上限
+    title: 4.2 MPS：每個 process 的 VRAM 上限
     unit: U4
     parent: book/04-isolation/README.md
   - path: book/04-isolation/hami-dra.md
@@ -81,7 +81,7 @@ pages:
     unit: U5
     parent: null
   - path: book/06-heterogeneous/README.md
-    title: 第 6 章　只描述需求，讓排程器挑 GPU
+    title: 第 6 章　只描述需求，讓 scheduler 挑 GPU
     unit: U6
     parent: null
   - path: book/06-heterogeneous/selection.md
@@ -105,11 +105,11 @@ pages:
     unit: U7
     parent: null
   - path: book/appendix/versions.md
-    title: 附錄 B　版本與映像檔
+    title: 附錄 B　版本與 container image
     unit: U7
     parent: null
   - path: book/appendix/reproduction-map.md
-    title: 附錄 C　復現對照表
+    title: 附錄 C　重現對照表
     unit: U7
     parent: null
   - path: book/appendix/references.md

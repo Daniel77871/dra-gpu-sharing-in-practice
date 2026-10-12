@@ -2,13 +2,13 @@
 
 > **警告：這些腳本會修改既有 DaemonSet、刪除 A40 kubelet plugin Pod 及其暫留的 ResourceSlice。只在專用實驗叢集執行，先停止 GPU 工作並清理 ResourceClaim；勿在正式服務的節點操作。**
 
-原始 NVIDIA DaemonSet 為 `nvidia-dra-driver-gpu/dra-driver-nvidia-gpu-kubelet-plugin`，selector 為 `dra-driver-nvidia-gpu-component=kubelet-plugin`。預設切換 `dra-a40`，並保護 `dra-4090` 上同一個 DaemonSet 的 plugin Pod；Pod UID 改變時腳本會停止。節點 affinity、容忍條件、映像檔與原始更新策略都取自這次執行的備份。
+原始 NVIDIA DaemonSet 為 `nvidia-dra-driver-gpu/dra-driver-nvidia-gpu-kubelet-plugin`，selector 為 `dra-driver-nvidia-gpu-component=kubelet-plugin`。預設切換 `dra-a40`，並保護 `dra-4090` 上同一個 DaemonSet 的 plugin Pod；Pod UID 改變時腳本會停止。節點 affinity、tolerations、image 與原始更新策略都取自這次執行的備份。
 
 ## 備份與排除節點
 
 需要 Bash、Python 3 與已能存取實驗叢集的 `kubectl`。Python 輔助程式只處理本機 JSON；叢集操作均由 `kubectl` 執行並寫入 `commands.log`。所有腳本都要求明確設定確認變數，包含唯讀的備份步驟。
 
-從儲存庫根目錄執行以下命令，讓 provider 切換與工作負載共用同一份輸出目錄。`OUT_DIR` 優先於 `RUN_ID`；若未設定 `OUT_DIR`，`RUN_ID` 會選取 `labs/04-isolation/out/<run-id>`。排除與還原不會自動挑選最近的備份。
+從儲存庫根目錄執行以下命令，讓 provider 切換與 workload 共用同一份輸出目錄。`OUT_DIR` 優先於 `RUN_ID`；若未設定 `OUT_DIR`，`RUN_ID` 會選取 `labs/04-isolation/out/<run-id>`。排除與還原不會自動挑選最近的備份。
 
 ```bash
 $ export I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1
@@ -26,11 +26,11 @@ $ bash labs/04-isolation/provider/exclude-node.sh dra-a40
 
 原始實驗中的 ResourceSlice 由 Node 持有，因此 plugin Pod 消失後仍可能留在 API server。腳本確認原始 plugin 已消失、沒有替代 provider、沒有待清理的 Claim，並核對 ResourceSlice UID 與 spec 完全符合備份後，才刪除這些暫留的原始 slices；接著確認 A40 不再被公布。若 slices 已經消失，這一步會略過。
 
-每次修改 DaemonSet 或刪除原始 plugin 與 slices 前，腳本都會透過 `kubectl -n gpu-operator exec` 執行 `nvidia-smi`。目標 GPU UUID 必須符合備份，GPU 記憶體使用量不得超過 `64 MiB`，compute 行程清單必須為空，compute mode 必須是 `Default`；這與原始切換步驟的閒置門檻相同。原始查詢輸出保留在備份目錄中的 `*-gpu-idle.csv` 與 `*-compute-apps.csv`。
+每次修改 DaemonSet 或刪除原始 plugin 與 slices 前，腳本都會透過 `kubectl -n gpu-operator exec` 執行 `nvidia-smi`。目標 GPU UUID 必須符合備份，GPU 記憶體使用量不得超過 `64 MiB`，compute process 清單必須為空，compute mode 必須是 `Default`；這與原始切換步驟的閒置門檻相同。原始查詢輸出保留在備份目錄中的 `*-gpu-idle.csv` 與 `*-compute-apps.csv`。
 
 ## 安裝替代 provider 與還原
 
-排除完成後，依 [ConsumableShares 實驗步驟](../consumable-shares/README.md) 安裝替代 provider，再執行工作負載。執行結束先清理該實驗的 Jobs、Pods 與 ResourceClaims，再移除替代 provider 的 DaemonSet 及 Pods，最後清除它留下的 ResourceSlices 並還原原始 NVIDIA provider。
+排除完成後，依 [ConsumableShares 實驗步驟](../consumable-shares/README.md) 安裝替代 provider，再執行 workload。執行結束先清理該實驗的 Jobs、Pods 與 ResourceClaims，再移除替代 provider 的 DaemonSet 及 Pods，最後清除它留下的 ResourceSlices 並還原原始 NVIDIA provider。
 
 ```bash
 $ DRIVER=gpu.nvidia.com bash labs/04-isolation/provider/remove-provider-slices.sh
@@ -41,6 +41,6 @@ $ bash labs/04-isolation/provider/restore.sh
 
 還原會拒絕仍存在的替代 provider Pod 或 DaemonSet，以及 `gpu-isolation-lab` 內的任何 ResourceClaim；其他 Namespace 若有配置到目標節點 pool 的 Claim，也會阻止還原。原始 provider 仍被排除時，A40 上若殘留任何 ResourceSlice，腳本同樣會停止，避免兩個 provider 同時公布同一張 GPU。
 
-還原先在 `OnDelete` 下恢復原始 Pod 範本，等 A40 plugin Ready 且原始 ResourceSlice 的裝置、屬性與容量回復，再恢復原始 `updateStrategy`。最後核對 DaemonSet UID、spec 與 4090 plugin UID；spec 比較只略過 Pod 範本 metadata 的伺服器管理欄位，slice 比較略過重新公布後會改變的 pool generation。結果記錄於 `restored.json` 與 `restored-daemonset.yaml`。
+還原先在 `OnDelete` 下恢復原始 Pod 範本，等 A40 plugin Ready 且原始 ResourceSlice 的裝置、屬性與容量回復，再恢復原始 `updateStrategy`。最後核對 DaemonSet UID、spec 與 4090 plugin UID；spec 比較只略過 Pod 範本 metadata 中由 API server 管理的欄位，slice 比較略過重新公布後會改變的 pool generation。結果記錄於 `restored.json` 與 `restored-daemonset.yaml`。
 
 `PROVIDER_TIMEOUT` 控制等待秒數，預設為 `300`；`WAIT_INTERVAL` 控制輪詢間隔，預設為 `2`。逾時或身份核對失敗時，腳本會留下完整紀錄，且不會自動安裝、移除其他 provider 或覆寫外部修改；在同一個 `OUT_DIR` 再次執行可繼續已完成的排除或還原階段。MPS 使用原始 provider，直接依 [MPS 實驗步驟](../mps/README.md) 執行即可。

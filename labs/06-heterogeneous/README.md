@@ -2,13 +2,13 @@
 
 這套實驗把 A40 與 RTX 4090 放進同一個可選集合，先用一般 Job 驗證需求篩選，再用 Kubeflow Pipelines 驗證 Task 與 ResourceClaimTemplate 的整合。閱讀說明見[第六章](../../book/06-heterogeneous/README.md)；縮短版在原叢集的執行結果見[實機驗證紀錄](VERIFIED.md)。
 
-請從完整 clone 的儲存庫根目錄執行命令，保留 `labs/`、`data/` 與 `tools/`。收集器與分析器只使用 Python 標準函式庫；原始結果的重算會讀取 `data/e4/` 與 `data/e4b/`。
+請從完整 clone 的儲存庫根目錄執行命令，保留 `labs/`、`data/` 與 `tools/`。收集器與分析器只使用 Python 標準 library；原始結果的重算會讀取 `data/e4/` 與 `data/e4b/`。
 
 ## 前置條件
 
 依[第二章的安裝實驗](../02-setup/README.md)建立 GPU Operator 與 NVIDIA DRA driver，確認 `dra-a40`、`dra-4090` 各有一張 GPU，且 GPU Operator driver Pod 可執行 `nvidia-smi`。操作者的電腦須有 `kubectl` 與 Python 3；不需要 SSH 到 GPU 節點。
 
-Native 部分需要 `gpu.nvidia.com` DeviceClass，以及兩張 GPU 的原生獨占 ResourceSlice。Capacity 部分需要 HAMi-DRA 在兩個 GPU 節點發布可累加的 `memory` 與 `cores`；可用下面的獨立 provider 切換步驟建立。執行前應清除其他 GPU 工作，避免既有 Claim 或 CUDA 行程改變可用容量。
+Native 部分需要 `gpu.nvidia.com` DeviceClass，以及兩張 GPU 的原生獨占 ResourceSlice。Capacity 部分需要 HAMi-DRA 在兩個 GPU 節點發布可累加的 `memory` 與 `cores`；可用下面的獨立 provider 切換步驟建立。執行前應清除其他 GPU 工作，避免既有 Claim 或 CUDA process 改變可用容量。
 
 ## 一般 Job 的縮短版
 
@@ -31,13 +31,13 @@ $ bash labs/06-heterogeneous/scripts/cleanup.sh native-smoke
 | `nonexistent` | 不存在的 GPU UUID | 保持 Pending、出現排程失敗 event，清理後 Claim 消失 |
 | `prefer-4090` | `firstAvailable` 先 RTX 4090、後 A40 | 空閒時驗收 `dra-4090`／`gpu/rtx4090`；4090 被 holder 占用時驗收 `dra-a40`／`gpu/a40` |
 
-`prefer-4090` 的第一步在兩張 GPU 空閒時提交工作，第二步先讓一個使用普通獨占 `exactly` 請求的 holder 占用 RTX 4090，再使用相同 Template 提交工作。控制器先保存配置與 CUDA 正確性證據，再釋放 worker；第二步完成後釋放 holder。`trial.json` 的 `phases` 分別保存 `idle`、`rtx4090-held` 的落點、Claim UID 與 `request` 子請求，分析器也保留這兩個步驟；實際結果待新增至實機驗證紀錄。
+`prefer-4090` 的第一步在兩張 GPU 空閒時提交工作，第二步先讓一個使用普通獨占 `exactly` 請求的 holder 占用 RTX 4090，再使用相同 Template 提交工作。Controller 先保存配置與 CUDA 正確性證據，再釋放 worker；第二步完成後釋放 holder。`trial.json` 的 `phases` 分別保存 `idle`、`rtx4090-held` 的落點、Claim UID 與 `request` 子請求，分析器也保留這兩個步驟。2026-10-12 的實測中，兩張卡空閒時落在 `dra-4090`（`gpu/rtx4090`），RTX 4090 被 holder 占用時改落 `dra-a40`（`gpu/a40`），見[實機驗證紀錄](VERIFIED.md#原生選卡不切換-provider)。
 
 ## 切換兩個 GPU 的 provider
 
 > **警告：這些命令會修改叢集範圍的 NVIDIA DaemonSet、DeviceClass 與 RBAC，並在 GPU 節點建立及移除 HAMi host 檔案。請安排獨立的 GPU 維護時段，保存整個 `out/provider-<provider-run-id>/`，並完成還原。**
 
-Provider 操作重用[第四章的切換檢查](../04-isolation/provider/README.md)、HAMi manifest 與 host 檔案控制器。切換前先保存原 NVIDIA DaemonSet UID、完整 spec、節點 UID、plugin Pod UID、ResourceSlice 與 host 檔案快照；切換使用 `OnDelete`，只排除列出的 GPU 節點。刪除採用 UID 與 resourceVersion 前置條件；若 DaemonSet controller 已開始刪除 plugin Pod，會重新檢查原 UID 並等待其消失。
+Provider 操作重用[第四章的切換檢查](../04-isolation/provider/README.md)、HAMi manifest 與 host 檔案 controller。切換前先保存原 NVIDIA DaemonSet UID、完整 spec、節點 UID、plugin Pod UID、ResourceSlice 與 host 檔案快照；切換使用 `OnDelete`，只排除列出的 GPU 節點。刪除採用 UID 與 resourceVersion 前置條件；若 DaemonSet controller 已開始刪除 plugin Pod，會重新檢查原 UID 並等待其消失。
 
 ```bash
 $ I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1 NODES="dra-a40 dra-4090" bash labs/06-heterogeneous/scripts/install-provider.sh capacity-window
@@ -69,7 +69,7 @@ $ bash labs/06-heterogeneous/scripts/cleanup.sh capacity-full
 | `h3h4-pending-release` | A40 holder 使剩餘量低於 30 GiB | target 保持 Pending；holder 釋放後，原 Pod UID 與原 Claim UID 取得 GPU |
 | `h5-two-slots` | 每張 GPU 的 holder 各留 8 GiB；再建立兩個 8 GiB target | 兩個 target 同時持有配置，分別位於兩張 GPU |
 
-Holder 也使用 ResourceClaimTemplate，一個 Job Pod 對應一個 Claim。腳本依即時發布的 memory 與 request-policy step 計算 holder 配額，先確認 RTX 4090 容量小於 30 GiB、A40 容量至少 30 GiB；完整原始容量下的 holder 需求是 `15349Mi`、`37876Mi` 與 `16372Mi`，實際採用值記錄於 `holder-requests.json`。H3-H4 的 Pending 觀察至少 30 秒，釋放後同一個 target 才能進入配置屏障；這個本機觀察窗口與書中原實驗測得的 34.0 秒不是同一個數值。
+Holder 也使用 ResourceClaimTemplate，一個 Job Pod 對應一個 Claim。腳本依即時發布的 memory 與 request-policy step 計算 holder 配額，先確認 RTX 4090 容量小於 30 GiB、A40 容量至少 30 GiB；完整原始容量下的 holder 需求是 `15349Mi`、`37876Mi` 與 `16372Mi`，實際採用值記錄於 `holder-requests.json`。H3-H4 的 Pending 觀察至少 30 秒，釋放後同一個 target 才能進入配置 barrier；這個本機觀察窗口與書中原實驗測得的 34.0 秒不是同一個數值。
 
 指定部分情境可使用逗號或空白分隔的 `CASES`，但 `SMOKE=1 PART=capacity` 只允許 H1 與 H2。Native 完整模式同樣各執行三輪；每個 case 的 Job、Pod 與 Claim 在進入下一輪前都會刪除。
 
@@ -82,7 +82,7 @@ $ bash labs/06-heterogeneous/scripts/cleanup.sh capacity-recovery
 
 ## Kubeflow Pipelines
 
-一般 Job 與 KFP 共用相同 CUDA primitives、固定映像檔與容量模型。Standalone KFP 的安裝、REST 提交與 h1／h2／l1 縮短版命令集中在[KFP 部分](kubeflow/README.md)；安裝與移除是獨立、受 guard 保護的叢集操作。Backend 使用 `dra-non`，GPU Task 保留一般排程。
+一般 Job 與 KFP 共用相同 CUDA primitives、固定 image 與容量模型。Standalone KFP 的安裝、REST 提交與 h1／h2／l1 縮短版命令集中在[KFP 部分](kubeflow/README.md)；安裝與移除是獨立、受 guard 保護的叢集操作。Backend 使用 `dra-non`，GPU Task 保留一般排程。
 
 執行 KFP 前仍須讓兩張 GPU 使用相同的 HAMi consumable capacity provider。KFP 工作完成並清理後，才能執行下面的 provider 還原命令。
 
@@ -98,7 +98,7 @@ $ bash labs/06-heterogeneous/scripts/cleanup.sh capacity-recovery
 $ python3 labs/06-heterogeneous/analysis/analyze.py --output /tmp/heterogeneous-original-summary.json
 ```
 
-輸出保留原實驗的 placement、Pending 窗口、失敗／取消／重試的 Claim 生命週期，以及 DRA 帳本與實體 GPU 空間的差異。兩種容量觀察不是同步快照，不能把 DRA remaining 當成 NVML physical free，也不能從本實驗推出最快 GPU 的選擇規則。
+輸出保留原實驗的落點、Pending 窗口、失敗／取消／重試的 Claim 生命週期，以及 DRA 帳本與實體 GPU 空間的差異。兩種容量觀察不是同步快照，不能把 DRA remaining 當成 NVML physical free，也不能從本實驗推出最快 GPU 的選擇規則。
 
 ## 清理與 provider 還原
 
@@ -109,12 +109,12 @@ $ bash labs/06-heterogeneous/scripts/cleanup.sh capacity-full
 $ I_UNDERSTAND_THIS_CHANGES_THE_CLUSTER=1 NODES="dra-a40 dra-4090" bash labs/06-heterogeneous/scripts/restore-provider.sh capacity-window
 ```
 
-還原先確認沒有 GPU Claim 或 CUDA 行程，停止所有目標節點的自有 HAMi DaemonSet，等待 terminating plugin Pod 消失，再移除已確認 GPU UUID、節點 UID、UID 與 spec 的 ResourceSlice。NVIDIA provider 先以 `OnDelete` 回復原 template，等待兩個原生 plugin Ready 與原生 ResourceSlice 回來，再回復原 updateStrategy；原 DaemonSet UID、完整 spec 與策略都核對相符後，才逐節點清理 host 檔案。
+還原先確認沒有 GPU Claim 或 CUDA process，停止所有目標節點的自有 HAMi DaemonSet，等待 terminating plugin Pod 消失，再移除已確認 GPU UUID、節點 UID、UID 與 spec 的 ResourceSlice。NVIDIA provider 先以 `OnDelete` 回復原範本，等待兩個原生 plugin Ready 與原生 ResourceSlice 回來，再回復原 updateStrategy；原 DaemonSet UID、完整 spec 與策略都核對相符後，才逐節點清理 host 檔案。
 
 Host 清理重用第四章的 `host.py`；HAMi plugin 目錄內的 `pu.lock`、`cp.lock`、`checkpoint.json` 依既有允許清單處理。單一節點清理失敗會在 `provider-nodes-cleanup.json` 保存並回報錯誤，繼續處理其他節點，兩張 GPU 仍保有已還原的 NVIDIA provider；用相同 provider run-id 重試即可。全部清理完成才留下 `provider-nodes-restored.json`，原始備份仍留在 `out/`，以供檢視。
 
-## 工作負載與限制
+## Workload 與限制
 
-工作負載固定使用 `pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755`。核心是 4096 × 4096 FP32 GEMM，seed 為 20261010，暖機 5 次、量測 20 次、TF32 關閉、CPU 執行緒為 1，並以 8 個元素的 FP64 CPU dot product 檢查結果；縮短版保留這些工作參數，只減少輪數與原生無匹配需求的觀察時間。
+Workload 固定使用 `pytorch:2.5.1-cuda12.4-cudnn9-runtime@sha256:c8268a92a69bd500f8be0e665b2630ee006dadaf7bfbc24249141b15ff622755`。核心是 4096 × 4096 FP32 GEMM，seed 為 20261010，暖機 5 次、量測 20 次、TF32 關閉、CPU thread 為 1，並以 8 個元素的 FP64 CPU dot product 檢查結果；縮短版保留這些工作參數，只減少輪數與原生無匹配需求的觀察時間。
 
-這套實驗驗證需求篩選、配置與釋放；H1 不要求重現原實驗三輪的落點次序，也不宣稱隨機性或效能最佳化。HAMi 配額的執行期範圍沿用[第四章的限制](../../book/04-isolation/README.md)。`selection/examples/attribute-requirements.yaml` 的多屬性 CEL 是未納入執行情境的延伸範例；`selection/examples/prefer-4090.yaml` 的 `firstAvailable` 則由 native 的 `prefer-4090` 案例執行。兩者都沒有在原 E4／E4B 執行。
+這套實驗驗證需求篩選、配置與釋放；H1 不要求重現原實驗三輪的落點次序，也不宣稱隨機性或效能最佳化。HAMi 配額的 runtime 範圍沿用[第四章的限制](../../book/04-isolation/README.md)。`selection/examples/attribute-requirements.yaml` 的多屬性 CEL 是未納入執行情境的延伸範例；`selection/examples/prefer-4090.yaml` 的 `firstAvailable` 則由 native 的 `prefer-4090` 案例執行。兩者都沒有在原 E4／E4B 執行。

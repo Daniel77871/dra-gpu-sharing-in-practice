@@ -2,11 +2,11 @@
 
 ## 本頁要回答的問題
 
-同樣是一個 GPU 請求，型號、總記憶體、CUDA 運算能力、任何 GPU 與可消耗容量，各自限制了什麼？當多張卡符合、完全沒有卡符合，或原本不足的容量被釋放時，排程器又會如何處理？
+同樣是一個 GPU 請求，型號、總記憶體、CUDA 運算能力、任何 GPU 與可消耗容量，各自限制了什麼？當多張卡符合、完全沒有卡符合，或原本不足的容量被釋放時，scheduler 又會如何處理？
 
 ## 背景原理
 
-[第 1 章](../01-why-dra/dra-model.md)已介紹 DeviceClass、ResourceSlice 與 ResourceClaim，[第 4 章](../04-isolation/consumable-shares.md)已區分容量記帳與執行期隔離。本頁只把「需求如何變成候選集合」接到這些物件：CEL 是布林條件；`capacity.requests` 是可消耗額度；兩者不能互換。
+[第 1 章](../01-why-dra/dra-model.md)已介紹 DeviceClass、ResourceSlice 與 ResourceClaim，[第 4 章](../04-isolation/consumable-shares.md)已區分容量記帳與 runtime 隔離。本頁只把「需求如何變成候選集合」接到這些物件：CEL 是布林條件；`capacity.requests` 是可消耗額度；兩者不能互換。
 
 ```mermaid
 flowchart LR
@@ -16,18 +16,18 @@ flowchart LR
     C -->|否| E["符合屬性的獨占裝置"]
     D --> F["可存取裝置且符合 Pod 條件的節點"]
     E --> F
-    F --> G["排程器選取可行配置"]
+    F --> G["scheduler 選取可行配置"]
 ```
 
-例如「總 memory 至少 30Gi」只判斷裝置公布的容量；即使工作僅使用少量張量，它仍可能獨占整張卡。HAMi 的「請求 memory 30Gi」則把 30Gi 算進該裝置的 reservation，其他獨立 Claim 必須共用剩餘帳本。[DRA 容量與選擇器](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#consumable-capacity)
+例如「總 memory 至少 30Gi」只判斷裝置公布的容量；即使工作僅使用少量 tensor，它仍可能獨占整張卡。HAMi 的「請求 memory 30Gi」則把 30Gi 算進該裝置的 reservation，其他獨立 Claim 必須共用剩餘帳本。[DRA 容量與選擇器](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#consumable-capacity)
 
 ## 部署與設定
 
-以下命令從完整 clone 的 `labs/06-heterogeneous/` 執行。靜態檔案的 `kubectl apply --dry-run=client` 用來預覽物件；實際復現由 `run.sh` 加上本次歸屬標籤並提交完整 manifests，保存在 `out/<run-id>/`。原生案例沿用[第 2 章的 NVIDIA provider](../02-deploy/dra-driver.md)，容量案例則先完成[兩節點 HAMi 切換](../../labs/06-heterogeneous/README.md#切換兩個-gpu-的-provider)；兩種 provider 不應在同一節點同時提供本章要測的 GPU。
+以下命令從完整 clone 的 `labs/06-heterogeneous/` 執行。靜態檔案的 `kubectl apply --dry-run=client` 用來預覽物件；實際重現則由 `run.sh` 加上本次的歸屬 label 後提交完整 manifests，並保存到 `out/<run-id>/`。原生案例沿用[第 2 章的 NVIDIA provider](../02-deploy/dra-driver.md)，容量案例則先完成[兩節點 HAMi 切換](../../labs/06-heterogeneous/README.md#切換兩個-gpu-的-provider)；兩種 provider 不應在同一節點同時提供本章要測的 GPU。
 
-### 共用 Namespace 與工作負載
+### 共用 Namespace 與 workload
 
-共用入口只有一個 Namespace、工作負載 ConfigMap 與控制 ConfigMap。ConfigMap 由原始碼產生，不把 Python 展開成大量 YAML；完整程式在 [gpu_primitives.py](../../labs/06-heterogeneous/workload/gpu_primitives.py)、[native_workload.py](../../labs/06-heterogeneous/workload/native_workload.py)及 [gpu_workload.py](../../labs/06-heterogeneous/workload/gpu_workload.py)。
+共用入口只有一個 Namespace、workload ConfigMap 與控制 ConfigMap。ConfigMap 由原始碼產生，不把 Python 展開成大量 YAML；完整程式在 [gpu_primitives.py](../../labs/06-heterogeneous/workload/gpu_primitives.py)、[native_workload.py](../../labs/06-heterogeneous/workload/native_workload.py)及 [gpu_workload.py](../../labs/06-heterogeneous/workload/gpu_workload.py)。
 
 ```console
 $ vi selection/common/namespace.yaml
@@ -48,7 +48,7 @@ metadata:
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
 | `gpu-heterogeneous-lab` | 選卡套件的 Namespace | 和 KFP 執行視窗分開 |
-| `part-of`、`component` | 所有物件的歸屬與角色 | 清理時檢查標籤 |
+| `part-of`、`component` | 所有物件的歸屬與角色 | 清理時檢查 label |
 
 ```console
 $ vi selection/common/kustomization.yaml
@@ -85,7 +85,7 @@ generatorOptions:
 
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
-| `configMapGenerator.files` | 將工作負載與控制檔案掛進容器 | 保留可直接讀取的 Python 原始碼 |
+| `configMapGenerator.files` | 將 workload 與控制檔案掛進 container | 保留可直接讀取的 Python 原始碼 |
 | `disableNameSuffixHash` | 使用固定 ConfigMap 名稱 | Job 與控制流程引用相同名稱 |
 | `control.json` | 依 run ID 與 Task ID 發出 release | 完成 CUDA 後先停在可觀測的 HOLD 狀態 |
 
@@ -101,11 +101,11 @@ configmap/selection-control created (dry run)
 configmap/selection-workload created (dry run)
 ```
 
-`native_workload.py` 先做 CUDA 與正確性檢查，再等待控制檔中的 release。容量版沿用 E4B 的工作負載，成功後也停在 HOLD；這讓兩卡並行、Pending 與釋放前後的 Claim 都有時間留下證據。
+`native_workload.py` 先做 CUDA 與正確性檢查，再等待控制檔中的 release。容量版沿用 E4B 的 workload，成功後也停在 HOLD；這讓兩卡並行、Pending 與釋放前後的 Claim 都有時間留下證據。
 
 ### 屬性條件與任何 GPU
 
-以下多物件 YAML 一次列出六種原生需求。`a40`、`rtx4090` 用 `productName`；`attribute` 保留 E4 的 `architecture == "Ampere"`；`any-gpu` 與 `any-gpu-pair` 沒有 Claim selector，候選仍受 DeviceClass 約束。
+以下 YAML 含多個物件，一次列出六種原生需求。`a40`、`rtx4090` 用 `productName`；`attribute` 保留 E4 的 `architecture == "Ampere"`；`any-gpu` 與 `any-gpu-pair` 沒有 Claim selector，候選仍受 DeviceClass 約束。
 
 ```console
 $ vi selection/native/claims.yaml
@@ -283,7 +283,7 @@ resourceclaimtemplate.resource.k8s.io/native-attribute-gpu created (dry run)
 resourceclaimtemplate.resource.k8s.io/native-nonexistent-gpu created (dry run)
 ```
 
-若需求同時包含型號、總記憶體與 CUDA 運算能力，可以把條件寫成一個 CEL 表達式。下面是套件附帶的**未在 E4／E4B 實測範例**；`quantity` 與 `semver` 分別比較容量及版本型別，欄位必須先在 live ResourceSlice 中確認。[CEL 與裝置屬性](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/)
+若需求同時包含型號、總記憶體與 CUDA 運算能力，可以把條件寫成一個 CEL 表達式。下面是套件附帶的範例，**尚未在 E4／E4B 實測**；`quantity` 與 `semver` 分別比較容量與版本型別，欄位必須先在 live ResourceSlice 中確認。[CEL 與裝置屬性](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/)
 
 ```console
 $ vi selection/examples/attribute-requirements.yaml
@@ -324,11 +324,11 @@ spec:
 | `cudaComputeCapability >= semver("8.6.0")` | CUDA 運算能力版本下限 | 依原環境公布的版本型別比較 |
 | 三個條件以 `&&` 組合 | 同時符合才接受 | 此範例未列入實測驗收 |
 
-需要預覽這份範例時，執行 `$ kubectl apply --dry-run=client -f selection/examples/attribute-requirements.yaml`；實際建立 Template 時，它本身不會執行 GPU 工作。不要把這份示例當成 E4 的 `attribute` 案例。
+需要預覽這份範例時，執行 `$ kubectl apply --dry-run=client -f selection/examples/attribute-requirements.yaml`；實際建立 Template 時，它本身不會執行 GPU 工作。不要把這份範例當成 E4 的 `attribute` 案例。
 
 ### 讓每個 Job 取得自己的 Claim
 
-Job 的 Pod 指向 ResourceClaimTemplate，容器再引用 Pod 內的 `gpu` 名稱。套件只保存一份工作 Job，執行腳本依案例替換角色名稱、Template 與 Task ID，並將完整實際提交物件存到 `out/<run-id>/`；兩個並行工作各有自己的 Claim。
+Job 的 Pod 指向 ResourceClaimTemplate，container 再引用 Pod 內的 `gpu` 名稱。套件只保存一份工作 Job，執行腳本依案例替換角色名稱、Template 與 Task ID，並將完整實際提交物件存到 `out/<run-id>/`；兩個並行工作各有自己的 Claim。
 
 ```console
 $ vi selection/native/jobs.yaml
@@ -427,11 +427,11 @@ spec:
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
 | `resourceClaimTemplateName` | 由 Kubernetes 為這個 Pod 建立 Claim | 不共用前一個 Task 的配置 |
-| 容器 `resources.claims[].name` | 引用 Pod 內的 `gpu` | 把已配置裝置準備給工作容器 |
+| container `resources.claims[].name` | 引用 Pod 內的 `gpu` | 把已配置裝置準備給工作 container |
 | `restartPolicy: Never`、`backoffLimit: 0` | Job 失敗不另建 attempt | 選卡驗證不混入自動重試 |
-| PyTorch tag 與 digest | 原始 CUDA 工作映像檔 | 固定執行環境 |
+| PyTorch tag 與 digest | 原始 CUDA 工作 image | 固定執行環境 |
 | `--hold-timeout 900` | HOLD 的上限秒數 | 留下配置觀測窗並避免無限等待 |
-| CPU `1`、記憶體 `2Gi` | 工作容器的主機資源 | 沿用原工作設定，與 GPU 額度不同 |
+| CPU `1`、記憶體 `2Gi` | 工作 container 的主機資源 | 沿用原工作設定，與 GPU 額度不同 |
 
 ```console
 $ vi selection/native/kustomization.yaml
@@ -546,7 +546,7 @@ resourceclaimtemplate.resource.k8s.io/capacity-8gi-gpu created (dry run)
 resourceclaimtemplate.resource.k8s.io/capacity-30gi-gpu created (dry run)
 ```
 
-下面的 Job 使用相同 Pod／Claim 結構，改執行 E4B 容量工作負載；它保留 CUDA 記憶體快取設定與成功／受控失敗的工作路徑。實際容量控制仍由 provider 與 HAMi 執行，第 4 章的共享快取、CUDA 行程與 NVML 限制仍適用。
+下面的 Job 使用相同 Pod／Claim 結構，改執行 E4B 容量 workload；它保留 CUDA 記憶體 cache 設定與成功／受控失敗的工作路徑。實際容量控制仍由 provider 與 HAMi 執行，第 4 章的共享 cache、CUDA process 與 NVML 限制仍適用。
 
 ```console
 $ vi selection/capacity/jobs.yaml
@@ -652,11 +652,11 @@ spec:
 |---|---|---|
 | `capacity-8gi-gpu` | 基本通用容量 Template | 腳本在 H2、H3–H4 改引用 30Gi |
 | `gpu_workload.py --scenario success` | E4B 的正向工作路徑 | 保存 CUDA、CORRECT 與 HOLD 事件 |
-| `PYTORCH_NO_CUDA_MEMORY_CACHING` | 關閉 PyTorch CUDA 記憶體快取 | 沿用 E4B 的環境設定 |
+| `PYTORCH_NO_CUDA_MEMORY_CACHING` | 關閉 PyTorch CUDA 記憶體 cache | 沿用 E4B 的環境設定 |
 
-### 用 holder 建立不足與兩個空位
+### 用 holder 製造容量不足與兩個空位
 
-holder 是測試前置條件，通用工作不會繼承它的型號條件。H3–H4 在 A40 留下低於 `30Gi` 的容量；H5 在每張卡各留一個 `8Gi` 空位，兩個通用工作才會被容量限制到不同 GPU。
+Holder 是測試前置條件，通用工作不會繼承它的型號條件。H3–H4 在 A40 留下低於 `30Gi` 的容量；H5 在每張卡各留一個 `8Gi` 空位，兩個通用工作才會因容量限制而落在不同 GPU 上。
 
 ```console
 $ vi selection/capacity/holders.yaml
@@ -755,12 +755,12 @@ spec:
 
 | 參數 | 意義 | 為什麼這樣設 |
 |---|---|---|
-| `15349Mi` | 原 A40 的 Pending holder 額度 | 剩餘容量比 30Gi 少一個記憶體單位 |
+| `15349Mi` | 原 A40 的 Pending holder 額度 | 剩餘容量比 30Gi 少 1 Mi |
 | `37876Mi`、`16372Mi` | 原兩卡的 H5 holder 額度 | 各留下 8Gi |
-| ResourceClaimTemplate | 每個 holder Pod 的受控配置 | 保留原始每 Pod Claim 語意並核對 UID |
+| ResourceClaimTemplate | 每個 holder Pod 的受控配置 | 保留原始每個 Pod 各自一個 Claim 的語意並核對 UID |
 | 以 live Slice 計算額度 | 適應實際公布容量與 requestPolicy | 原環境得到上列數值，不把別的叢集總量寫死 |
 
-這份檔案集合列出不同案例的 fixture，腳本只提交該案所需的 holder，並記錄重新計算後的完整 YAML／JSON；不整份同時套用。H3–H4 只有 Pending holder，H5 才同時有 A40 與 RTX 4090 holder。
+這組檔案列出不同案例的 fixture，腳本只提交該案所需的 holder，並記錄重新計算後的完整 YAML／JSON，不會整組同時套用。H3–H4 只有 Pending holder，H5 才同時有 A40 與 RTX 4090 holder。
 
 ```console
 $ vi selection/capacity/kustomization.yaml
@@ -847,7 +847,7 @@ spec:
 
 需要預覽時執行 `$ kubectl apply --dry-run=client -f selection/examples/prefer-4090.yaml`；實際使用時，Pod 引用這個 Template 名稱。各候選節點先找可行替代方案；DRA Score 依配置所用的清單位置評分，再與其他 scheduler plugin 的節點評分合併。因此偏好是排程輸入，並不保證永遠選到第一種型號。[DRA API 的優先清單語意](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/)
 
-本章復現套件的 native `prefer-4090` 案例會執行這份 Template，`SMOKE=1` 也包含它。先在兩張 GPU 空閒時提交 Job，再讓使用普通獨占 Claim 的 holder 占用 RTX 4090，於 holder 持有配置時以相同 Template 提交 Job，第二步完成後才釋放 holder。這是新增的驗收設計，實際落點與配置子請求會寫入 `VERIFIED.md`，由[本章的實機驗證紀錄入口](README.md#動手復現)查看。
+本章重現套件的 native `prefer-4090` 案例會執行這份 Template，`SMOKE=1` 也包含它。先在兩張 GPU 空閒時提交 Job，再讓使用普通獨占 Claim 的 holder 占用 RTX 4090，於 holder 持有配置時以相同 Template 提交 Job，第二步完成後才釋放 holder。這是新增的驗收設計；2026-10-12 的實測中，兩張卡空閒時落在 RTX 4090（子請求 `gpu/rtx4090`），RTX 4090 被 holder 占用時改落 A40（`gpu/a40`），完整紀錄見[實機驗證紀錄](../../labs/06-heterogeneous/VERIFIED.md#原生選卡不切換-provider)。
 
 ```bash
 $ PART=native CASES=prefer-4090 SMOKE=1 scripts/run.sh native-preference
@@ -868,13 +868,13 @@ Claim 的配置結果用 `gpu/<子請求名稱>` 辨識 `firstAvailable` 選到�
 
 ### 多張卡符合時究竟選誰
 
-v1.37 不是完全沒有 DRA 評分：`DynamicResources.Score` 明確處理優先清單。但其 `computeScore` 對沒有 `firstAvailable` 的 request 直接略過，沒有依 VRAM 餘量、GPU 型號速度或工作耗時排序的通用裝置分數；其他節點排程 plugin 仍可影響落點。[v1.37.0 Score 與 computeScore](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/scheduler/framework/plugins/dynamicresources/dynamicresources.go)
+v1.37 不是完全沒有 DRA 評分：`DynamicResources.Score` 明確處理優先清單。但其 `computeScore` 對沒有 `firstAvailable` 的 request 直接略過，沒有依 VRAM 餘量、GPU 型號速度或工作耗時排序的通用裝置分數；其他 scheduler plugin 仍可影響落點。[v1.37.0 Score 與 computeScore](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/scheduler/framework/plugins/dynamicresources/dynamicresources.go)
 
 同一節點內的配置器按候選 pool／ResourceSlice 的既定遍歷順序找可行配置，這也不是工作效能排名。[DRA API 配置說明](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/) H1 的三輪落點只能證明兩張卡都可滿足 `8Gi` 請求，不能推出隨機、平均分散或最快 GPU 策略。
 
 ### Pending 後為何同一工作能繼續
 
-沒有任何裝置滿足需求時，Pod 會留下 FailedScheduling 事件，Claim 仍未配置。scheduler 訂閱 Claim、ResourceSlice、DeviceClass 等變動；已配置 Claim 被釋放會讓受容量限制的等待工作再次進入排程機會，不需要應用程式刪掉原 Pod 重建。[v1.37.0 EventsToRegister 與 Claim 事件處理](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/scheduler/framework/plugins/dynamicresources/dynamicresources.go)
+沒有任何裝置滿足需求時，Pod 會留下 FailedScheduling 事件，Claim 仍未配置。Scheduler 會監看 Claim、ResourceSlice、DeviceClass 等物件的變動；已配置的 Claim 釋放後，受容量限制而等待的工作會再次進入排程，不需要應用程式刪掉原 Pod 重建。[v1.37.0 EventsToRegister 與 Claim 事件處理](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/scheduler/framework/plugins/dynamicresources/dynamicresources.go)
 
 ```mermaid
 sequenceDiagram
@@ -892,14 +892,14 @@ sequenceDiagram
     S-->>W: 同一 Pod 繼續啟動
 ```
 
-H3–H4 在釋放前後核對 Pod UID、Claim UID 與 allocation，原始觀測窗每輪取一位小數都是 34.0 秒；這是案例的等待窗，並非 scheduler 保證的逾時或配置延遲。[實測時間與身分](../../data/e4b/trials.json) 縮短版不包含此案例，完整模式會保留這段生命週期證據。
+H3–H4 在釋放前後核對 Pod UID、Claim UID 與 allocation，原始觀測窗每輪取一位小數後都是 34.0 秒；這是案例的等待窗，並非 scheduler 保證的逾時或配置延遲。[實測時間與身分](../../data/e4b/trials.json) 縮短版不包含此案例，完整模式會保留這段生命週期證據。
 
 ## 重點整理
 
-CEL 描述「哪種裝置符合」，無 selector 表示接受 DeviceClass 的候選，可消耗容量則描述「本次要保留多少」。只要 provider 與排程器使用同一容量模型，工作就能依需求等待與再配置，無須自己挑節點或卡。
+CEL 描述「哪種裝置符合」，無 selector 表示接受 DeviceClass 的候選，可消耗容量則描述「本次要保留多少」。只要 provider 與 scheduler 使用同一容量模型，工作就能依需求等待與再配置，無須自己挑節點或卡。
 
 `firstAvailable` 能加入替代順序，但不會自動建立 GPU 效能模型。讀取多卡落點時，先核對需求、供給、既有 reservation 與 Pod 條件，再回到[實驗結果](experiments.md)看證據範圍。
 
 <!-- nav:start -->
-[← 上一頁：第 6 章　只描述需求，讓排程器挑 GPU](README.md) ｜ [目錄](../README.md) ｜ [下一頁：6.2 與 Kubeflow Pipelines 整合 →](kubeflow.md)
+[← 上一頁：第 6 章　只描述需求，讓 scheduler 挑 GPU](README.md) ｜ [目錄](../README.md) ｜ [下一頁：6.2 與 Kubeflow Pipelines 整合 →](kubeflow.md)
 <!-- nav:end -->

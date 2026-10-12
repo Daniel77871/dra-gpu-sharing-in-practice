@@ -52,7 +52,7 @@ def hold_timeline(data_dir):
                          color=style.COLORS[entity], label=label, linewidths=1 if symbol == 'x' else 0)
     probe_ax.set_ylim(-0.45, 1.45)
     probe_ax.set_yticks([0, 1], ['OOM', 'OK'])
-    probe_ax.set_ylabel('A 探測\n512 MiB', rotation=0, labelpad=35, va='center')
+    probe_ax.set_ylabel('A probe\n512 MiB', rotation=0, labelpad=35, va='center')
     probe_ax.set_xlabel('相對 B 開始成長的時間（秒）')
     probe_ax.grid(axis='y')
     probe_ax.legend(loc='lower right', bbox_to_anchor=(1, 1.12), ncol=2,

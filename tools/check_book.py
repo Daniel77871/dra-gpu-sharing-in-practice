@@ -33,16 +33,26 @@ SIMPLIFIED_ONLY = frozenset(
 
 CLEAR_TERMS = {
     "顯存": "VRAM／GPU 記憶體", "显存": "VRAM／GPU 記憶體", "內存": "記憶體", "内存": "記憶體",
-    "進程": "行程", "进程": "行程", "線程": "執行緒", "线程": "執行緒", "默認": "預設", "默认": "預設",
+    "進程": "process", "进程": "process", "線程": "thread", "线程": "thread", "默認": "預設", "默认": "預設",
     "信息": "資訊", "網絡": "網路", "网络": "網路", "服務器": "伺服器", "接口": "介面", "性能": "效能",
-    "優化": "最佳化", "調度": "排程", "集群": "叢集", "鏡像": "映像檔", "運行時": "執行期", "運行": "執行",
-    "源碼": "原始碼", "變量": "變數", "模板": "範本", "調用": "呼叫", "緩存": "快取",
+    "優化": "最佳化", "調度": "排程", "集群": "叢集", "鏡像": "image", "運行時": "runtime", "運行": "執行",
+    "源碼": "原始碼", "變量": "變數", "模板": "範本", "調用": "呼叫", "緩存": "cache",
     "硬件": "硬體", "軟件": "軟體", "帶寬": "頻寬", "並發": "並行", "場景": "情境", "算力": "運算能力",
     "加載": "載入", "激活": "啟用", "創建": "建立", "獲取": "取得", "返回": "回傳", "打印": "印出",
     "命令行": "命令列", "用戶": "使用者", "設置": "設定", "兼容": "相容", "協議": "協定",
-    "交互": "互動", "異步": "非同步", "運維": "維運",
+    "交互": "互動", "異步": "非同步", "運維": "維運", "復現": "重現",
 }
-AMBIGUOUS = {"程序": "行程", "文件": "檔案", "數據": "資料", "支持": "支援"}
+AMBIGUOUS = {"程序": "process", "文件": "檔案", "數據": "資料", "支持": "支援"}
+# Technical terms the book writes in English instead of a Chinese translation.
+ENGLISH_TERMS = [
+    ("時間切片", "time-slicing"), ("時間片", "timeslice"), ("容器", "container"), ("映像檔", "image"),
+    ("函式庫", "library"), ("執行緒", "thread"), ("(?<![進執運流旅飛])行程(?![式序度])", "process"),
+    ("排程器", "scheduler"), ("工作負載", "workload"), ("共享記憶體", "shared memory"),
+    ("位址空間", "address space"), ("快取", "cache"), ("執行期(?!間)", "runtime"), ("節流", "throttling"),
+    ("佇列", "queue"), ("張量", "tensor"), ("驅動", "driver"), ("探測", "probe"), ("端點", "endpoint"),
+    ("標籤", "label"), ("控制器", "controller"), ("外掛", "plugin"), ("屏障", "barrier"), ("尾碼", "suffix"),
+    ("退出碼", "exit code"), ("結束碼", "exit code"),
+]
 DIAGRAMS = {"flowchart", "graph", "sequenceDiagram", "stateDiagram-v2", "classDiagram", "timeline",
             "gantt", "block-beta", "quadrantChart", "xychart-beta"}
 
@@ -72,13 +82,16 @@ def lint_text(text, path):
                     r'「[^」]*」|『[^』]*』|“[^”]*”|"[^"]*"|\x27[^\x27]*\x27', line))
                 severity = "warning" if term == "性能" and quoted else "error"
                 issues.append(Issue(path, number, "zh-term", f"{severity}: {term} → {replacement}", severity))
+        for pattern, replacement in ENGLISH_TERMS:
+            for match in re.finditer(pattern, line):
+                issues.append(Issue(path, number, "en-term", f"{match[0]} → {replacement}"))
         for term, replacement in AMBIGUOUS.items():
             if term in line:
                 issues.append(Issue(path, number, "zh-term", f"warning: 請確認「{term}」語意，可能應使用「{replacement}」", "warning"))
         for char in sorted(set(line) & SIMPLIFIED_ONLY):
             issues.append(Issue(path, number, "zh-char", f"Simplified-only character: {char}"))
         if re.search(r"(?<![\u3400-\u9fff])庫(?![\u3400-\u9fff])", line):
-            issues.append(Issue(path, number, "zh-term", "庫 → 函式庫／library"))
+            issues.append(Issue(path, number, "zh-term", "庫 → library"))
     return issues
 
 

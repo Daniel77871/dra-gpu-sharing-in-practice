@@ -29,10 +29,10 @@ def mps_cases(data):
 @register('04-isolation', 'mps-quota')
 def mps_quota(data):
     groups = mps_cases(data)
-    fig, ax = style.new_chart('MPS 上限套在各行程，雙行程張量合計可超過 8 GiB', 'B 的條件', '張量或設定上限（GiB）')
-    labels = ['單行程 4 GiB', '單行程 8 GiB', '雙行程 各 8 GiB']
+    fig, ax = style.new_chart('MPS 上限套在各 process，dual-process tensor 合計可超過 8 GiB', 'B 的條件', 'Tensor 或設定上限（GiB）')
+    labels = ['single-process 4 GiB', 'single-process 8 GiB', 'dual-process 各 8 GiB']
     values = [group[0]['b_max_tensor_gib'] for group in groups]
-    bars = ax.bar([0, 1, 2], values, width=.52, color=style.COLORS['mps'], label='B 成功張量合計')
+    bars = ax.bar([0, 1, 2], values, width=.52, color=style.COLORS['mps'], label='B 成功 tensor 合計')
     ax.hlines([4, 8, 8], [-.16, .84, 1.84], [.16, 1.16, 2.16], linewidths=2,
               color=style.SECONDARY, label='每個 client 的設定上限')
     ax.bar_label(bars, padding=-14, color=style.INK)
@@ -46,7 +46,7 @@ def mps_quota(data):
 def mps_nvml(data):
     groups = mps_cases(data)
     fig, ax = style.new_chart('MPS 的 NVML 整卡用量含 A 與其他開銷', 'B 的條件', 'B 活躍期間整卡取樣峰值（MiB）')
-    style.bars(ax, ['單行程 4 GiB', '單行程 8 GiB', '雙行程 各 8 GiB'],
+    style.bars(ax, ['single-process 4 GiB', 'single-process 8 GiB', 'dual-process 各 8 GiB'],
                [max(r['nvml_peak_used_mib'] for r in g) for g in groups], ['mps'] * 3)
     ax.set_ylim(0, 15500)
     ax.text(.04, .91, '每個條件的三輪峰值相同，這不是 B Pod 的獨立用量', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
@@ -63,7 +63,7 @@ def mps_talk(data):
     bars = ax.barh(range(len(rows)), ratios, color=style.COLORS['mps'], height=.52)
     ax.bar_label(bars, labels=[r['quoted_speedup'] + '×' for r in rows], padding=5, color=style.INK)
     ax.axvline(1, color=style.BASELINE, linestyle='--', linewidth=1)
-    ax.set_yticks(range(len(rows)), [f'{r["case"]}，{r["processes"]} 行程' for r in rows])
+    ax.set_yticks(range(len(rows)), [f'{r["case"]}，{r["processes"]} 個 process' for r in rows])
     ax.set_xlim(0, 4.3)
     ax.set_ylim(-.5, 1.65)
     ax.text(.02, .93, '來源：吳磊（NVIDIA，2019-10-31），非本章 A40 實測', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
@@ -90,7 +90,7 @@ def consumable_nvml(data):
     fig, ax = style.new_chart('ConsumableShares 超額後立即退出，取樣可能漏掉峰值', '輪次', 'B 活躍期間整卡取樣峰值（MiB）')
     style.bars(ax, [f'r{r["repeat"]}' for r in rows], [r['nvml_peak_used_mib'] for r in rows], ['consumable-shares'] * len(rows))
     ax.set_ylim(0, 13500)
-    ax.text(.02, .93, '包含 A 與驅動開銷，不等於 B Pod 用量', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
+    ax.text(.02, .93, '包含 A 與 driver 開銷，不等於 B Pod 用量', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
     return fig
 
 
@@ -109,12 +109,12 @@ def hami_rounds(data, case=None):
 
 def comparison_cases(data):
     """Six conditions keep the distinct CUDA scopes and all three repeats."""
-    groups = [('ConsumableShares 單行程', 'consumable-shares', rounds(data, 'consumable-shares', 'boundary')),
-              ('HAMi 單行程', 'hami', hami_rounds(data, 'boundary')),
-              ('HAMi 雙行程', 'hami', hami_rounds(data, 'scope')),
-              ('MPS 單行程 4 GiB', 'mps', [r for r in rounds(data, 'mps', 'boundary') if r['quota_gib'] == 4]),
-              ('MPS 單行程 8 GiB', 'mps', [r for r in rounds(data, 'mps', 'boundary') if r['quota_gib'] == 8]),
-              ('MPS 雙行程', 'mps', rounds(data, 'mps', 'scope'))]
+    groups = [('ConsumableShares single-process', 'consumable-shares', rounds(data, 'consumable-shares', 'boundary')),
+              ('HAMi single-process', 'hami', hami_rounds(data, 'boundary')),
+              ('HAMi dual-process', 'hami', hami_rounds(data, 'scope')),
+              ('MPS single-process 4 GiB', 'mps', [r for r in rounds(data, 'mps', 'boundary') if r['quota_gib'] == 4]),
+              ('MPS single-process 8 GiB', 'mps', [r for r in rounds(data, 'mps', 'boundary') if r['quota_gib'] == 8]),
+              ('MPS dual-process', 'mps', rounds(data, 'mps', 'scope'))]
     if any(len(rows) != 3 for _, _, rows in groups):
         raise ValueError('comparison chart requires three rounds per condition')
     return groups
@@ -123,10 +123,10 @@ def comparison_cases(data):
 @register('04-isolation', 'hami-runtime-boundary')
 def hami_runtime_boundary(data):
     rows = hami_rounds(data, 'boundary') + hami_rounds(data, 'scope')
-    fig, ax = style.new_chart('HAMi 同 Pod 的雙行程成功張量合計低於 8 GiB', 'B 的條件與輪次', 'B 成功張量合計（GiB）')
+    fig, ax = style.new_chart('HAMi 同 Pod 的 dual-process 成功 tensor 合計低於 8 GiB', 'B 的條件與輪次', 'B 成功 tensor 合計（GiB）')
     fig.set_size_inches(8.4, 4.6)
-    labels = [f'{"單行程" if r["case"] == "boundary" else "雙行程"} r{r["repeat"]}' for r in rows]
-    bars = ax.bar(range(6), [r['b_max_tensor_gib'] for r in rows], color=style.COLORS['hami'], width=.6, label='B 成功張量合計')
+    labels = [f'{"single-process" if r["case"] == "boundary" else "dual-process"} r{r["repeat"]}' for r in rows]
+    bars = ax.bar(range(6), [r['b_max_tensor_gib'] for r in rows], color=style.COLORS['hami'], width=.6, label='B 成功 tensor 合計')
     ax.bar_label(bars, padding=3, color=style.INK)
     ax.axhline(rows[0]['quota_gib'], color=style.SECONDARY, linestyle='--', linewidth=1.2, label='共享 Claim 配額 8 GiB')
     ax.set_xticks(range(6), labels)
@@ -138,15 +138,15 @@ def hami_runtime_boundary(data):
 @register('04-isolation', 'hami-runtime-physical')
 def hami_runtime_physical(data):
     rows = hami_rounds(data, 'boundary') + hami_rounds(data, 'scope')
-    fig, ax = style.new_chart('HAMi 雙行程兩輪實體用量超過 8192 MiB', 'B 的條件與輪次', 'B 行程實體用量合計（MiB）')
+    fig, ax = style.new_chart('HAMi dual-process 兩輪實體用量超過 8192 MiB', 'B 的條件與輪次', 'B process 實體用量合計（MiB）')
     fig.set_size_inches(8.4, 4.6)
-    labels = [f'{"單行程" if r["case"] == "boundary" else "雙行程"} r{r["repeat"]}' for r in rows]
-    bars = ax.bar(range(6), [r['b_nvml_used_mib'] for r in rows], color=style.COLORS['hami'], width=.6, label='B 行程實體快照')
+    labels = [f'{"single-process" if r["case"] == "boundary" else "dual-process"} r{r["repeat"]}' for r in rows]
+    bars = ax.bar(range(6), [r['b_nvml_used_mib'] for r in rows], color=style.COLORS['hami'], width=.6, label='B process 實體快照')
     ax.bar_label(bars, padding=3, color=style.INK)
     ax.axhline(rows[0]['quota_gib'] * 1024, color=style.SECONDARY, linestyle='--', linewidth=1.2, label='Claim 配額 8192 MiB')
     ax.set_xticks(range(6), labels)
     ax.set_ylim(0, 10500)
-    ax.text(.02, .91, '共同保留期的 B 行程快照，不包含 A', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
+    ax.text(.02, .91, '共同保留期的 B process 快照，不包含 A', transform=ax.transAxes, fontsize=9, color=style.SECONDARY)
     return fig
 
 
@@ -159,13 +159,13 @@ def hami_scope(data):
     fig, axes = style.plt.subplots(2, 1, figsize=(10, 8.1))
     labels = [f'{r["case"]} r{r["repeat"]}' for r in rows]
     for ax, field, last, limit, ylabel in [
-        (axes[0], 'tensor_total_gib', 'last_barrier_tensor_total_gib', 8, '成功張量合計（GiB）'),
-        (axes[1], 'nvml_process_total_mib', 'last_barrier_nvml_process_total_mib', 8192, '兩個測量行程的實體用量合計（MiB）')]:
+        (axes[0], 'tensor_total_gib', 'last_barrier_tensor_total_gib', 8, '成功 tensor 合計（GiB）'),
+        (axes[1], 'nvml_process_total_mib', 'last_barrier_nvml_process_total_mib', 8192, '兩個測量 process 的實體用量合計（MiB）')]:
         indices = [i for i, r in enumerate(rows) if r['complete']]
         ax.bar(indices, [rows[i][field] for i in indices], width=.62, color=style.COLORS['hami'], label='完成輪次')
         failed = [i for i, r in enumerate(rows) if not r['complete']]
         ax.scatter(failed, [rows[i][last] for i in failed], facecolors='none', edgecolors=style.INK,
-                   marker='D', s=65, label='停滯輪次的最後完整屏障')
+                   marker='D', s=65, label='停滯輪次的最後完整 barrier')
         ax.hlines(limit, -.4, 5.4, color=style.SECONDARY, linestyle='--', linewidth=1.2,
                   label='共用 Claim 配額 8 GiB（8192 MiB）')
         ax.hlines(limit * 2, 5.6, 8.4, color=style.MUTED, linestyle=':', linewidth=1.2,
@@ -175,12 +175,12 @@ def hami_scope(data):
         ax.set_ylim(0, limit * 2.2)
     axes[0].set_title('同一 Claim 與 cache 沒有保證跨 Pod 合計上限')
     axes[1].set_xlabel('條件與輪次')
-    axes[0].text(.02, .91, '空心菱形不是最終配額結果；Case 4b 只測每行程 6 GiB target',
+    axes[0].text(.02, .91, '空心菱形不是最終配額結果；Case 4b 只測每個 process 6 GiB target',
                  transform=axes[0].transAxes, fontsize=9, color=style.SECONDARY)
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(.5, 0), ncol=2,
                frameon=False, labelcolor=style.INK)
-    fig.text(.5, -.07, 'Case 3：同 Pod 雙容器；Case 4a：跨 Pod 共用 Claim；Case 4b：獨立 Claim',
+    fig.text(.5, -.07, 'Case 3：同 Pod 兩個 container；Case 4a：跨 Pod 共用 Claim；Case 4b：獨立 Claim',
              ha='center', va='top', fontsize=9, color=style.SECONDARY)
     return fig
 
@@ -188,7 +188,7 @@ def hami_scope(data):
 @register('04-isolation', 'e2-tensor-comparison')
 def e2_tensor_comparison(data):
     groups = comparison_cases(data)
-    fig, ax = style.new_chart('排程記帳量與 CUDA 行程上限具有不同範圍', '方案與 B 的條件', 'B 成功張量合計（GiB）')
+    fig, ax = style.new_chart('排程記帳量與 CUDA process 上限具有不同範圍', '方案與 B 的條件', 'B 成功 tensor 合計（GiB）')
     fig.set_size_inches(11, 4.9)
     for i, (_, entity, rows) in enumerate(groups):
         ax.bar([i - .22, i, i + .22], [r['b_max_tensor_gib'] for r in rows], width=.19,
@@ -234,7 +234,7 @@ def e2_stability(data):
               sum(r['hold_probe_ok'] for r in mps)]
     errors = [sum(r['a_probe_oom_pressure'] for r in consumable), sum(r['hold_probe_oom'] for r in hami),
               sum(r['hold_probe_oom'] for r in mps)]
-    fig, ax = style.new_chart('有限壓力下 A 都沒有配置 OOM；觀察窗口不同', '方案與統計窗口', 'A 配置探測次數')
+    fig, ax = style.new_chart('有限壓力下 A 都沒有配置 OOM；觀察窗口不同', '方案與統計窗口', 'A 配置 probe 次數')
     fig.set_size_inches(9.1, 4.7)
     style.bars(ax, ['ConsumableShares 壓力期 3輪', 'HAMi hold 6輪', 'MPS hold 9輪'], counts,
                ['consumable-shares', 'hami', 'mps'])

@@ -29,7 +29,7 @@ $ PART=native CASES=prefer-4090 SMOKE=1 bash labs/06-heterogeneous/scripts/run.s
 | `prefer-4090`（兩張卡都空閒） | `firstAvailable`：先 RTX 4090、再 A40 | `dra-4090`，配置的子請求為 `gpu/rtx4090` | 通過 |
 | `prefer-4090`（4090 被 holder 占用） | 同一份 Template | `dra-a40`，配置的子請求為 `gpu/a40` | 通過 |
 
-`prefer-4090` 是原始 E4／E4B 沒有執行過的情境，這次第一次在原叢集驗證：偏好順序由 `firstAvailable` 表達，第一個選項不可用時，scheduler 自動改用第二個選項。所有生成的 Claim 在 Job 結束後都已刪除。
+`prefer-4090` 是原始 E4／E4B 沒有執行過的情境，這次第一次在原叢集驗證：偏好順序由 `firstAvailable` 表達，第一個選項不可用時，scheduler 自動改用第二個選項。所有產生的 Claim 在 Job 結束後都已刪除。
 
 ## 容量選卡（provider 切換窗 3：兩個 GPU 節點都換成 HAMi-DRA）
 
@@ -76,7 +76,7 @@ KFP 以固定 digest 安裝在 `dra-non`，獨立 Namespace 為 `gpu-kubeflow-w3
 
 ### 第一次嘗試的問題與處理
 
-第一次（`w3kfp20261012`）的 KFP API server 一直停在 `Initializing DB client...` 而被 startup probe 重啟：套件中 MySQL 與 API server 的密碼設定不一致。解除安裝又因 Argo controller 執行時建立的 `Lease` 不是安裝時留下的物件而拒絕刪除 Namespace，因此以安裝前快照核對後，手動刪除了該 Namespace、10 個新 CRD 與 DeviceClass。套件已修正密碼設定，並讓安裝時建立的 Namespace 不會被執行期產生的物件阻擋刪除；上表即修正後的結果。
+第一次（`w3kfp20261012`）的 KFP API server 一直停在 `Initializing DB client...` 而被 startup probe 重啟：套件中 MySQL 與 API server 的密碼設定不一致。解除安裝又因 Argo controller 執行時建立的 `Lease` 不是安裝時留下的物件而拒絕刪除 Namespace，因此以安裝前快照核對後，手動刪除了該 Namespace、10 個新 CRD 與 DeviceClass。套件已修正密碼設定，並讓安裝時建立的 Namespace 不會被 runtime 產生的物件阻擋刪除；上表即修正後的結果。
 
 ## 結論
 
