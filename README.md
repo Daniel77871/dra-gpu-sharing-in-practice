@@ -56,4 +56,4 @@ CI 的工具安裝與檢查方式見[工作流程](.github/workflows/check.yml)�
 
 `data/` 是原始實驗室 `dra-gpu-oom-lab` 的衍生資料，並非新的量測。各資料夾的 `SOURCES.md` 保存來源路徑、雜湊與整理規則；[資料索引](data/README.md)與[復現對照表](book/appendix/reproduction-map.md)連結到使用它們的章節。擷取入口是 [tools/extract_data.py](tools/extract_data.py)，重新擷取需要另外取得原始實驗資料；閱讀、圖表產生與一般離線檢查使用儲存庫內的整理資料即可。
 
-本儲存庫尚未包含授權檔案；授權方式由作者決定。
+本儲存庫以 [MIT License](LICENSE) 授權。
