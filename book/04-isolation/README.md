@@ -13,7 +13,7 @@
 排程時，ResourceClaim 是資源請求；執行時，CUDA process 才真正配置 GPU 記憶體。宣告量、程式保留的 tensor 量與 NVML 量到的實體用量，因此可以不同。下圖把需要回答的問題放在發生的位置，箭頭表示工作流程，不表示前一層通過就能保證後一層。
 
 ```mermaid
-flowchart LR
+flowchart TB
     C["Claim 請求"] --> S["第一層 排程記帳"]
     S --> P["Pod 啟動"]
     P --> A["第二層 CUDA 配置配額"]
@@ -21,7 +21,7 @@ flowchart LR
     G --> O["第三層 Pod 實體上限"]
     S -.-> Q1["總請求能否超額"]
     A -.-> Q2["超額配置會不會失敗"]
-    O -.-> Q3["Pod 全部 process 是否守住上限"]
+    O -.-> Q3["Pod 全部 process<br/>是否守住上限"]
 ```
 
 | 層次 | 定義 | 本章如何驗證 | 不能由這一層推得的結論 |
@@ -66,24 +66,25 @@ MPS 的 A、B 引用同一份 Claim，使它們進入同一個 MPS server；容�
 MPS 直接使用原始 NVIDIA provider。ConsumableShares 與 HAMi-DRA 改用不同設定或替代 provider，因此先從原始 DaemonSet 排除 A40；同一時間只能有一個 provider 公布這張 GPU，避免同一份實體容量出現在彼此獨立的裝置帳本。即使使用相同 `gpu.nvidia.com` driver 名稱，也必須先停止舊 plugin，才啟動替代 plugin。
 
 ```mermaid
+%%{init: {"sequence": {"actorMargin": 24, "width": 116, "boxMargin": 8, "noteMargin": 8}}}%%
 sequenceDiagram
     participant O as 操作端
     participant D as 原始 NVIDIA DaemonSet
     participant K as A40 plugin 與 Slice
     participant P as 替代 provider
     participant W as 實驗 workload
-    O->>D: 備份 YAML UID spec 與更新策略
-    O->>D: OnDelete 並在所有 affinity terms 排除 A40
+    O->>D: 備份 YAML UID spec<br/>與更新策略
+    O->>D: OnDelete 並在所有<br/>affinity terms<br/>排除 A40
     O->>K: 刪除 A40 plugin Pod
     O->>K: 確認 A40 Slice 消失
     Note over O,D: 持續核對 4090 plugin UID
     O->>P: 部署並確認只有一個 publisher
     O->>W: 逐輪執行 收集 清理
     O->>P: 移除 provider 與暫留 Slice
-    O->>D: OnDelete 下恢復原始 Pod 範本
-    D->>K: A40 plugin Ready 並重新公布 Slice
+    O->>D: OnDelete 下恢復<br/>原始 Pod 範本
+    D->>K: A40 plugin Ready<br/>並重新公布 Slice
     O->>D: 恢復原始更新策略
-    O->>D: 核對原 UID 與原 spec
+    O->>D: 核對原 UID<br/>與原 spec
     O->>K: 核對 Slice 與 4090 plugin UID
 ```
 

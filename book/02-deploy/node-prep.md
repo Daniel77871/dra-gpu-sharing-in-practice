@@ -9,7 +9,7 @@ GPU 已直通進 VM，為什麼 driver container 仍可能啟動失敗？本頁�
 GPU Operator 以 container 安裝本次的 NVIDIA driver，並把 driver 模組載入節點正在使用的 kernel。Container 自己的檔案系統無法取代主機的 kernel；因此它要取得與 `uname -r` 完全一致的 headers，才能編譯相符模組。這是本次一般 driver container 的條件；不要把它延伸成所有預先編譯 driver image 都會現場編譯。[一般與預先編譯 driver container](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/precompiled-drivers.html)
 
 ```mermaid
-flowchart LR
+flowchart TB
     PCI["PCI passthrough"] --> Seen["lspci 看見 GPU"]
     Seen --> Free["nouveau 未綁定"]
     Kernel["正在使用的 kernel"] --> Headers["相同 ABI 的 headers"]

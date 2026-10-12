@@ -59,13 +59,7 @@ flowchart LR
 MPS client runtime 內建在 `libcuda.so`，應用程式照常呼叫 CUDA API。`nvidia-cuda-mps-control` 是管理連線與 server 生命週期的 control daemon；`nvidia-cuda-mps-server` 管理 client 共用的 GPU 排程資源。第一個 client 連線時，daemon 才按需啟動 server，兩者不是同一個 process。[NVIDIA R595 的元件定義](https://docs.nvidia.com/deploy/mps/595/index.html)、[server 啟動順序](https://docs.nvidia.com/deploy/mps/595/architecture.html)
 
 ```mermaid
-flowchart TB
-  subgraph P["Volta 以前"]
-    PD["control daemon"] -.->|"啟動與管理"| PS["MPS server<br/>共用 context 與 address space"]
-    PA["client A"] --> PS
-    PB["client B"] --> PS
-    PS --> PG["GPU"]
-  end
+flowchart LR
   subgraph V["Volta 起"]
     VD["control daemon"] -.->|"啟動與管理"| VS["MPS server<br/>協調共用排程資源"]
     VA["client A<br/>自己的 GPU address space"] -.->|"連線"| VS
@@ -73,6 +67,12 @@ flowchart TB
     VA -->|"直接提交工作"| VG["GPU"]
     VB -->|"直接提交工作"| VG
     VS -.-> VG
+  end
+  subgraph P["Volta 以前"]
+    PD["control daemon"] -.->|"啟動與管理"| PS["MPS server<br/>共用 context 與 address space"]
+    PA["client A"] --> PS
+    PB["client B"] --> PS
+    PS --> PG["GPU"]
   end
 ```
 
@@ -158,23 +158,24 @@ Driver 在自己的 Namespace 建立單一副本的 Deployment，而不是把 da
 本叢集的 driver root 是 `/run/nvidia/driver`，範本把它掛入 `/driver-root`，偵測到 shell 後以 `chroot` 啟動 `nvidia-cuda-mps-control`。Driver 另在 `/var/lib/kubelet/plugins/gpu.nvidia.com/mps/<daemon-id>/` 建立 `pipe`、`shm`、`log`，將 `shm` 掛成 tmpfs；daemon 內分別對應到 driver-root 中的 `/tmp/nvidia-mps`、`/dev/shm` 與 `/var/log/nvidia-mps`。這些共用路徑把分開的 container 接到同一個 MPS server。[建立目錄與服務](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/cmd/gpu-kubelet-plugin/sharing.go)、[driver-root 掛載與啟動](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/templates/mps-control-daemon.tmpl.yaml)
 
 ```mermaid
+%%{init: {"sequence": {"actorMargin": 24, "width": 116, "boxMargin": 8, "noteMargin": 8}}}%%
 sequenceDiagram
   participant C as ResourceClaim
   participant K as kubelet
-  participant P as GPU kubelet plugin
-  participant D as MPS daemon Deployment
-  participant A as A 的 CUDA client
-  participant B as B 的 CUDA client
+  participant P as GPU kubelet<br/>plugin
+  participant D as MPS daemon<br/>Deployment
+  participant A as A 的<br/>CUDA client
+  participant B as B 的<br/>CUDA client
   K->>P: Prepare Claim
-  P->>C: 讀取裝置配置與 GpuConfig
+  P->>C: 讀取裝置配置<br/>與 GpuConfig
   P->>P: 建立 pipe 與 shm 目錄
   P->>P: 設定 EXCLUSIVE_PROCESS
-  P->>D: 在同一節點建立 daemon
-  D->>D: 啟動 control 並設定每 client 配額
+  P->>D: 在同一節點<br/>建立 daemon
+  D->>D: 啟動 control<br/>並設定每 client 配額
   D-->>P: startupProbe 通過
-  P-->>K: 回傳 CDI 裝置與 container edits
+  P-->>K: 回傳 CDI 裝置<br/>與 container edits
   K->>A: 掛載共用目錄並啟動
-  A->>D: 第一個 client 觸發 server
+  A->>D: 第一個 client<br/>觸發 server
   K->>B: 同一 Claim 掛載相同目錄
   B->>D: 連上同一 server
   Note over A,B: Volta 起直接向 GPU 提交工作

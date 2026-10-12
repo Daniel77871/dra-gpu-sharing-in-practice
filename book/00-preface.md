@@ -11,7 +11,7 @@
 GPU 共用至少牽涉三件不同的事。DRA 管理需求與裝置配置，容量記帳決定新的需求能否被接受；MPS 與 HAMi-DRA 的 runtime 路徑則影響 CUDA 配置或提交行為。最後，成功配置的 tensor 大小、Claim 宣告容量與 NVML 看到的實體 GPU 記憶體用量，仍須分別觀察，不能互相代替。[DRA 物件模型](01-why-dra/dra-model.md)、[三層隔離模型](04-isolation/README.md#三層隔離模型)
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["為何需要 DRA"] --> B["完成部署"]
   B --> C["觀察共用 OOM"]
   C --> D["驗證配額範圍"]

@@ -9,23 +9,17 @@ DeviceClass 與 ResourceSlice 出現後，怎麼證明 container 真的取得 GP
 ResourceClaimTemplate 只定義需求，Kubernetes 會為每個引用它的 Pod 產生一份 ResourceClaim。Scheduler 從 ResourceSlice 找到符合 DeviceClass 和 CEL 的裝置，把 allocation 與 reservation 寫入 claim；kubelet 再請 DRA plugin 準備裝置，container 才能啟動。[Kubernetes DRA API 物件](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/)、[DRA 執行流程](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/)
 
 ```mermaid
-sequenceDiagram
-    participant J as Job
-    participant P as Pod
-    participant R as ResourceClaim controller
-    participant C as ResourceClaim
-    participant S as scheduler
-    participant K as kubelet
-    participant D as DRA plugin
-    J->>P: 建立 Pod 並引用範本
-    R->>C: 為 Pod 產生 claim
-    S->>C: allocation 與 reservedFor
-    K->>D: NodePrepareResources
-    D-->>K: 準備 GPU 與 CDI 裝置
-    K->>P: 啟動 container
-    P-->>K: CUDA 檢查完成
-    K->>D: NodeUnprepareResources
-    R->>C: 終止後回收
+flowchart LR
+    subgraph control["控制面"]
+        direction TB
+        J["1. Job 建立 Pod<br/>並引用範本"] --> R["2. ResourceClaim controller<br/>為 Pod 產生 claim"] --> S["3. scheduler 在 claim 寫入<br/>allocation 與 reservedFor"]
+    end
+    subgraph node["GPU 節點"]
+        direction TB
+        K["4. kubelet 呼叫 DRA plugin<br/>NodePrepareResources"] --> D["5. DRA plugin 回報<br/>準備好的 GPU 與 CDI 裝置"] --> C["6. kubelet 啟動 container"] --> P["7. Pod 回報<br/>CUDA 檢查完成"] --> U["8. kubelet 呼叫 DRA plugin<br/>NodeUnprepareResources"]
+    end
+    G["9. Pod 終止後<br/>ResourceClaim controller<br/>回收 claim"]
+    control --> node --> G
 ```
 
 圖中最後一步的回收由 ResourceClaim controller 處理，不是 Job 自己直接刪除 claim；Kubernetes v1.37.0 會辨識已終止 Pod。下方 lab 另外刪除 Job 與 Pod，觀察所有物件最後消失的順序。

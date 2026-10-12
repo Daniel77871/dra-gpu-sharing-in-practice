@@ -40,37 +40,38 @@ Claim 和 Template 的選擇決定共用方式：要讓幾個 Pod 使用同一�
 ### 從需求到 container
 
 ```mermaid
+%%{init: {"sequence": {"actorMargin": 24, "width": 116, "boxMargin": 8, "noteMargin": 8}}}%%
 sequenceDiagram
   participant API as Kubernetes API
-  participant RC as resourceclaim controller
-  participant S as kube-scheduler DRA plugin
+  participant RC as resourceclaim<br/>controller
+  participant S as kube-scheduler<br/>DRA plugin
   participant K as kubelet
-  participant D as driver kubelet plugin
+  participant D as driver kubelet<br/>plugin
   participant R as CRI-O
   opt Pod 引用 ResourceClaimTemplate
     API->>RC: 觀察 Pod 與 Template
-    RC->>API: 建立 Claim 與 Pod ownerReference
-    RC->>API: 寫入 Pod status.resourceClaimStatuses
+    RC->>API: 建立 Claim 與<br/>Pod ownerReference
+    RC->>API: 寫入 Pod<br/>status.resourceClaimStatuses
   end
-  S->>API: 讀取 Pod、Claim、Class、ResourceSlice
-  S->>S: Filter 嘗試裝置配置，Reserve 保留結果
-  S->>API: PreBind 寫入 status.allocation 與 reservedFor
+  S->>API: 讀取 Pod、Claim、<br/>Class、ResourceSlice
+  S->>S: Filter 嘗試裝置配置，<br/>Reserve 保留結果
+  S->>API: PreBind 寫入<br/>status.allocation 與 reservedFor
   S->>API: 綁定 Pod 到節點
   K->>API: 取得已配置且為 Pod 保留的 Claim
   K->>D: NodePrepareResources
   D->>D: 準備裝置與 CDI 規格
   D-->>K: 裝置結果與 CDI device IDs
   K->>R: CRI 建立 container 並傳入 CDI IDs
-  R->>R: 依 CDI 注入裝置與 container 設定
+  R->>R: 依 CDI 注入裝置<br/>與 container 設定
   Note over K,R: 工作執行後結束，或 Pod 被刪除
   par 節點端清理
-    K->>D: 最後一個本節點使用者離開後 NodeUnprepareResources
+    K->>D: 最後一個本節點使用者<br/>離開後 NodeUnprepareResources
     D-->>K: 完成節點端清理
   and 控制平面回收
-    RC->>API: 移除不再使用的 reservedFor 項目
-    RC->>API: 最後一個保留者離開後清除 allocation
+    RC->>API: 移除不再使用的<br/>reservedFor 項目
+    RC->>API: 最後一個保留者離開後<br/>清除 allocation
     opt 範本產生的 Claim 已無保留者且擁有者不再執行
-      RC->>API: 刪除 Claim；Pod 消失時也由垃圾回收處理
+      RC->>API: 刪除 Claim；<br/>Pod 消失時也由垃圾回收處理
     end
   end
 ```

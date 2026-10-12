@@ -9,12 +9,12 @@
 [第 1 章](../01-why-dra/dra-model.md)已介紹 DeviceClass、ResourceSlice 與 ResourceClaim，[第 4 章](../04-isolation/consumable-shares.md)已區分容量記帳與 runtime 隔離。本頁只把「需求如何變成候選集合」接到這些物件：CEL 是布林條件；`capacity.requests` 是可消耗額度；兩者不能互換。
 
 ```mermaid
-flowchart LR
+flowchart TB
     A["DeviceClass 的候選裝置"] --> B["Claim CEL 篩選"]
     B --> C{"請求可消耗容量"}
     C -->|是| D["既有預留加需求不超過供給"]
     C -->|否| E["符合屬性的獨占裝置"]
-    D --> F["可存取裝置且符合 Pod 條件的節點"]
+    D --> F["可存取裝置且符合 Pod 條件<br/>的節點"]
     E --> F
     F --> G["scheduler 選取可行配置"]
 ```
@@ -877,6 +877,7 @@ v1.37 不是完全沒有 DRA 評分：`DynamicResources.Score` 明確處理優�
 沒有任何裝置滿足需求時，Pod 會留下 FailedScheduling 事件，Claim 仍未配置。Scheduler 會監看 Claim、ResourceSlice、DeviceClass 等物件的變動；已配置的 Claim 釋放後，受容量限制而等待的工作會再次進入排程，不需要應用程式刪掉原 Pod 重建。[v1.37.0 EventsToRegister 與 Claim 事件處理](https://raw.githubusercontent.com/kubernetes/kubernetes/v1.37.0/pkg/scheduler/framework/plugins/dynamicresources/dynamicresources.go)
 
 ```mermaid
+%%{init: {"sequence": {"actorMargin": 24, "width": 116, "boxMargin": 8, "noteMargin": 8}}}%%
 sequenceDiagram
     participant W as 通用工作
     participant S as scheduler
@@ -885,11 +886,11 @@ sequenceDiagram
     participant C as 工作 Claim
     W->>C: Kubernetes 建立未配置 Claim
     S->>C: 容量不足 暫不配置
-    S-->>W: Pending 與 FailedScheduling
-    H->>HC: 釋放 holder reservation
+    S-->>W: Pending 與<br/>FailedScheduling
+    H->>HC: 釋放<br/>holder reservation
     HC-->>S: holder Claim 更新或刪除事件
     S->>C: 再次嘗試並配置裝置
-    S-->>W: 同一 Pod 繼續啟動
+    S-->>W: 同一 Pod<br/>繼續啟動
 ```
 
 H3–H4 在釋放前後核對 Pod UID、Claim UID 與 allocation，原始觀測窗每輪取一位小數後都是 34.0 秒；這是案例的等待窗，並非 scheduler 保證的逾時或配置延遲。[實測時間與身分](../../data/e4b/trials.json) 縮短版不包含此案例，完整模式會保留這段生命週期證據。

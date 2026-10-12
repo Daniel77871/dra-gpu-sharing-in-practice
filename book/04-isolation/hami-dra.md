@@ -11,7 +11,7 @@ HAMi-DRA 同時公布 memory／cores 容量，並把配額注入 container；這
 Classic HAMi 把 Kubernetes 控制面與 container 內的虛擬化元件接在一起。Mutating webhook 改寫需要 GPU 的 Pod，scheduler extender 根據 GPU 需求與節點裝置狀態協助選擇，device plugin 在 `Allocate` 回應中注入環境變數與掛載；應用 process 載入 HAMi-core 後，才在 CUDA／NVML API 路徑上看見配額。這個架構見 [HAMi v2.6.0 的專案說明][classic-readme]，具體的 library、cache 與 preload 掛載可追到 [v2.10.0 device plugin 的 Allocate][classic-allocate]；這兩個版本是架構參考，不是本次 HAMi-DRA 的部署版本。
 
 ```mermaid
-flowchart LR
+flowchart TB
     U["GPU Pod 請求"] --> W["mutating webhook"]
     W --> S["Kubernetes scheduler"]
     S <--> E["HAMi scheduler extender"]
@@ -67,7 +67,7 @@ HAMi-DRA 把 Claim 的 cores 轉成 `CUDA_DEVICE_SM_LIMIT_0`；本次 A、B runt
 固定快照在 SM limit 為 0、至少 100 或控制關閉時可略過這個 limiter，cooperative launch 包裝也未呼叫相同路徑。這是根據使用率回饋延後 kernel launch，不能等同為預留固定比例的實體 SM，也不能概括成所有提交 API 都受同一限制。[throttling 與 launch 的覆蓋範圍][core-watcher]、[launch 包裝][core-launch]
 
 ```mermaid
-flowchart LR
+flowchart TB
     N["使用率觀察"] --> W["utilization watcher"]
     W --> T["調整與補充 token"]
     K["cuLaunchKernel"] --> L["rate_limiter"]
@@ -82,7 +82,7 @@ flowchart LR
 HAMi-DRA v0.1.0 是以 NVIDIA DRA driver 為基礎的 fork，沿用並修改 kubelet plugin／CDI 路徑，加入 `HAMiCoreSupport` 功能開關。本次只啟用這條路徑，`MPSSupport`、`TimeSlicingSettings`、`DynamicMIG`、`ComputeDomainCliques` 與 `PassthroughSupport` 都關閉；原始碼也把這些共享路徑視為互斥。它在每張 GPU 的 `ResourceSlice` 公布可消耗的 `memory` 與 `cores`，允許多份 allocation，再於 Prepare 時將該 Claim 的消耗量轉成 library env。[HAMi-DRA 原始碼][dra-main]、[功能開關][dra-gates]、[容量公布][dra-capacity]
 
 ```mermaid
-flowchart LR
+flowchart TB
     C["ResourceClaim<br/>memory 與 cores"] --> S["DRA scheduler<br/>配置並記帳"]
     S --> K["kubelet Prepare"]
     K --> H["HAMi kubelet plugin"]

@@ -30,7 +30,7 @@ PyTorch 預設 caching allocator 會保留已向 CUDA 取得的區塊，以便�
 本章設定 `PYTORCH_NO_CUDA_MEMORY_CACHING=1`，讓 workload 每次 `torch.empty(..., device='cuda')` 都直接走實際 CUDA 配置，避免 probe 重用自己的 cache。[v2.5.1 allocator 原始碼](https://raw.githubusercontent.com/pytorch/pytorch/v2.5.1/c10/cuda/CUDACachingAllocator.cpp)的 `forceUncachedAllocator()` 明確選擇直接 `cudaMalloc`，釋放則呼叫 `cudaFree`；OOM 因而在 driver 配置路徑上被觀察到。這個條件讓本次結果容易解讀，但不代表啟用 cache 的模型服務會有相同門檻或延遲。
 
 ```mermaid
-flowchart LR
+flowchart TB
     T["配置 tensor"] --> D{"是否關閉 cache"}
     D -->|"否"| K["先重用 cache 區塊"]
     K -->|"不足時"| M["cudaMalloc"]

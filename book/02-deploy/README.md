@@ -10,28 +10,19 @@
 
 GPU Operator 與 NVIDIA DRA Driver 在這套部署中分工合作：前者管理 GPU 節點上的 NVIDIA driver、container toolkit 與驗證元件，後者透過 kubelet plugin 公布裝置並準備 Pod 所需的 GPU 存取。安裝時先讓 GPU Operator 的 driver container 成功，再安裝指向 `/run/nvidia/driver` 的 DRA Driver。[v0.5.0 DRA 安裝說明](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/site/content/docs/install.md)說明兩者的整合方式，實際參數見 [2.2](gpu-operator.md) 與 [2.3](dra-driver.md)。
 
-下圖按原叢集的實際元件位置繪製。GPU 節點框中的每個元件都分別存在於 `dra-a40` 與 `dra-4090`；實線表示依賴或資料流，虛線表示本章要求的安裝順序。
+下圖按原叢集的實際元件位置繪製：GPU 節點框中的每個元件都分別存在於 `dra-a40` 與 `dra-4090`，框外元件的所在節點標在括號內；實線表示依賴或資料流，虛線表示本章要求的安裝順序。
 
 ```mermaid
 flowchart TB
-    subgraph control["dra-m1 control-plane"]
-        API["API server 與 etcd"]
-        Scheduler["kube-scheduler"]
-        Operator["GPU Operator"]
-        Master["NFD master"]
-        ControlWorker["NFD worker"]
-        Slice["ResourceSlice"]
-        Slice --> API --> Scheduler
-    end
+    Operator["GPU Operator<br/>（dra-m1）"]
     subgraph gpu["dra-a40 與 dra-4090 各自的 GPU 元件"]
-        PCI["PCI passthrough GPU"]
-        Kernel["主機 kernel 與 headers"]
-        Driver["NVIDIA driver container"]
+        PCI["PCI passthrough<br/>GPU"]
+        Kernel["主機 kernel<br/>與 headers"]
+        Driver["NVIDIA<br/>driver container"]
         Toolkit["container toolkit"]
-        Validator["operator 與 CUDA validator"]
-        Plugin["DRA kubelet plugin"]
-        GPUWorker["NFD worker"]
-        GFD["GPU Feature Discovery"]
+        Validator["operator 與<br/>CUDA validator"]
+        Plugin["DRA kubelet<br/>plugin"]
+        GFD["GPU Feature<br/>Discovery"]
         Exporter["DCGM exporter"]
         PCI --> Driver
         Kernel --> Driver --> Toolkit --> Validator
@@ -39,17 +30,16 @@ flowchart TB
         Validator -.-> Plugin
         Toolkit --> GFD
         Toolkit --> Exporter
-        Plugin --> Slice
-        GPUWorker --> Master
     end
-    subgraph cpu["dra-non CPU worker"]
-        CPUWorker["NFD worker"]
-        GC["NFD gc"]
-    end
+    Worker["NFD worker<br/>（四個節點各一份）"]
+    GC["NFD gc<br/>（dra-non）"]
+    Master["NFD master<br/>（dra-m1）"]
+    Slice["ResourceSlice"]
+    API["API server 與 etcd<br/>（dra-m1）"]
+    Scheduler["kube-scheduler<br/>（dra-m1）"]
     Operator -.-> Driver
-    ControlWorker --> Master
-    CPUWorker --> Master
-    Master --> API
+    Plugin --> Slice --> API --> Scheduler
+    Worker --> Master --> API
     GC --> API
 ```
 

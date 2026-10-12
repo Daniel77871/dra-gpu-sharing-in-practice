@@ -13,7 +13,7 @@
 ResourceClaim 決定 Pod 使用哪個裝置與哪組分享設定；它不負責決定下一個 GPU kernel 的執行順序。本章的「GPU 排程」指 CUDA driver 與 GPU 在工作已提交後如何服務 queue，以及 MPS 或 HAMi-DRA 如何改變這條路徑。五種模式固定同一個 UUID，排除 Kubernetes 選到不同 GPU 的影響。
 
 ```mermaid
-flowchart LR
+flowchart TB
   C["ResourceClaim<br/>裝置與分享設定"] --> P["Pod 內的 CUDA process"]
   P --> Q["driver 與 work queue"]
   Q --> G["GPU 執行 kernel"]
@@ -33,17 +33,17 @@ NVIDIA DRA v0.5.0 在 `TimeSlicingSettings` 開啟時，依 `sharing.strategy: T
 | `Medium` | 2 | 中等的 timeslice 政策 |
 | `Long` | 3 | 較長的 timeslice 政策 |
 
-這是 v0.5.0 的列舉值與整數對應，不能把數值直接當成毫秒；原始正式 Claim 沒有填 `interval`，本章也保留預設值，不另做 timeslice 長度比較。下面只畫兩個對齊的間歇 Task 的可能順序，箭頭代表時間向右，框寬不代表實測耗時，也不宣稱嚴格的固定公平比例。[interval 定義](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/api/nvidia.com/resource/v1beta1/sharing.go)、[省略設定時的 Normalize](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)
+這是 v0.5.0 的列舉值與整數對應，不能把數值直接當成毫秒；原始正式 Claim 沒有填 `interval`，本章也保留預設值，不另做 timeslice 長度比較。下面只畫兩個對齊的間歇 Task 的可能順序，箭頭代表時間向下，框寬不代表實測耗時，也不宣稱嚴格的固定公平比例。[interval 定義](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/api/nvidia.com/resource/v1beta1/sharing.go)、[省略設定時的 Normalize](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/api/nvidia.com/resource/v1beta1/gpuconfig.go)
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph TA["Task A"]
     A1["提交 burst"] --> A2["完成後 sleep"] --> A3["下一個 burst"]
   end
   subgraph TB["Task B"]
     B1["提交 burst 並等待"] --> B2["完成後 sleep"] --> B3["下一個 burst"]
   end
-  subgraph TG["TimeSlicing GPU 時間向右"]
+  subgraph TG["TimeSlicing GPU 時間向下"]
     G1["A 的 context"] --> G2["B 的 context"] --> G3["可能空閒"] --> G4["下一輪仍輪流服務"]
   end
   A1 --> G1
@@ -61,14 +61,14 @@ MPS 讓這顆 GPU 由同一個 server 管理共用的 GPU 排程資源，借助 
 並行只有在 SM 還有可容納其他 thread block 的資源時才發生，例如暫存器、shared memory 與 block 槽位；一個 kernel 已把資源占滿，MPS 就不能憑空加速它。`CUDA_MPS_ACTIVE_THREAD_PERCENTAGE` 限制 client 可用的 thread 資源，是 provisioning 上限，不是保證獲得某個時間百分比，也不會保留一組專屬 SM。本章的 `defaultActiveThreadPercentage` 固定 100%，讓所有 N 都保留最大排程自由度，沒有按 N 降成 50% 或 25%。[CUDA 12.4 並行條件](https://docs.nvidia.com/cuda/archive/12.4.0/cuda-c-programming-guide/index.html#concurrent-kernel-execution)、[R595 的執行資源 provisioning](https://docs.nvidia.com/deploy/mps/595/when-to-use-mps.html)
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph MA["Task A"]
     A1["提交 burst"] --> A2["完成後 sleep"] --> A3["下一個 burst"]
   end
   subgraph MB["Task B"]
     B1["提交 burst"] --> B2["完成後 sleep"] --> B3["下一個 burst"]
   end
-  subgraph MG["MPS GPU 時間向右"]
+  subgraph MG["MPS GPU 時間向下"]
     G1["Hyper-Q 派送<br/>資源允許時 A 與 B 重疊"] --> G2["可能空閒"] --> G3["下一輪仍可重疊"]
   end
   A1 --> G1
@@ -90,15 +90,15 @@ HAMi-core 的限制原理見[第四章的 HAMi-DRA](../04-isolation/hami-dra.md)
 本章每個 Task 都有自己的 Claim 與 cache，N=1/2/4 分別要求 cores 100/50/25，總 cores 保持 100。這個政策與 MPS 的每個 client 100% 不同，因此比較結果同時包含分享機制與 cores 政策的影響；不能把 HAMi-DRA 與 TimeSlicing 的差值全當成 library 開銷。
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph HA["Task A"]
     A0["burst 經 limiter"] --> A1["有額度才提交"] --> A2["完成後 sleep"] --> A3["下一個 burst"]
   end
   subgraph HB["Task B"]
     B0["burst 經 limiter"] --> B1["有額度才提交"] --> B2["完成後 sleep"] --> B3["下一個 burst"]
   end
-  subgraph HG["HAMi-DRA GPU 時間向右"]
-    G1["A 的普通 context"] --> G2["B 的普通 context"] --> G3["可能空閒"] --> G4["下一輪仍受 throttling 與輪流服務"]
+  subgraph HG["HAMi-DRA GPU 時間向下"]
+    G1["A 的普通 context"] --> G2["B 的普通 context"] --> G3["可能空閒"] --> G4["下一輪仍受 throttling<br/>與輪流服務"]
   end
   A1 --> G1
   B1 --> G2

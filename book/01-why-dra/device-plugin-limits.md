@@ -17,19 +17,27 @@ Device Plugin 是裝置廠商提供的節點端 plugin。它透過 kubelet 的 g
 | `Allocate` | kubelet → Device Plugin | kubelet 送出已選取的裝置 ID；plugin 回傳裝置節點、掛載、環境變數或 CDI 名稱等 container 存取設定。 |
 
 ```mermaid
-flowchart TD
-  DP["Device Plugin"] -->|"Registration.Register"| K["kubelet Device Manager"]
-  DP -->|"ListAndWatch 回傳裝置清單"| K
-  K -->|"公布 extended resource 數量"| N["Node 狀態"]
-  GFD["NFD 與 GFD"] -->|"公布節點 label"| N
-  P["Pod 的數量需求與節點條件"] --> S["kube-scheduler"]
-  N --> S
-  S -->|"選擇節點並綁定 Pod"| K
-  K --> A["接納 Pod 時選取裝置 ID"]
-  A -->|"Allocate"| DP
-  DP -->|"回傳 container 存取設定"| K
-  K --> R["container runtime"]
-  R --> C["使用 GPU 的 container"]
+flowchart TB
+  subgraph LEFT[" "]
+    direction TB
+    GFD["NFD 與 GFD"] -->|"公布節點 label"| N["Node 狀態"]
+    P["Pod 的數量需求<br/>與節點條件"] --> S["kube-scheduler"]
+    N --> S
+  end
+  subgraph RIGHT[" "]
+    direction TB
+    DP["Device Plugin"] -->|"Registration.Register"| K["kubelet Device Manager"]
+    DP -->|"ListAndWatch<br/>回傳裝置清單"| K
+    K --> A["接納 Pod 時<br/>選取裝置 ID"]
+    A -->|"Allocate"| DP
+    DP -->|"回傳 container<br/>存取設定"| K
+    K --> R["container runtime"]
+    R --> C["使用 GPU 的 container"]
+  end
+  style LEFT fill:none,stroke:none
+  style RIGHT fill:none,stroke:none
+  K -->|"公布 extended<br/>resource 數量"| N
+  S -->|"選擇節點並<br/>綁定 Pod"| K
 ```
 
 具體裝置由 kubelet 的 Device Manager 在接納 Pod 的裝置配置階段選取。Plugin 可透過選用的 `GetPreferredAllocation` 提供建議，但最後的選擇仍由 Device Manager 處理；scheduler 沒有在這條路徑替 Pod 選 GPU UUID。[kubelet v1.37.0 的裝置選取實作](https://github.com/kubernetes/kubernetes/blob/v1.37.0/pkg/kubelet/cm/devicemanager/manager.go)、[Device Plugin 的選用介面](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#device-plugin-implementation)

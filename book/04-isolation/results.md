@@ -9,14 +9,14 @@
 Claim 的 `consumedCapacity` 是 scheduler 帳本，成功 tensor 量是 workload 自己保留的資料，NVML 則觀察實體裝置或 process。三者的單位可以換算，計量範圍卻不相同；尤其不能拿包含 A 的整卡 NVML 用量，直接判定 B 是否超過配額。定義與共同 workload 見[第四章設計](README.md#三層隔離模型)。
 
 ```mermaid
-flowchart LR
+flowchart TB
     C["Claim 宣告量"] --> S["scheduler 消耗容量"]
     P["CUDA 配置呼叫"] --> T["成功 tensor 量"]
     P --> O["context 與其他負擔"]
     T --> N["NVML 實體 process 用量"]
     O --> N
     S -.-> Q["必須另驗證 runtime 上限"]
-    N --> G["加上 A 與其他 process 的整卡用量"]
+    N --> G["加上 A 與其他 process 的<br/>整卡用量"]
 ```
 
 以下結果限定於 A40、這組版本與 PyTorch 的配置路徑。原始 E2 包含 MPS、ConsumableShares 與 HAMi-DRA；E2B 進一步檢查 HAMi 配額的 container 與 Pod 邊界。原始資料分別保存於 [E2](../../data/e2/README.md)、[HAMi E2](../../data/e2/hami/SOURCES.md)及 [E2B](../../data/e2b/SOURCES.md)，表格可由各套件的標準 library 分析器重算。

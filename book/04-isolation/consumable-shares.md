@@ -11,16 +11,16 @@ ResourceClaim 申請 8 GiB，是否就代表 container 只能配置 8 GiB VRAM�
 一般裝置 allocation 以整個裝置為單位；consumable capacity 則讓同一個裝置允許多份 allocation，並為每個容量維度記錄消耗量。Driver 在 ResourceSlice 的裝置設定 `allowMultipleAllocations: true`，再公布例如 `capacity.memory.value` 與 `requestPolicy`；Claim 在 `spec.devices.requests[].exactly.capacity.requests.memory` 指定需求。[DRA 容量消耗說明](https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#consumable-capacity)
 
 ```mermaid
-flowchart LR
-    D["driver 公布容量與政策"] --> S["scheduler 帳本"]
-    A["Claim resident 16 GiB"] --> S
-    B["Claim release 24 GiB"] --> S
-    C["Claim waiter 8 GiB"] --> S
-    S --> R["剩餘 5108 MiB，第三份等待"]
+flowchart TB
+    D["driver<br/>公布容量與政策"] --> S["scheduler 帳本"]
+    A["Claim resident<br/>16 GiB"] --> S
+    B["Claim release<br/>24 GiB"] --> S
+    C["Claim waiter<br/>8 GiB"] --> S
     S --> P["已配置的 Pod"]
+    S --> R["剩餘 5108 MiB，第三份等待"]
     P --> U["CUDA 配置呼叫"]
     U --> G["同一張 A40"]
-    R -.-> N["沒有建立 CUDA runtime 配額"]
+    R -.-> N["沒有建立<br/>CUDA runtime 配額"]
 ```
 
 | 欄位 | 意義 | 本次設定的效果 |

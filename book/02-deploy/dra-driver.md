@@ -9,7 +9,7 @@ GPU Operator 已經載入 driver，為什麼還要安裝 NVIDIA DRA Driver？本
 GPU Operator 與 DRA Driver 負責不同階段：前者準備節點上的 NVIDIA driver，後者將裝置公布給 Kubernetes。使用 driver container 時，driver 根目錄是 `/run/nvidia/driver`；DRA Pod 會掛載這個路徑，其 init-container 先檢查 `nvidia-smi` 與 NVML library，再讓 GPU kubelet plugin 啟動。[v0.5.0 driver 路徑設定](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/blob/v0.5.0/deployments/helm/dra-driver-nvidia-gpu/values.yaml#L19-L23)、[初始化檢查](https://raw.githubusercontent.com/kubernetes-sigs/dra-driver-nvidia-gpu/v0.5.0/hack/kubelet-plugin-prestart.sh)
 
 ```mermaid
-flowchart LR
+flowchart TB
     D["GPU Operator driver container"] --> R["/run/nvidia/driver"]
     R --> I["DRA init-container"]
     I -->|"檢查通過"| P["GPU kubelet plugin"]

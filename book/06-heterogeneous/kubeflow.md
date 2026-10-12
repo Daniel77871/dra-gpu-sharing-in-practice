@@ -9,16 +9,16 @@ Kubeflow Pipelines 的 Task 如何把 GPU 需求交給 Kubernetes，而不在程
 Kubeflow Pipelines（KFP）把工作步驟編譯成 Pipeline，後端再建立與追蹤執行它們的 Pod。本實驗使用 standalone KFP，不安裝完整 Kubeflow 平台；GPU 配置仍由 DRA 與 Kubernetes 負責，KFP 只是把 Template 參照帶進 Task。
 
 ```mermaid
-flowchart LR
+flowchart TB
     P["Pipeline 編譯產物"] --> B["KFP 與 Argo 後端"]
     B --> T["Task Pod 引用 Template"]
-    R["同 Namespace 的 ResourceClaimTemplate"] --> C["Kubernetes 為每個 Pod 建立 Claim"]
+    R["同 Namespace 的 ResourceClaimTemplate"] --> C["Kubernetes 為每個 Pod<br/>建立 Claim"]
     T --> C
     C --> S["scheduler 配置 GPU"]
     S --> K["kubelet 準備裝置"]
     K --> W["CUDA 工作"]
     W --> E["Pod 終止或刪除"]
-    E --> F["移除 reservation 並回收 Claim"]
+    E --> F["移除 reservation<br/>並回收 Claim"]
 ```
 
 Template 必須先存在於 Task 的 Namespace。`add_resource_claim` 讓 Task Pod 帶上 `resourceClaims`，並讓 `main` container 引用相同 Claim；Kubernetes 依 Template 建立 Claim，資源符合後才啟動 Pod。KFP 不替管理者建立或設定 Template。[KFP 的 DRA 整合說明](https://www.kubeflow.org/docs/components/pipelines/user-guides/core-functions/dynamic-resource-allocation/)
