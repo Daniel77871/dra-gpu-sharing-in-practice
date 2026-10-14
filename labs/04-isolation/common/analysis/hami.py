@@ -42,12 +42,19 @@ def cache_identity(clients):
             'cache_identity_complete': complete}
 
 
+def linux_makedev(major, minor):
+    """Encode a Linux dev_t as glibc does. The maps lines come from Linux nodes, so os.makedev (platform-specific;
+    macOS packs major and minor differently) would make the summary depend on where the analysis runs."""
+    return (((major & 0xfffff000) << 32) | ((major & 0x00000fff) << 8)
+            | ((minor & 0xffffff00) << 12) | (minor & 0x000000ff))
+
+
 def mapped_cache(maps, path):
     for line in maps.splitlines():
         fields = line.split(None, 5)
         if len(fields) == 6 and fields[5] == path:
             major, minor = (int(part, 16) for part in fields[3].split(':'))
-            return {'cache_dev': os.makedev(major, minor), 'cache_inode': int(fields[4])}
+            return {'cache_dev': linux_makedev(major, minor), 'cache_inode': int(fields[4])}
     return {}
 
 

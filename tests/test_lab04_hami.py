@@ -153,6 +153,15 @@ def test_cli_recomputes_summaries_and_exits_nonzero_for_stalled_round(tmp_path):
     assert 'case4a-r3' in result.stdout and 'stalled' in result.stdout
 
 
+def test_cache_device_uses_the_linux_dev_t_encoding_on_every_platform():
+    """maps lines come from Linux nodes; os.makedev differs on macOS and once made summaries platform-dependent."""
+    hami = module()
+    path = '/usr/local/vgpu/claims/claim/cache-id.cache'
+    maps = f'7f2a00000000-7f2a00001000 rw-s 00000000 fd:01 2414055 {path}\n'
+    assert hami.mapped_cache(maps, path) == {'cache_dev': 64769, 'cache_inode': 2414055}
+    assert hami.linux_makedev(0x1234, 0x56789) == 0x100056723489
+
+
 def test_checked_summaries_are_recomputed_from_public_raw_and_fit_size_limit():
     hami = module()
     for directory in (ROOT / 'data/e2/hami', ROOT / 'data/e2b'):
